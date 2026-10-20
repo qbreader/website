@@ -1,4 +1,3 @@
-import getSetDivisions from '../../../../database/geoword/get-set-divisions.js';
 import getTeam from '../../../../database/geoword/get-team.js';
 import formatTeam from './format-team.js';
 
@@ -7,17 +6,12 @@ import { Router } from 'express';
 const router = Router();
 
 /**
- * The player's team in a set (or null), whether the set has team registration open, and the divisions a new team there can pick from.
+ * The player's team in a set (or null), and whether the set has team registration open.
  */
 router.get('/', async (req, res) => {
   const { set, userId } = res.locals;
-
-  const [team, divisions] = await Promise.all([
-    getTeam(set._id, userId),
-    getSetDivisions(set._id)
-  ]);
-
-  res.json({ team: team && await formatTeam(team, userId), teamsEnabled: !!set.teamsEnabled, divisions });
+  const team = await getTeam(set._id, userId);
+  res.json({ team: team && await formatTeam(team, userId), teamsEnabled: !!set.teamsEnabled });
 });
 
 export default router;

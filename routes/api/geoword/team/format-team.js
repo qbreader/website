@@ -14,7 +14,6 @@ export default async function formatTeam (team, userId) {
 
   return {
     teamName: team.teamName,
-    division: team.division,
     code: team.code,
     members,
     isOwner: !!team.owner?.equals(userId)

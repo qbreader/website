@@ -1,6 +1,7 @@
 import getUsername from '../../../../../database/account-info/get-username.js';
 import getUserId from '../../../../../database/account-info/get-user-id.js';
 import getBuzzCount from '../../../../../database/geoword/get-buzz-count.js';
+import getDivisions from '../../../../../database/geoword/get-divisions.js';
 import getDivisionChoice from '../../../../../database/geoword/get-division-choice.js';
 import getQuestionCount from '../../../../../database/geoword/get-question-count.js';
 import hasPacketPrivileges from '../../../../../database/geoword/has-packet-privileges.js';
@@ -15,12 +16,13 @@ const router = Router();
 
 /**
  * How everyone on the player's team did on each question of a packet.
- * Only for a player on a team in the packet's set who has finished the packet themselves, in
- * the team's division: the answerlines are in the response. This is stricter than the results
- * router, which also lets packet admins through.
+ * Only for a player on a team in the packet's set who has finished the packet themselves: the
+ * answerlines are in the response. It shows the teammates who played the same division as the
+ * player, since divisions have different questions. This is stricter than the results router,
+ * which also lets packet admins through.
  *
- * Packet admins (admins and the packet's special users) can instead pass a `teamName` to view
- * any team in the packet's set, whether or not they are on it or have finished.
+ * Packet admins (admins and the packet's special users) can instead pass a `teamName` and a
+ * `division` to view any team in the packet's set, whether or not they are on it or have finished.
  */
 router.get('/', async (req, res) => {
   const { packetName } = req.query;
@@ -36,21 +38,19 @@ router.get('/', async (req, res) => {
     return res.status(404).send(adminView ? 'No team has that name.' : 'You are not on a team for this packet.');
   }
 
-  const questionCount = await getQuestionCount(packetName, team.division);
-  if (!adminView) {
-    const [division, buzzCount] = await Promise.all([
-      getDivisionChoice(packetName, userId),
-      getBuzzCount(packetName, userId)
-    ]);
-    if (division !== team.division) {
-      return res.status(403).send('Your division for this packet is not your team\'s division.');
-    }
-    if (buzzCount < questionCount) {
-      return res.status(403).send('You must finish the packet before viewing your team.');
-    }
+  let division;
+  if (adminView) {
+    const divisions = await getDivisions(packetName);
+    division = divisions.includes(req.query.division) ? req.query.division : divisions[0];
+  } else {
+    division = await getDivisionChoice(packetName, userId);
+  }
+  const questionCount = await getQuestionCount(packetName, division);
+  if (!adminView && await getBuzzCount(packetName, userId) < questionCount) {
+    return res.status(403).send('You must finish the packet before viewing your team.');
   }
 
-  const teamBuzzes = await getTeamBuzzes({ packetName, team });
+  const teamBuzzes = await getTeamBuzzes({ packetName, division, team });
   const members = await Promise.all(team.members.map(async member => ({
     username: await getUsername(member),
     isYou: member.equals(userId),
@@ -70,7 +70,7 @@ router.get('/', async (req, res) => {
 
   res.json({
     teamName: team.teamName,
-    division: team.division,
+    division,
     questionCount,
     members,
     questions
