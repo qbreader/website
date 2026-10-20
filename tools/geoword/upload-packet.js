@@ -31,7 +31,6 @@ const OPTIONAL_TOSSUP_FIELDS = ['instructions', 'clues'];
 const UPSERTED_TOSSUP_FIELDS = [...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS, 'clipBoundaries'];
 
 // Seeded players, so that a team's buzzes can be merged without a team-creation UI.
-// Teams belong to the packet's set, so the same teams carry across every packet in it.
 // These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
 // and leaderboards only count active buzzes, so an admin's play never shows up in
 // standings. Playing as a normal user exercises the same path a real competitor will.
@@ -375,7 +374,7 @@ if (!Number.isInteger(costInCents) || costInCents < 0) {
 
 /**
  * @param {String} setName
- * @returns {Promise<{ _id: ObjectId, name: string }>} the set with that name, created if it doesn't exist yet
+ * @returns {Promise<{ _id: ObjectId, name: string }>}
  */
 async function getOrCreateSet (setName) {
   const set = await sets.findOneAndUpdate({ name: setName }, { $setOnInsert: { name: setName } }, { upsert: true, returnDocument: 'after' });
@@ -403,8 +402,6 @@ for (const { questionNumber, filename } of files) {
   }
 }
 
-// The set every document this run creates belongs to. --upsert keeps the packet, so it must already be in it;
-// every other path recreates the packet.
 const SET = await getOrCreateSet(argv.set);
 if (argv.upsert && existing && String(existing.set?._id) !== String(SET._id)) {
   throw new Error(`Packet "${PACKET_NAME}" is not in set "${SET.name}" (its set is ${existing.set ? `"${existing.set.name}"` : 'unset'}).`);
@@ -484,7 +481,6 @@ if (PROD) {
 } else {
   const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
 
-  // Re-runnable: replace only the demo teams, since the set's other teams are real.
   await teams.deleteMany({ 'set._id': SET._id, teamName: { $in: teamNames } });
 
   for (const teamName of teamNames) {
