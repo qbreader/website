@@ -58,7 +58,7 @@ function createSetCard (setName, packetList, hasRegistration, onTeam) {
   card.className = 'card h-100';
   card.appendChild(cardBody);
 
-  if (onTeam || hasRegistration) {
+  if (hasRegistration) {
     const a = document.createElement('a');
     a.className = onTeam ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm';
     a.href = './team/?' + new URLSearchParams({ setName });
