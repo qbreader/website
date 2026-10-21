@@ -21,6 +21,8 @@ async function recordBuzz ({ celerity, division, givenAnswer, isCorrect, packetN
     tossups.findOne({ 'packet.name': packetName, division, questionNumber })
   ]);
 
+  if (!packet || !tossup) { return null; }
+
   const insertDocument = {
     active: packet.active && !privileged,
     celerity,
