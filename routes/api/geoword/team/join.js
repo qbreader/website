@@ -1,5 +1,6 @@
 import getTeam from '../../../../database/geoword/get-team.js';
 import joinTeam from '../../../../database/geoword/join-team.js';
+import formatTeam from './format-team.js';
 import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
     if (!team) {
       return res.status(404).send('No team has that name and code.');
     }
-    res.json({ team: { teamName: team.teamName, code: team.code, memberCount: team.members.length } });
+    res.json({ team: await formatTeam(team, userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     res.status(409).send('You are already on a team in this set.');

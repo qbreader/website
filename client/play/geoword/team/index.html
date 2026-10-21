@@ -25,10 +25,23 @@
         <div id="team-details" class="d-none">
             <p>
                 Share this code so teammates can join. They will also need your team's name.
-                Your team has <span id="member-count"></span> member(s).
             </p>
             <p>Join code: <code class="fs-5 user-select-all" id="team-code"></code></p>
+
+            <h2 class="h5">Members</h2>
+            <ul class="list-group mb-3" id="member-list"></ul>
+
+            <form id="rename-form" class="d-none mb-3">
+                <label class="form-label" for="rename-team-name">Rename team</label>
+                <div class="input-group w-auto" style="max-width: 24rem">
+                    <input class="form-control" id="rename-team-name" minlength="3" maxlength="64" required autocomplete="off">
+                    <button type="submit" class="btn btn-primary">Rename</button>
+                </div>
+                <span class="text-danger" id="rename-error"></span>
+            </form>
+
             <button type="button" class="btn btn-outline-danger" id="leave">Leave team</button>
+            <span class="text-danger ms-2" id="leave-error"></span>
         </div>
 
         <form id="form" class="d-none">

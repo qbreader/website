@@ -1,12 +1,14 @@
 import getTeam from '../../../../database/geoword/get-team.js';
+import formatTeam from './format-team.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const team = await getTeam(res.locals.set._id, res.locals.userId);
-  res.json({ team: team && { teamName: team.teamName, code: team.code, memberCount: team.members.length } });
+  const { set, userId } = res.locals;
+  const team = await getTeam(set._id, userId);
+  res.json({ team: team && await formatTeam(team, userId) });
 });
 
 export default router;

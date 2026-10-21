@@ -12,7 +12,7 @@ const MAX_CODE_GENERATION_ATTEMPTS = 5;
  */
 async function createTeam ({ set, teamName, userId }) {
   for (let attempt = 1; ; attempt++) {
-    const team = { set: { _id: set._id, name: set.name }, teamName, code: generateTeamCode(), members: [userId] };
+    const team = { set: { _id: set._id, name: set.name }, teamName, code: generateTeamCode(), owner: userId, members: [userId] };
     try {
       const { insertedId } = await teams.insertOne(team);
       return { _id: insertedId, ...team };

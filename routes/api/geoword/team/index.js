@@ -2,6 +2,7 @@ import createRouter from './create.js';
 import joinRouter from './join.js';
 import leaveRouter from './leave.js';
 import mineRouter from './mine.js';
+import ownerRouter from './owner/index.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
 import getSet from '../../../../database/geoword/get-set.js';
@@ -37,5 +38,6 @@ router.use('/create', createRouter);
 router.use('/join', joinRouter);
 router.use('/leave', leaveRouter);
 router.use('/mine', mineRouter);
+router.use('/owner', ownerRouter);
 
 export default router;

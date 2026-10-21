@@ -1,12 +1,10 @@
 import createTeam from '../../../../database/geoword/create-team.js';
-import isAppropriateString from '../../../../server/moderation/is-appropriate-string.js';
+import formatTeam from './format-team.js';
+import validateTeamName from './validate-team-name.js';
 import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-
-const MIN_TEAM_NAME_LENGTH = 3;
-const MAX_TEAM_NAME_LENGTH = 64;
 
 const router = Router();
 router.use(rateLimit({
@@ -18,19 +16,16 @@ router.use(rateLimit({
 
 router.post('/', async (req, res) => {
   const { teamName: rawTeamName } = validate(req.body, { teamName: rules.string() });
-  const teamName = rawTeamName.replace(/\s+/g, ' ');
-
-  if (teamName.length < MIN_TEAM_NAME_LENGTH || teamName.length > MAX_TEAM_NAME_LENGTH) {
-    return res.status(400).send(`Team names must be ${MIN_TEAM_NAME_LENGTH}-${MAX_TEAM_NAME_LENGTH} characters.`);
-  }
-  if (/\p{C}/u.test(teamName) || !isAppropriateString(teamName)) {
-    return res.status(400).send('That team name is not allowed.');
+  const { teamName, error: nameError } = validateTeamName(rawTeamName);
+  if (nameError) {
+    return res.status(400).send(nameError);
   }
 
   const { set } = res.locals;
+
   try {
     const team = await createTeam({ set, teamName, userId: res.locals.userId });
-    res.status(201).json({ team: { teamName: team.teamName, code: team.code, memberCount: 1 } });
+    res.status(201).json({ team: await formatTeam(team, res.locals.userId) });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     return res.status(409).send(error.keyPattern?.members
