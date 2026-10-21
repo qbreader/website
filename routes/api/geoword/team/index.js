@@ -30,6 +30,9 @@ router.use(async (req, res, next) => {
   if (!res.locals.set) {
     return res.status(404).send('That set does not exist.');
   }
+  if (!res.locals.set.teamsEnabled) {
+    return res.status(403).send('Team registration is not open for this set.');
+  }
 
   next();
 });
