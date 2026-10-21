@@ -20,7 +20,7 @@ All fields are strings unless noted.
 | `question_sanitized` | yes | `question` with formatting tags removed and special characters normalized |
 | `answer` | yes | The answer line, with HTML formatting |
 | `answer_sanitized` | yes | `answer` with formatting tags removed and special characters normalized |
-| `category` | yes | One of the categories in `shared/categories.js` |
+| `category` | yes | The same string as `subcategory` |
 | `subcategory` | yes | The docx's subcategory tag, in title case |
 | `clues` | yes (array of strings) | Each clue as its own string (see Clues) |
 | `clipBoundaries` | if the spreadsheet allows (array of numbers) | The second at which each clue starts in the audio (see Clip boundaries) |
@@ -57,12 +57,10 @@ All fields are strings unless noted.
 
 ## Category
 
-**`category` is the broad subject area the tossup belongs to (e.g. `Pop Culture`), always one of the categories defined in `shared/categories.js`.**
+**`category` is always identical to `subcategory`.**
 
-- The `category` must be exactly one of the keys of `CATEGORY_TO_SUBCATEGORY` in `shared/categories.js` (i.e. `CATEGORIES`), spelled and capitalized as there. Read the file for the current list rather than relying on memory.
-- Choose the category that best fits the subcategory (e.g. `Rock` and `Electronic/Dance` → `Pop Culture`, whose subcategories include `Music`). Judge by the subcategory, not by the clues.
-- Use the same category for the same subcategory in every tossup.
-- List each distinct subcategory with its chosen category in your final report, so I can review the mapping.
+- Copy the `subcategory` string (the title-cased tag) into `category` exactly. Examples: `<rock>` → `category: "Rock"`, `<electronic/dance>` → `category: "Electronic/Dance"`.
+- Do not map the tag to a category in `shared/categories.js`; the category does not need to appear in that file.
 
 ## Clues
 
@@ -110,7 +108,7 @@ All fields are strings unless noted.
 Verify and state the results of:
 1. The file is valid JSON and every `questionNumber` is unique and consecutive from 1.
 2. Every entry has all required fields, with no empty strings (`instructions` and `clipBoundaries` may be absent as described above).
-3. Each `category` is in `CATEGORIES`, each `subcategory` is the title-cased tag, and the same subcategory always has the same category.
+3. Each `subcategory` is the title-cased tag, and each `category` equals its `subcategory`.
 4. `clues.length === clipBoundaries.length` for every entry that has `clipBoundaries`, and each `clipBoundaries` starts at 0 and strictly increases.
 5. The only HTML tags present are `<b>`, `<u>`, `<i>`.
 6. The `*_sanitized` fields contain no HTML tags.
