@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Play - Geoword - Team</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="Create a geoword team.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h1 class="h3">Teams for <span id="set-name"></span></h1>
+
+        <p id="login-warning" class="d-none">
+            You must <a href="/user/signup">create an account</a> or <a href="/user/login">login</a> before you can create a team.
+        </p>
+
+        <p id="current-team" class="d-none">
+            You are on <b id="current-team-name"></b>.
+            You can only be on one team per set.
+        </p>
+
+        <form id="form" class="d-none">
+            <p>
+                Create a team for this set. You will be its first member, and you can only be on one team per set.
+            </p>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="team-name">Team name</label>
+                    <input class="form-control" id="team-name" minlength="3" maxlength="64" required autocomplete="off">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit">Create team</button>
+            <span class="text-danger ms-2" id="error"></span>
+        </form>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+</body>
+
+</html>
