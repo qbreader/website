@@ -50,26 +50,29 @@ fetch('/api/geoword/paid/play/get-progress?' + new URLSearchParams({ packetName 
       });
   });
 
-async function checkGeowordAnswer (givenAnswer, questionNumber) {
+async function checkGeowordAnswer (givenAnswer, questionNumber, celerity, prompts) {
   return await fetch('/api/geoword/paid/play/check-answer?' + new URLSearchParams({
     givenAnswer,
     packetName,
     questionNumber,
-    division
+    division,
+    celerity,
+    prompts
   }))
     .then(response => response.json())
     .then(data => {
-      const { actualAnswer, directive, directedPrompt } = data;
-      return { actualAnswer, directive, directedPrompt };
+      const { actualAnswer, directive, directedPrompt, saved } = data;
+      return { actualAnswer, directive, directedPrompt, saved };
     });
 }
 
 async function giveAnswer (givenAnswer) {
-  const { actualAnswer, directive, directedPrompt } = await checkGeowordAnswer(givenAnswer, questionNumber);
+  const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
+  const { actualAnswer, directive, directedPrompt, saved } = await checkGeowordAnswer(givenAnswer, questionNumber, celerity, prompts);
 
   switch (directive) {
     case 'accept':
-      updateScore(true, givenAnswer, actualAnswer, prompts);
+      updateScore(true, givenAnswer, actualAnswer, celerity, saved);
       prompts = [];
       break;
     case 'prompt':
@@ -79,7 +82,7 @@ async function giveAnswer (givenAnswer) {
       prompts.push(givenAnswer);
       break;
     case 'reject':
-      updateScore(false, givenAnswer, actualAnswer, prompts);
+      updateScore(false, givenAnswer, actualAnswer, celerity, saved);
       prompts = [];
       break;
   }
@@ -156,24 +159,7 @@ function recordProtest (packetName, questionNumber) {
   });
 }
 
-/**
- * @returns {Promise<boolean>}
- */
-async function recordBuzz (packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts = []) {
-  return await fetch('/api/geoword/paid/play/record-buzz?' + new URLSearchParams({
-    packetName,
-    questionNumber,
-    celerity,
-    isCorrect,
-    givenAnswer,
-    prompts
-  }))
-    .then(response => response.ok)
-    .catch(() => false);
-}
-
-async function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
-  const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
+function updateScore (isCorrect, givenAnswer, actualAnswer, celerity, saved) {
   const currentPoints = scoreBuzz(scoring, { celerity, isCorrect });
 
   if (isCorrect) {
@@ -183,8 +169,6 @@ async function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) 
     audio.incorrect.play();
     document.getElementById('protest-text').classList.remove('d-none');
   }
-
-  const saved = recordBuzz(packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts);
 
   points += currentPoints;
   tossupsHeard++;
@@ -202,7 +186,7 @@ async function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) 
   document.getElementById('buzz').disabled = true;
   document.getElementById('question-info').classList.remove('d-none');
 
-  if (await saved) {
+  if (saved) {
     document.getElementById('next').disabled = false;
   } else {
     document.getElementById('record-buzz-error').classList.remove('d-none');
