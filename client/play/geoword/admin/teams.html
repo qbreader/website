@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Admin - Geoword - Teams</title>
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h1 class="text-center lead mb-3">Teams for <span id="packet-name"></span>'s set</h1>
+        <p class="d-flex justify-content-end"><a href="./">Back to admin</a></p>
+        <p class="text-muted d-none" id="empty">No teams yet.</p>
+        <table class="table table-sm d-none" id="team-table">
+            <thead>
+                <tr><th>Team</th><th>Members</th><th>View</th></tr>
+            </thead>
+            <tbody id="team-table-body"></tbody>
+        </table>
+    </div>
+
+    <script type="module" src="./teams.js"></script>
+</body>
+
+</html>

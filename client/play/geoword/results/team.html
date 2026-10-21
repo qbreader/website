@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Play - Geoword - Results - Team</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="See how your geoword team did.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h1 class="text-center lead mb-3"><span id="team-name"></span> on <span id="packet-name"></span></h1>
+        <p class="d-flex justify-content-end"><a id="back-link">Back to stats page</a></p>
+        <p class="text-danger d-none" id="error"></p>
+        <p class="text-muted d-none" id="unfinished-note">
+            Teammates marked <i>not finished</i> are still playing, so their columns are incomplete.
+        </p>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle d-none" id="team-table">
+                <thead id="team-table-head"></thead>
+                <tbody id="team-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module" src="./team.js"></script>
+</body>
+
+</html>

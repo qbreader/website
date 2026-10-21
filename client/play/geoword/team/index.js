@@ -84,13 +84,8 @@ document.getElementById('form').addEventListener('submit', async event => {
   document.getElementById('error').textContent = '';
   document.getElementById('submit').disabled = true;
 
-  const response = await fetch('/api/geoword/team/create', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      setName,
-      teamName: document.getElementById('team-name').value
-    })
+  const response = await postTeamAction('create', {
+    teamName: document.getElementById('team-name').value
   });
 
   if (response.ok) {
@@ -110,14 +105,9 @@ document.getElementById('join-form').addEventListener('submit', async event => {
   document.getElementById('join-error').textContent = '';
   document.getElementById('join-submit').disabled = true;
 
-  const response = await fetch('/api/geoword/team/join', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      setName,
-      teamName: document.getElementById('join-team-name').value,
-      code: document.getElementById('join-code').value
-    })
+  const response = await postTeamAction('join', {
+    teamName: document.getElementById('join-team-name').value,
+    code: document.getElementById('join-code').value
   });
 
   if (response.ok) {

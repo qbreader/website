@@ -8,7 +8,8 @@ const TOOL_GROUPS = [
       ['Stats', '/play/geoword/admin/stats'],
       ['Category Stats', '/play/geoword/admin/category-stats'],
       ['Leaderboard', '/play/geoword/admin/leaderboard'],
-      ['Team Leaderboard', '/play/geoword/results/team-leaderboard']
+      ['Team Leaderboard', '/play/geoword/results/team-leaderboard'],
+      ['Teams', '/play/geoword/admin/teams']
     ]
   },
   {
