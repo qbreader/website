@@ -8,12 +8,14 @@ import recordBuzzRouter from './record-buzz.js';
 import recordDivisionRouter from './record-division.js';
 import recordProtestRouter from './record-protest.js';
 import requireCurrentQuestion from './require-current-question.js';
+import useDivisionChoice from './use-division-choice.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
 router.use(['/audio/question.mp3', '/check-answer', '/get-instructions', '/record-buzz'], requireCurrentQuestion);
+router.use(['/audio/question.mp3', '/check-answer', '/get-instructions'], useDivisionChoice);
 
 router.use('/audio', audioRouter);
 router.use('/check-answer', checkAnswerRouter);
