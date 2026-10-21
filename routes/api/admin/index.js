@@ -3,6 +3,7 @@ import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
 import multiplayerRouter from './multiplayer/index.js';
 import questionManagementRouter from './question-management/index.js';
+import siteConfigRouter from './site-config.js';
 import updateSubcategoryRouter from './update-subcategory.js';
 import userManagementRouter from './user-management/index.js';
 
@@ -35,6 +36,7 @@ router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
 router.use('/multiplayer', multiplayerRouter);
 router.use('/question-management', questionManagementRouter);
+router.use('/site-config', siteConfigRouter);
 router.use('/update-subcategory', updateSubcategoryRouter);
 router.use('/user-management', userManagementRouter);
 

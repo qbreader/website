@@ -1,0 +1,36 @@
+import getSiteConfig from '../database/qbreader/get-site-config.js';
+import renderMarkdown from '../server/render-markdown.js';
+import { SITE_CONFIG_DEFAULTS } from '../server/site-config.js';
+import { replaceSSI } from './ssi-middleware.js';
+
+import { Router } from 'express';
+import fs from 'fs';
+
+const router = Router();
+
+const CACHE_MILLISECONDS = 60 * 1000;
+const template = replaceSSI(fs.readFileSync('./client/index.html', 'utf8'));
+
+let cachedPage = null;
+let cachedAt = 0;
+
+async function getPage () {
+  if (cachedPage !== null && Date.now() - cachedAt < CACHE_MILLISECONDS) { return cachedPage; }
+
+  const config = await getSiteConfig('feature-of-the-day');
+  const markdown = config?.markdown || SITE_CONFIG_DEFAULTS['feature-of-the-day'];
+  // function replacer so `$` sequences in the rendered html are not interpreted
+  cachedPage = template.replace('<!--#feature-of-the-day-->', () => renderMarkdown(markdown));
+  cachedAt = Date.now();
+  return cachedPage;
+}
+
+router.get('/', async (_req, res, next) => {
+  try {
+    res.send(await getPage());
+  } catch (error) {
+    next(error);
+  }
+});
+
+export default router;

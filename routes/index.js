@@ -2,6 +2,7 @@ import adminRouter from './admin.js';
 import apiRouter from './api/index.js';
 import authRouter from './auth/index.js';
 import dbRouter from './db/index.js';
+import homeRouter from './home.js';
 import playRouter from './play/index.js';
 import userRouter from './user.js';
 
@@ -26,6 +27,7 @@ router.use('/admin', adminRouter);
 router.use('/api', cors(), apiRouter);
 router.use('/auth', authRouter);
 router.use('/db', dbRouter);
+router.use('/', homeRouter);
 router.use('/play', playRouter);
 router.use('/user', userRouter);
 
