@@ -1,9 +1,11 @@
-import { packets } from './collections.js';
+import { packets, sets } from './collections.js';
 
 import isAdminById from '../account-info/is-admin-by-id.js';
 
 async function getManagedPacketList (userId) {
-  const filter = (await isAdminById(userId)) ? {} : { specialUsers: userId };
+  const filter = (await isAdminById(userId))
+    ? {}
+    : { 'set._id': { $in: (await sets.find({ specialUsers: userId }, { projection: { _id: 1 } }).toArray()).map(set => set._id) } };
 
   return await packets.find(
     filter,

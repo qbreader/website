@@ -6,7 +6,7 @@
 //              kept), hides the packet until published, and refuses to replace a packet anyone has used.
 // --upsert:    in either mode, updates an existing packet's tossups in place instead, which is safe
 //              even after people have played it. Creates the packet if it doesn't exist yet.
-import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, teams, tossups } from '../../database/geoword/collections.js';
+import { audio, buzzes, divisionChoices, packets, payments, sampleAudio, sets, teams, tossups } from '../../database/geoword/collections.js';
 import { users } from '../../database/account-info/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 import { saltAndHashPassword } from '../../server/authentication.js';
@@ -56,6 +56,11 @@ const argv = yargs(hideBin(process.argv))
   .option('name', {
     alias: 'n',
     description: 'the packet name',
+    type: 'string',
+    demandOption: true
+  })
+  .option('set', {
+    description: 'the name of the set this packet belongs to, e.g. september; created if it does not exist yet. An existing packet must already be in this set',
     type: 'string',
     demandOption: true
   })
@@ -132,13 +137,13 @@ const argv = yargs(hideBin(process.argv))
   └── ...              every .mp3 needs an answers.json entry, and each file must be under 16 MB
 
 Examples:
-  node tools/geoword/upload-packet.js --mode test -n soundtracks
+  node tools/geoword/upload-packet.js --mode test -n soundtracks --set september
       Seed a local demo: free, public, with test users and teams
-  node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september -c 500
       Upload a real round for $5.00, hidden from players
   node tools/geoword/upload-packet.js --mode prod -n soundtracks --publish
       Make the uploaded real round public
-  node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --replace
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september -c 500 --replace
       Re-upload a real round nobody has played or paid for yet
   node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --upsert
       Apply answers.json edits (answers, categories, ...) to a real round, even one players have used
@@ -166,7 +171,7 @@ const PROD = argv.mode === 'prod';
 const PACKET_NAME = argv.name;
 
 // A separate account for viewing the packet before it is published. It is NOT a site admin:
-// the packet lists it in `specialUsers`, which grants access to this one packet only.
+// the packet's set lists it in `specialUsers`, which grants access to the packets in that set only.
 const ADMIN_USERNAME = PROD ? 'soundtracks-admin-prod' : 'soundtracks-admin';
 
 /**
@@ -254,6 +259,7 @@ async function insertTossup (packetId, { questionNumber, filename }, entry) {
 
   await tossups.insertOne({
     packet: { _id: packetId, name: PACKET_NAME },
+    set: SET,
     division: argv.division,
     questionNumber,
     ...Object.fromEntries([...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS].filter(field => entry[field] !== undefined).map(field => [field, entry[field]])),
@@ -366,6 +372,15 @@ if (!Number.isInteger(costInCents) || costInCents < 0) {
   throw new Error(PROD ? '--cost is required in prod mode when creating a packet: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
 }
 
+/**
+ * @param {String} setName
+ * @returns {Promise<{ _id: ObjectId, name: string }>}
+ */
+async function getOrCreateSet (setName) {
+  const set = await sets.findOneAndUpdate({ name: setName }, { $setOnInsert: { name: setName } }, { upsert: true, returnDocument: 'after' });
+  return { _id: set._id, name: set.name };
+}
+
 const files = await findAudioFiles(folderPath);
 
 if (files.length === 0) {
@@ -385,6 +400,11 @@ for (const { questionNumber, filename } of files) {
       throw new Error(`answers.json entry for question ${questionNumber} is missing: ${missing.join(', ')}.`);
     }
   }
+}
+
+const SET = await getOrCreateSet(argv.set);
+if (argv.upsert && existing && String(existing.set?._id) !== String(SET._id)) {
+  throw new Error(`Packet "${PACKET_NAME}" is not in set "${SET.name}" (its set is ${existing.set ? `"${existing.set.name}"` : 'unset'}).`);
 }
 
 if (argv.upsert && existing) {
@@ -412,9 +432,6 @@ if (existing) {
   await audio.deleteMany({ _id: { $in: oldTossups.map(tossup => tossup.audio_id) } });
   await sampleAudio.deleteOne({ _id: existing.sample_audio_id });
   await tossups.deleteMany({ 'packet.name': PACKET_NAME });
-  if (!PROD) {
-    await teams.deleteMany({ packetName: PACKET_NAME });
-  }
   await packets.deleteOne({ name: PACKET_NAME });
 }
 
@@ -424,7 +441,7 @@ const sampleFilename = (await readdir(folderPath)).find(filename => filename.toL
 const samplePath = path.join(folderPath, sampleFilename ?? files[0].filename);
 const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
-// Create the accounts before the packet, which lists the special user by id.
+// Create the accounts before the packet, whose set lists the special user by id.
 const adminPassword = PROD ? generatePassphrase() : 'password';
 const accounts = [
   ...(PROD ? [] : TEST_USERS.map(({ username, password }) => ({ username, password }))),
@@ -435,15 +452,17 @@ const userIds = await upsertUsers(accounts);
 // A cost of 0 makes checkPayment pass without touching the Stripe path.
 // `test: false` keeps the packet visible, so non-admin players can reach it and their
 // buzzes count toward standings. `test: true` hides it from the public list instead.
+await sets.updateOne({ _id: SET._id }, { $addToSet: { specialUsers: userIds[ADMIN_USERNAME] } });
+
 const { insertedId: packetId } = await packets.insertOne({
   name: PACKET_NAME,
+  set: SET,
   costInCents,
   test: hidden,
   active: true,
   divisions: [argv.division],
   order: argv.order,
   scoring: argv.scoring,
-  specialUsers: [userIds[ADMIN_USERNAME]],
   sample_audio_id: sampleAudioId
 });
 
@@ -462,10 +481,12 @@ if (PROD) {
 } else {
   const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
 
+  await teams.deleteMany({ 'set._id': SET._id, teamName: { $in: teamNames } });
+
   for (const teamName of teamNames) {
     const members = TEST_USERS.filter(user => user.team === teamName).map(user => userIds[user.username]);
     // `members` is an array, so a team can be any size.
-    await teams.insertOne({ packetName: PACKET_NAME, division: argv.division, teamName, members });
+    await teams.insertOne({ set: SET, teamName, members });
     console.log(`team "${teamName}": ${members.length} member(s)`);
   }
 

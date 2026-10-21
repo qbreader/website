@@ -59,3 +59,10 @@
  * @property {number} year
  * @property {0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10} difficulty
  */
+
+/**
+ * @typedef {object} GeowordSet
+ * @property {ObjectId} _id
+ * @property {string} name
+ * @property {ObjectId[]} [specialUsers]
+ */
