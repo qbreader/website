@@ -8,7 +8,7 @@ const router = Router();
 router.get('/question.mp3', async (req, res) => {
   const { packetName, division, questionNumber } = req.query;
   try {
-    const audio = await getAudio({ packetName, division, questionNumber: parseInt(questionNumber) });
+    const audio = await getAudio({ packetName, division, questionNumber });
     res.send(audio);
   } catch (error) {
     res.status(404).send('Audio not found');
