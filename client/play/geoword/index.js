@@ -15,30 +15,72 @@ fetch('/api/geoword/has-admin-access')
     }
   });
 
-fetch('/api/geoword/packet-list')
-  .then(response => response.json())
-  .then(data => {
-    const { packetList } = data;
-    packetList.forEach(game => {
-      const a = document.createElement('a');
-      a.href = './' + (game.costInCents ? 'payment' : 'division/') + '?packetName=' + game.name;
-      a.textContent = titleCase(game.name);
+/**
+ * @param {Array<{ name: string, set?: { name: string } }>} packetList
+ * @returns {Map<string, object[]>}
+ */
+function groupBySet (packetList) {
+  const packetsBySet = new Map();
+  for (const packet of packetList) {
+    const setName = packet.set?.name ?? 'other';
+    packetsBySet.set(setName, [...packetsBySet.get(setName) ?? [], packet]);
+  }
+  return packetsBySet;
+}
 
-      const li = document.createElement('li');
-      li.appendChild(a);
+/**
+ * @param {string} setName
+ * @param {object[]} packetList
+ * @param {boolean} hasTeams
+ * @returns {HTMLDivElement}
+ */
+function createSetCard (setName, packetList, hasTeams) {
+  const title = document.createElement('h5');
+  title.className = 'card-title';
+  title.textContent = titleCase(setName);
 
-      document.getElementById('packet-list').appendChild(li);
-    });
-  });
+  const buttons = document.createElement('div');
+  buttons.className = 'd-flex flex-wrap gap-2';
+  for (const packet of packetList) {
+    const a = document.createElement('a');
+    a.className = 'btn btn-primary';
+    a.href = './' + (packet.costInCents ? 'payment' : 'division/') + '?packetName=' + packet.name;
+    a.textContent = titleCase(packet.name);
+    buttons.appendChild(a);
+  }
 
-fetch('/api/geoword/set-list')
-  .then(response => response.json())
-  .then(data => {
-    const { setList } = data;
-    document.getElementById('team-links').replaceChildren(...setList.flatMap(({ name }, index) => {
-      const a = document.createElement('a');
-      a.href = './team/?' + new URLSearchParams({ setName: name });
-      a.textContent = titleCase(name);
-      return index === 0 ? [a] : [', ', a];
-    }));
-  });
+  const cardBody = document.createElement('div');
+  cardBody.className = 'card-body';
+  cardBody.append(title, buttons);
+
+  const card = document.createElement('div');
+  card.className = 'card h-100';
+  card.appendChild(cardBody);
+
+  if (hasTeams) {
+    const a = document.createElement('a');
+    a.className = 'btn btn-outline-secondary btn-sm';
+    a.href = './team/?' + new URLSearchParams({ setName });
+    a.textContent = 'Create or join a team';
+
+    const footer = document.createElement('div');
+    footer.className = 'card-footer';
+    footer.appendChild(a);
+    card.appendChild(footer);
+  }
+
+  const col = document.createElement('div');
+  col.className = 'col';
+  col.appendChild(card);
+  return col;
+}
+
+Promise.all([
+  fetch('/api/geoword/packet-list').then(response => response.json()),
+  fetch('/api/geoword/set-list').then(response => response.json())
+]).then(([{ packetList }, { setList }]) => {
+  const teamSets = new Set(setList.map(set => set.name));
+  document.getElementById('set-list').replaceChildren(
+    ...Array.from(groupBySet(packetList), ([setName, setPackets]) => createSetCard(setName, setPackets, teamSets.has(setName)))
+  );
+});
