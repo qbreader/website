@@ -150,13 +150,13 @@ const response = await fetch('/api/geoword/team/mine?' + new URLSearchParams({ s
 
 if (response.status === 401) {
   document.getElementById('login-warning').classList.remove('d-none');
+} else if (response.status === 403) {
+  document.getElementById('teams-disabled').classList.remove('d-none');
 } else if (response.ok) {
-  const { team, teamsEnabled } = await response.json();
+  const { team } = await response.json();
 
   if (team) {
     showTeam(team);
-  } else if (!teamsEnabled) {
-    document.getElementById('teams-disabled').classList.remove('d-none');
   } else {
     document.getElementById('form').classList.remove('d-none');
     document.getElementById('join-form').classList.remove('d-none');

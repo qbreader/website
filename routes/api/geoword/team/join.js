@@ -1,6 +1,5 @@
 import getTeam from '../../../../database/geoword/get-team.js';
 import joinTeam from '../../../../database/geoword/join-team.js';
-import requireTeamsEnabled from './require-teams-enabled.js';
 import formatTeam from './format-team.js';
 import validate, { rules } from '../../../validators/schema.js';
 
@@ -16,7 +15,7 @@ router.use(rateLimit({
   legacyHeaders: false
 }));
 
-router.post('/', requireTeamsEnabled, async (req, res) => {
+router.post('/', async (req, res) => {
   const { teamName, code } = validate(req.body, {
     teamName: rules.string(),
     code: rules.string()

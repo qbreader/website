@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   const { set, userId } = res.locals;
   const team = await getTeam(set._id, userId);
-  res.json({ team: team && await formatTeam(team, userId), teamsEnabled: !!set.teamsEnabled });
+  res.json({ team: team && await formatTeam(team, userId) });
 });
 
 export default router;
