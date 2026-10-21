@@ -1,13 +1,12 @@
-import renameTeam from '../../../../database/geoword/rename-team.js';
-import requireOwner from './require-owner.js';
-import validateTeamName from './validate-team-name.js';
-import validate, { rules } from '../../../validators/schema.js';
+import renameTeam from '../../../../../database/geoword/rename-team.js';
+import validateTeamName from '../validate-team-name.js';
+import validate, { rules } from '../../../../validators/schema.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
-router.post('/', requireOwner, async (req, res) => {
+router.post('/', async (req, res) => {
   const { teamName: rawTeamName } = validate(req.body, { teamName: rules.string() });
   const { teamName, error: nameError } = validateTeamName(rawTeamName);
   if (nameError) {
