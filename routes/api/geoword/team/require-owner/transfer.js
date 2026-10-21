@@ -1,13 +1,12 @@
-import getUserId from '../../../../database/account-info/get-user-id.js';
-import transferTeamOwnership from '../../../../database/geoword/transfer-team-ownership.js';
-import requireOwner from './require-owner.js';
-import validate, { rules } from '../../../validators/schema.js';
+import getUserId from '../../../../../database/account-info/get-user-id.js';
+import transferTeamOwnership from '../../../../../database/geoword/transfer-team-ownership.js';
+import validate, { rules } from '../../../../validators/schema.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
-router.post('/', requireOwner, async (req, res) => {
+router.post('/', async (req, res) => {
   const { username } = validate(req.body, { username: rules.string() });
   const newOwnerId = await getUserId(username);
 
