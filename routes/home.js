@@ -17,7 +17,6 @@ async function getPage () {
   if (cachedPage !== null && Date.now() - cachedAt < CACHE_MILLISECONDS) { return cachedPage; }
 
   const { markdown } = await getSiteConfig('feature-of-the-day');
-  // function replacer so `$` sequences in the rendered html are not interpreted
   cachedPage = template.replace('<!--#feature-of-the-day-->', () => renderMarkdown(markdown));
   cachedAt = Date.now();
   return cachedPage;
