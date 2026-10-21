@@ -157,7 +157,7 @@ function recordProtest (packetName, questionNumber) {
 }
 
 /**
- * @returns {Promise<boolean>} whether the buzz was saved
+ * @returns {Promise<boolean>}
  */
 async function recordBuzz (packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts = []) {
   return await fetch('/api/geoword/paid/play/record-buzz?' + new URLSearchParams({
@@ -202,8 +202,6 @@ async function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) 
   document.getElementById('buzz').disabled = true;
   document.getElementById('question-info').classList.remove('d-none');
 
-  // The server only serves the question after the last one it has saved,
-  // so moving on before this buzz is saved would ask for a question it won't serve yet.
   if (await saved) {
     document.getElementById('next').disabled = false;
   } else {

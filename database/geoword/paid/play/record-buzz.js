@@ -20,7 +20,6 @@ async function recordBuzz ({ celerity, givenAnswer, isCorrect, packetName, promp
     getDivisionChoice(packetName, userId),
     packets.findOne({ name: packetName })
   ]);
-  // Each division has its own question 1, 2, ..., so the division picks which one this buzz is for.
   const tossup = await tossups.findOne({ 'packet.name': packetName, division, questionNumber });
 
   const insertDocument = {
