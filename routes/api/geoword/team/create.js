@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
   const { set } = res.locals;
   try {
     const team = await createTeam({ set, teamName, userId: res.locals.userId });
-    res.status(201).json({ team: { teamName: team.teamName } });
+    res.status(201).json({ team: { teamName: team.teamName, code: team.code, memberCount: 1 } });
   } catch (error) {
     if (error.code !== 11000) { throw error; }
     return res.status(409).send(error.keyPattern?.members

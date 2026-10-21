@@ -22,6 +22,15 @@
             You can only be on one team per set.
         </p>
 
+        <div id="team-details" class="d-none">
+            <p>
+                Share this code so teammates can join. They will also need your team's name.
+                Your team has <span id="member-count"></span> member(s).
+            </p>
+            <p>Join code: <code class="fs-5 user-select-all" id="team-code"></code></p>
+            <button type="button" class="btn btn-outline-danger" id="leave">Leave team</button>
+        </div>
+
         <form id="form" class="d-none">
             <p>
                 Create a team for this set. You will be its first member, and you can only be on one team per set.
@@ -34,6 +43,24 @@
             </div>
             <button type="submit" class="btn btn-primary" id="submit">Create team</button>
             <span class="text-danger ms-2" id="error"></span>
+        </form>
+
+        <form id="join-form" class="d-none mt-4">
+            <p>Or join an existing team with its name and 8-character code.</p>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="join-team-name">Team name</label>
+                    <input class="form-control" id="join-team-name" maxlength="64" required autocomplete="off">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label" for="join-code">Join code</label>
+                    <input class="form-control text-uppercase" id="join-code" minlength="8" maxlength="8" required autocomplete="off">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="join-submit">Join team</button>
+            <span class="text-danger ms-2" id="join-error"></span>
         </form>
     </div>
 

@@ -1,4 +1,6 @@
 import createRouter from './create.js';
+import joinRouter from './join.js';
+import leaveRouter from './leave.js';
 import mineRouter from './mine.js';
 
 import getUserId from '../../../../database/account-info/get-user-id.js';
@@ -32,6 +34,8 @@ router.use(async (req, res, next) => {
 });
 
 router.use('/create', createRouter);
+router.use('/join', joinRouter);
+router.use('/leave', leaveRouter);
 router.use('/mine', mineRouter);
 
 export default router;
