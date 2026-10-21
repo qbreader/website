@@ -7,9 +7,8 @@ import rateLimit from 'express-rate-limit';
 
 const router = Router();
 router.use(rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 10 * 60 * 1000,
   max: 10,
-  skipSuccessfulRequests: true,
   keyGenerator: (req, res) => String(res.locals.userId),
   standardHeaders: true,
   legacyHeaders: false
