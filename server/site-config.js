@@ -1,9 +1,6 @@
 /**
- * Identifiers of the editable documents in the `site-config` collection,
- * mapped to the markdown shown when a document has not been set.
+ * Identifiers of the editable documents in the `site-config` collection.
  */
-export const SITE_CONFIG_DEFAULTS = {
-  'feature-of-the-day': 'You can filter your queries to only show [standard format](/about/standard-format) sets.'
-};
+export const SITE_CONFIG_IDS = ['feature-of-the-day'];
 
 export const MAX_MARKDOWN_LENGTH = 2000;

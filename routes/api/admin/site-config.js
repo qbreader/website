@@ -1,6 +1,6 @@
 import getSiteConfig from '../../../database/qbreader/get-site-config.js';
 import updateSiteConfig from '../../../database/qbreader/admin/update-site-config.js';
-import { MAX_MARKDOWN_LENGTH, SITE_CONFIG_DEFAULTS } from '../../../server/site-config.js';
+import { MAX_MARKDOWN_LENGTH, SITE_CONFIG_IDS } from '../../../server/site-config.js';
 
 import { Router } from 'express';
 
@@ -8,15 +8,15 @@ const router = Router();
 
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  if (!Object.hasOwn(SITE_CONFIG_DEFAULTS, id)) { return res.status(404).send('Unknown config'); }
+  if (!SITE_CONFIG_IDS.includes(id)) { return res.status(404).send('Unknown config'); }
 
-  const config = await getSiteConfig(id);
-  res.json({ markdown: config?.markdown ?? SITE_CONFIG_DEFAULTS[id] });
+  const { markdown } = await getSiteConfig(id);
+  res.json({ markdown });
 });
 
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
-  if (!Object.hasOwn(SITE_CONFIG_DEFAULTS, id)) { return res.status(404).send('Unknown config'); }
+  if (!SITE_CONFIG_IDS.includes(id)) { return res.status(404).send('Unknown config'); }
 
   const { markdown } = req.body;
   if (typeof markdown !== 'string') { return res.status(400).send('Invalid markdown'); }
