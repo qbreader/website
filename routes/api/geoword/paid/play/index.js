@@ -15,7 +15,7 @@ import { Router } from 'express';
 const router = Router();
 
 router.use(['/audio/question.mp3', '/check-answer', '/get-instructions', '/record-buzz'], requireCurrentQuestion);
-router.use(['/audio/question.mp3', '/check-answer', '/get-instructions'], useDivisionChoice);
+router.use(['/audio/question.mp3', '/check-answer', '/get-instructions', '/record-buzz'], useDivisionChoice);
 
 router.use('/audio', audioRouter);
 router.use('/check-answer', checkAnswerRouter);

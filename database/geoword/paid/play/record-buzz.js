@@ -1,5 +1,4 @@
 import { buzzes, packets, tossups } from '../../collections.js';
-import getDivisionChoice from '../../get-division-choice.js';
 
 import scoreBuzz from '../../../../shared/geoword-scoring.js';
 import hasPacketPrivileges from '../../has-packet-privileges.js';
@@ -7,6 +6,7 @@ import hasPacketPrivileges from '../../has-packet-privileges.js';
 /**
  * @param {Object} params
  * @param {Decimal} params.celerity
+ * @param {String} params.division
  * @param {String} params.givenAnswer
  * @param {Boolean} params.isCorrect
  * @param {String} params.packetName
@@ -14,13 +14,12 @@ import hasPacketPrivileges from '../../has-packet-privileges.js';
  * @param {ObjectId} params.user_id
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
-async function recordBuzz ({ celerity, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId }) {
-  const [privileged, division, packet] = await Promise.all([
+async function recordBuzz ({ celerity, division, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId }) {
+  const [privileged, packet, tossup] = await Promise.all([
     hasPacketPrivileges(packetName, userId),
-    getDivisionChoice(packetName, userId),
-    packets.findOne({ name: packetName })
+    packets.findOne({ name: packetName }),
+    tossups.findOne({ 'packet.name': packetName, division, questionNumber })
   ]);
-  const tossup = await tossups.findOne({ 'packet.name': packetName, division, questionNumber });
 
   const insertDocument = {
     active: packet.active && !privileged,
