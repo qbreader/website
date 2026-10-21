@@ -6,6 +6,7 @@ import getQuestionCount from '../../../../../database/geoword/get-question-count
 import audioRouter from './audio.js';
 import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
+import hasTeamRouter from './has-team.js';
 import leaderboardRouter from './leaderboard.js';
 import packetRouter from './packet.js';
 import statsRouter from './stats.js';
@@ -38,6 +39,7 @@ router.use(async (req, res, next) => {
 router.use('/audio', audioRouter);
 router.use('/category-stats', categoryStatsRouter);
 router.use('/compare', compareRouter);
+router.use('/has-team', hasTeamRouter);
 router.use('/leaderboard', leaderboardRouter);
 router.use('/packet', packetRouter);
 router.use('/stats', statsRouter);
