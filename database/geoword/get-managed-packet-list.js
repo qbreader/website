@@ -11,7 +11,7 @@ async function getManagedPacketList (userId) {
     filter,
     {
       sort: { order: 1 },
-      projection: { name: 1, divisions: 1, _id: 0 }
+      projection: { name: 1, divisions: 1, test: 1, _id: 0 }
     }
   ).toArray();
 }
