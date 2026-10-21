@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Admin - Site Content</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h3>Feature of the Day</h3>
+        <p>
+            Edit the text shown under "Feature of the Day" on the home page using markdown.
+            Only links, bold, italics, code, lists, and line breaks are kept. Changes can take up to a minute to appear.
+        </p>
+        <form id="site-config-form">
+            <div class="mb-3">
+                <label for="markdown" class="form-label">Markdown</label>
+                <textarea class="form-control" id="markdown" rows="4" maxlength="2000"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="submit">Save</button>
+        </form>
+    </div>
+
+    <script type="module" src="/admin/site-config.js"></script>
+</body>
+
+</html>
