@@ -5,7 +5,8 @@ import getBuzzCount from '../../../../../database/geoword/get-buzz-count.js';
 
 /**
  * Only lets a request through for the question the player is on: the one after their last recorded buzz.
- * Otherwise a paid player could fetch any question's audio, instructions, or answer ahead of time.
+ * Otherwise a paid player could fetch any question's audio, instructions, or answer ahead of time,
+ * or record a question's buzz more than once to skip ahead.
  * Expects packetName and questionNumber query parameters.
  */
 export default async function requireCurrentQuestion (req, res, next) {

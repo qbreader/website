@@ -10,7 +10,6 @@ router.get('/', async (req, res) => {
 
   req.query.celerity = Math.min(1, Math.max(0, parseFloat(req.query.celerity) || 0));
   req.query.isCorrect = req.query.isCorrect === 'true';
-  req.query.questionNumber = parseInt(req.query.questionNumber);
   if (req.query.prompts) {
     req.query.prompts = req.query.prompts.split(',');
   }
