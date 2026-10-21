@@ -29,13 +29,50 @@ const TOOL_GROUPS = [
   }
 ];
 
+/**
+ * @param {string} packetName
+ * @param {boolean} hidden - whether the packet is currently hidden from players
+ * @returns {HTMLDivElement} a status badge and a button that publishes or unpublishes the packet
+ */
+function createPublishControl (packetName, hidden) {
+  const status = document.createElement('span');
+  const button = document.createElement('button');
+  button.type = 'button';
+
+  function render () {
+    status.className = `badge ${hidden ? 'text-bg-secondary' : 'text-bg-success'}`;
+    status.textContent = hidden ? 'Hidden' : 'Published';
+    button.className = `btn btn-sm ${hidden ? 'btn-success' : 'btn-warning'}`;
+    button.textContent = hidden ? 'Publish' : 'Unpublish';
+  }
+
+  button.addEventListener('click', async () => {
+    if (!hidden && !window.confirm(`Hide ${titleCase(packetName)} from players?`)) { return; }
+
+    const response = await fetch('/api/geoword/admin/published?' + new URLSearchParams({ packetName, published: hidden }), { method: 'PUT' });
+    if (response.ok) {
+      hidden = !hidden;
+      render();
+    } else {
+      window.alert('Something went wrong. Please try again.');
+    }
+  });
+
+  render();
+
+  const control = document.createElement('div');
+  control.className = 'd-flex align-items-center gap-2';
+  control.append(status, button);
+  return control;
+}
+
 fetch('/api/geoword/admin/packet-list')
   .then(response => response.json())
   .then(data => {
     const { packetList } = data;
     const container = document.getElementById('packet-list');
     packetList.forEach(game => {
-      const { name } = game;
+      const { name, test } = game;
 
       const title = document.createElement('h5');
       title.className = 'card-title';
@@ -63,6 +100,11 @@ fetch('/api/geoword/admin/packet-list')
         cardBody.appendChild(groupLabel);
         cardBody.appendChild(links);
       }
+
+      const visibilityLabel = document.createElement('div');
+      visibilityLabel.className = 'text-body-secondary small mt-2 mb-1';
+      visibilityLabel.textContent = 'Visibility';
+      cardBody.append(visibilityLabel, createPublishControl(name, !!test));
 
       const card = document.createElement('div');
       card.className = 'card h-100';
