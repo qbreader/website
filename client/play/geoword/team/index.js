@@ -47,7 +47,7 @@ function createMemberItem ({ username, isOwner }, viewerIsOwner) {
     makeOwner.textContent = 'Make owner';
     makeOwner.addEventListener('click', async () => {
       if (!window.confirm(`Make ${username} the owner? You will no longer be able to rename the team or remove players.`)) { return; }
-      await runMemberAction('transfer', username);
+      await runMemberAction('owner/transfer', username);
     });
 
     const remove = document.createElement('button');
@@ -56,7 +56,7 @@ function createMemberItem ({ username, isOwner }, viewerIsOwner) {
     remove.textContent = 'Remove';
     remove.addEventListener('click', async () => {
       if (!window.confirm(`Remove ${username} from the team?`)) { return; }
-      await runMemberAction('remove', username);
+      await runMemberAction('owner/remove', username);
     });
 
     li.append(makeOwner, remove);
@@ -147,7 +147,7 @@ document.getElementById('rename-form').addEventListener('submit', async event =>
   event.stopPropagation();
 
   document.getElementById('rename-error').textContent = '';
-  const response = await postTeamAction('rename', { teamName: document.getElementById('rename-team-name').value });
+  const response = await postTeamAction('owner/rename', { teamName: document.getElementById('rename-team-name').value });
 
   if (response.ok) {
     window.location.reload();
