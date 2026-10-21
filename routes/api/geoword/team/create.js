@@ -1,5 +1,4 @@
 import createTeam from '../../../../database/geoword/create-team.js';
-import requireTeamsEnabled from './require-teams-enabled.js';
 import formatTeam from './format-team.js';
 import validateTeamName from './validate-team-name.js';
 import validate, { rules } from '../../../validators/schema.js';
@@ -15,7 +14,7 @@ router.use(rateLimit({
   legacyHeaders: false
 }));
 
-router.post('/', requireTeamsEnabled, async (req, res) => {
+router.post('/', async (req, res) => {
   const { teamName: rawTeamName } = validate(req.body, { teamName: rules.string() });
   const { teamName, error: nameError } = validateTeamName(rawTeamName);
   if (nameError) {
