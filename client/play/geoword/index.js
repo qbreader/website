@@ -31,10 +31,11 @@ function groupBySet (packetList) {
 /**
  * @param {string} setName
  * @param {object[]} packetList
- * @param {boolean} hasTeams
+ * @param {boolean} hasRegistration
+ * @param {boolean} onTeam
  * @returns {HTMLDivElement}
  */
-function createSetCard (setName, packetList, hasTeams) {
+function createSetCard (setName, packetList, hasRegistration, onTeam) {
   const title = document.createElement('h5');
   title.className = 'card-title';
   title.textContent = titleCase(setName);
@@ -57,11 +58,11 @@ function createSetCard (setName, packetList, hasTeams) {
   card.className = 'card h-100';
   card.appendChild(cardBody);
 
-  if (hasTeams) {
+  if (onTeam || hasRegistration) {
     const a = document.createElement('a');
-    a.className = 'btn btn-outline-secondary btn-sm';
+    a.className = onTeam ? 'btn btn-secondary btn-sm' : 'btn btn-outline-secondary btn-sm';
     a.href = './team/?' + new URLSearchParams({ setName });
-    a.textContent = 'Create or join a team';
+    a.textContent = onTeam ? 'Your team' : 'Create or join a team';
 
     const footer = document.createElement('div');
     footer.className = 'card-footer';
@@ -77,10 +78,12 @@ function createSetCard (setName, packetList, hasTeams) {
 
 Promise.all([
   fetch('/api/geoword/packet-list').then(response => response.json()),
-  fetch('/api/geoword/set-list').then(response => response.json())
-]).then(([{ packetList }, { setList }]) => {
-  const teamSets = new Set(setList.map(set => set.name));
+  fetch('/api/geoword/set-list').then(response => response.json()),
+  fetch('/api/geoword/my-teams').then(response => response.json())
+]).then(([{ packetList }, { setList }, { setNames }]) => {
+  const registrationSets = new Set(setList.map(set => set.name));
+  const teamSets = new Set(setNames);
   document.getElementById('set-list').replaceChildren(
-    ...Array.from(groupBySet(packetList), ([setName, setPackets]) => createSetCard(setName, setPackets, teamSets.has(setName)))
+    ...Array.from(groupBySet(packetList), ([setName, setPackets]) => createSetCard(setName, setPackets, registrationSets.has(setName), teamSets.has(setName)))
   );
 });
