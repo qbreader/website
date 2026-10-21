@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const { givenAnswer, questionNumber, packetName, division } = req.query;
-  const answer = await getAnswer(packetName, division, parseInt(questionNumber));
+  const answer = await getAnswer(packetName, division, questionNumber);
   const { directive, directedPrompt } = checkAnswer(answer, givenAnswer);
   res.json({ actualAnswer: answer, directive, directedPrompt });
 });

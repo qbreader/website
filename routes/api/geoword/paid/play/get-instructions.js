@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const { packetName, division, questionNumber } = req.query;
-  const instructions = await getInstructions(packetName, division, parseInt(questionNumber));
+  const instructions = await getInstructions(packetName, division, questionNumber);
   res.json({ instructions });
 });
 
