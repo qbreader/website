@@ -17,6 +17,15 @@ function postTeamAction (action, body = {}) {
   });
 }
 
+async function runMemberAction (action, username) {
+  const response = await postTeamAction(action, { username });
+  if (response.ok) {
+    window.location.reload();
+  } else {
+    window.alert(await response.text() || 'Something went wrong. Please try again.');
+  }
+}
+
 function createMemberItem ({ username, isOwner }, viewerIsOwner) {
   const li = document.createElement('li');
   li.className = 'list-group-item d-flex align-items-center';
@@ -54,15 +63,6 @@ function createMemberItem ({ username, isOwner }, viewerIsOwner) {
   }
 
   return li;
-}
-
-async function runMemberAction (action, username) {
-  const response = await postTeamAction(action, { username });
-  if (response.ok) {
-    window.location.reload();
-  } else {
-    window.alert(await response.text() || 'Something went wrong. Please try again.');
-  }
 }
 
 function showTeam ({ teamName, code, members, isOwner }) {
