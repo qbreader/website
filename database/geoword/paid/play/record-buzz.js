@@ -15,12 +15,13 @@ import hasPacketPrivileges from '../../has-packet-privileges.js';
  * @param {String[]} params.prompts - whether or not the buzz is a prompt
  */
 async function recordBuzz ({ celerity, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId }) {
-  const [privileged, division, packet, tossup] = await Promise.all([
+  const [privileged, division, packet] = await Promise.all([
     hasPacketPrivileges(packetName, userId),
     getDivisionChoice(packetName, userId),
-    packets.findOne({ name: packetName }),
-    tossups.findOne({ 'packet.name': packetName, questionNumber })
+    packets.findOne({ name: packetName })
   ]);
+  // Each division has its own question 1, 2, ..., so the division picks which one this buzz is for.
+  const tossup = await tossups.findOne({ 'packet.name': packetName, division, questionNumber });
 
   const insertDocument = {
     active: packet.active && !privileged,
