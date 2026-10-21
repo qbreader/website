@@ -157,7 +157,8 @@ export default class QuestionRoom extends Room {
       switch (this.mode) {
         case MODE_ENUM.SET_NAME:
           if (this.questionIndex[questionType] === this.packet[questionType].length) {
-            this.questionIndex[questionType] = 0;
+            // the packet is shared by all question types, so every type restarts at the top of the next packet
+            for (const s of this.supportedQuestionTypes) { this.questionIndex[s] = 0; }
             this.query.packetNumbers.shift();
             const packetNumber = this.query.packetNumbers[0];
             if (packetNumber === undefined) {
