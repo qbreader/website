@@ -156,18 +156,23 @@ function recordProtest (packetName, questionNumber) {
   });
 }
 
-function recordBuzz (packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts = []) {
-  fetch('/api/geoword/paid/play/record-buzz?' + new URLSearchParams({
+/**
+ * @returns {Promise<boolean>} whether the buzz was saved
+ */
+async function recordBuzz (packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts = []) {
+  return await fetch('/api/geoword/paid/play/record-buzz?' + new URLSearchParams({
     packetName,
     questionNumber,
     celerity,
     isCorrect,
     givenAnswer,
     prompts
-  }));
+  }))
+    .then(response => response.ok)
+    .catch(() => false);
 }
 
-function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
+async function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
   const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
   const currentPoints = scoreBuzz(scoring, { celerity, isCorrect });
 
@@ -179,7 +184,7 @@ function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
     document.getElementById('protest-text').classList.remove('d-none');
   }
 
-  recordBuzz(packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts);
+  const saved = recordBuzz(packetName, questionNumber, celerity, isCorrect, givenAnswer, prompts);
 
   points += currentPoints;
   tossupsHeard++;
@@ -195,9 +200,15 @@ function updateScore (isCorrect, givenAnswer, actualAnswer, prompts = []) {
   document.getElementById('current-status').textContent = isCorrect ? 'Correct' : 'Incorrect';
 
   document.getElementById('buzz').disabled = true;
-  document.getElementById('next').disabled = false;
-
   document.getElementById('question-info').classList.remove('d-none');
+
+  // The server only serves the question after the last one it has saved,
+  // so moving on before this buzz is saved would ask for a question it won't serve yet.
+  if (await saved) {
+    document.getElementById('next').disabled = false;
+  } else {
+    document.getElementById('record-buzz-error').classList.remove('d-none');
+  }
 }
 
 function updateStatline (numberCorrect, points, tossupsHeard, totalCorrectCelerity) {
