@@ -1,7 +1,7 @@
 import { teams } from './collections.js';
 import generateTeamCode from './generate-team-code.js';
 
-const MAX_CODE_ATTEMPTS = 5;
+const MAX_CODE_GENERATION_ATTEMPTS = 5;
 
 /**
  * @param {Object} options
@@ -17,7 +17,7 @@ async function createTeam ({ set, teamName, userId }) {
       const { insertedId } = await teams.insertOne(team);
       return { _id: insertedId, ...team };
     } catch (error) {
-      if (error.code !== 11000 || !error.keyPattern?.code || attempt === MAX_CODE_ATTEMPTS) { throw error; }
+      if (error.code !== 11000 || !error.keyPattern?.code || attempt === MAX_CODE_GENERATION_ATTEMPTS) { throw error; }
     }
   }
 }
