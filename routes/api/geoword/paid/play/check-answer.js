@@ -25,7 +25,8 @@ router.get('/', async (req, res) => {
 
   let saved = false;
   try {
-    saved = Boolean(await recordBuzz({ celerity, division, givenAnswer, isCorrect: directive === 'accept', packetName, prompts, questionNumber, userId }));
+    const isCorrect = directive === 'accept';
+    saved = !!(await recordBuzz({ celerity, division, givenAnswer, isCorrect, packetName, prompts, questionNumber, userId }));
   } catch (error) {
     console.error(error);
   }
