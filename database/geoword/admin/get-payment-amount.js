@@ -6,6 +6,10 @@ import getSet from '../get-set.js';
  * @returns {Promise<Integer>} the amount of the payment, in cents (USD)
  */
 async function getPaymentAmount (payment) {
+  if (payment.amountInCents !== null && payment.amountInCents !== undefined) {
+    return payment.amountInCents;
+  }
+
   if (payment.packet) {
     return await getCost(payment.packet.name);
   }
