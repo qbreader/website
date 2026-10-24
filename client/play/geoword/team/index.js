@@ -4,6 +4,8 @@ const setName = new URLSearchParams(window.location.search).get('setName') ?? ''
 
 document.getElementById('set-name').textContent = titleCase(setName);
 
+let maxSize = null;
+
 /**
  * @param {string} action
  * @param {object} [body]
@@ -69,6 +71,7 @@ function showTeam ({ teamName, code, members, isOwner }) {
   document.getElementById('form').classList.add('d-none');
   document.getElementById('join-form').classList.add('d-none');
   document.getElementById('team-code').textContent = code;
+  document.getElementById('member-count').textContent = maxSize === null ? members.length : `${members.length} / ${maxSize}`;
   document.getElementById('member-list').replaceChildren(...members.map(member => createMemberItem(member, isOwner)));
   document.getElementById('rename-form').classList.toggle('d-none', !isOwner);
   document.getElementById('rename-team-name').value = teamName;
@@ -153,7 +156,12 @@ if (response.status === 401) {
 } else if (response.status === 403) {
   document.getElementById('teams-disabled').classList.remove('d-none');
 } else if (response.ok) {
-  const { team } = await response.json();
+  const { team, maxSize: teamMaxSize } = await response.json();
+  maxSize = teamMaxSize;
+  if (maxSize !== null) {
+    document.getElementById('max-size-value').textContent = maxSize;
+    document.getElementById('max-size').classList.remove('d-none');
+  }
 
   if (team) {
     showTeam(team);
