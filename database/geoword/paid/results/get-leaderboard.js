@@ -22,7 +22,7 @@ function getAggregation ({ division, includeInactive, packetName, limit }) {
         averageCorrectCelerity: { $avg: { $cond: [{ $gt: ['$points', 0] }, '$celerity', undefined] } }
       }
     },
-    { $sort: { points: -1, numberCorrect: -1 } },
+    { $sort: { points: -1, numberCorrect: -1, averageCorrectCelerity: -1 } },
     { $limit: limit }
   ];
 }
