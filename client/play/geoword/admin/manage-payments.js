@@ -14,11 +14,12 @@ fetch('/api/geoword/admin/payment-list?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
     const { payments } = data;
-    for (const { _id, username, createdAt, manual } of payments) {
+    for (const { _id, username, createdAt, manual, packet } of payments) {
       const row = document.getElementById('payment-table').insertRow();
       row.insertCell().innerHTML = `<a href="/play/geoword/admin/invoice?_id=${_id}&packetName=${packetName}">${username}</a>`;
       row.insertCell().textContent = new Date(createdAt).toLocaleString();
       row.insertCell().textContent = manual ? 'Manual' : 'Automatic';
+      row.insertCell().textContent = packet ? 'Packet' : 'Whole set';
       row.insertCell().textContent = 'None';
     }
     document.getElementById('total-payments').textContent = payments.length;
