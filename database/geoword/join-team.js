@@ -29,7 +29,11 @@ async function joinTeam ({ setId, teamName, code, userId, maxSize }) {
     return { team: null, full: false };
   }
 
-  const filter = { _id: team._id, ...(maxSize !== undefined && { $expr: { $lt: [{ $size: '$members' }, maxSize] } }) };
+  const filter = { _id: team._id };
+  if (maxSize !== undefined) {
+    // checked in the update itself so concurrent joins can't push the team over the cap
+    filter.$expr = { $lt: [{ $size: '$members' }, maxSize] };
+  }
   const joined = await teams.findOneAndUpdate(filter, { $addToSet: { members: userId } }, { returnDocument: 'after' });
   return { team: joined, full: !joined };
 }
