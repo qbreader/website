@@ -27,7 +27,10 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const team = await joinTeam({ setId: set._id, teamName: teamName.replace(/\s+/g, ' '), code, userId });
+    const { team, full } = await joinTeam({ setId: set._id, teamName: teamName.replace(/\s+/g, ' '), code, userId, maxSize: set.teams?.maxSize });
+    if (full) {
+      return res.status(409).send(`That team is full (${set.teams.maxSize} players max).`);
+    }
     if (!team) {
       return res.status(404).send('No team has that name and code.');
     }

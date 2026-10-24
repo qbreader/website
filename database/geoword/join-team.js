@@ -20,15 +20,22 @@ function safeEqual (a, b) {
  * @param {String} options.teamName
  * @param {String} options.code
  * @param {ObjectId} options.userId
- * @returns {Promise<Object | null>}
+ * @param {number} [options.maxSize] the most members a team may have; unlimited if omitted
+ * @returns {Promise<{ team: Object | null, full: boolean }>} `team` is null if the name and code don't match or the team is full
  */
-async function joinTeam ({ setId, teamName, code, userId }) {
+async function joinTeam ({ setId, teamName, code, userId, maxSize }) {
   const team = await getTeamByName(setId, teamName);
   if (!team?.code || !safeEqual(team.code, code.toUpperCase())) {
-    return null;
+    return { team: null, full: false };
   }
 
-  return await teams.findOneAndUpdate({ _id: team._id }, { $addToSet: { members: userId } }, { returnDocument: 'after' });
+  const filter = { _id: team._id };
+  if (maxSize !== undefined) {
+    // checked in the update itself so concurrent joins can't push the team over the cap
+    filter.$expr = { $lt: [{ $size: '$members' }, maxSize] };
+  }
+  const joined = await teams.findOneAndUpdate(filter, { $addToSet: { members: userId } }, { returnDocument: 'after' });
+  return { team: joined, full: !joined };
 }
 
 export default joinTeam;
