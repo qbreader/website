@@ -6,6 +6,9 @@ export default async function getInvoice ({ _id }) {
 
   if (payment) {
     payment.username = await getUsername(payment.user_id);
+    if (payment.recordedBy) {
+      payment.recordedByUsername = await getUsername(payment.recordedBy);
+    }
   }
 
   return payment;
