@@ -13,7 +13,7 @@ router.put('/', async (req, res) => {
   if (!userId) { return res.status(400).send('User not found'); }
 
   const amountInCents = await getCost(packetName);
-  const result = await recordPayment(packetName, userId, { manual: true, amountInCents });
+  const result = await recordPayment(packetName, userId, { manual: true, amountInCents, recordedBy: res.locals.userId });
 
   console.log(userId, result);
 
