@@ -24,13 +24,15 @@
 
         <p id="teams-disabled" class="d-none">Team registration is not open for this set.</p>
 
+        <p id="max-size" class="d-none">Teams in this set can have at most <b id="max-size-value"></b> players.</p>
+
         <div id="team-details" class="d-none">
             <p>
                 Share this code so teammates can join. They will also need your team's name.
             </p>
             <p>Join code: <code class="fs-5 user-select-all" id="team-code"></code></p>
 
-            <h2 class="h5">Members</h2>
+            <h2 class="h5">Members (<span id="member-count"></span>)</h2>
             <ul class="list-group mb-3" id="member-list"></ul>
 
             <form id="rename-form" class="d-none mb-3">
