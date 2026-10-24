@@ -64,6 +64,6 @@
  * @typedef {object} GeowordSet
  * @property {ObjectId} _id
  * @property {string} name
- * @property {{ enabled?: boolean }} [teams]
+ * @property {{ enabled?: boolean, maxSize?: number }} [teams]
  * @property {ObjectId[]} [specialUsers]
  */
