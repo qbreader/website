@@ -70,7 +70,7 @@ export default async function getTeamLeaderboard ({ packetName, includeInactive 
     return teamList
       .map(team => scoreTeam(team, team.members.flatMap(member => buzzesByUser.get(String(member)) ?? [])))
       .filter(row => row.tossupsHeard > 0)
-      .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect);
+      .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity);
   }));
 
   return Object.fromEntries(divisions.map((division, index) => [division, standings[index]]));
