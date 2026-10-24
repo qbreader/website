@@ -30,7 +30,7 @@ This writes to whatever MONGODB_URI points at.`)
 
 console.log(`Target database: "${geoword.databaseName}"`);
 
-const { matchedCount } = await sets.updateOne({ name: argv.set }, { $set: { teamsEnabled: argv.enabled } });
+const { matchedCount } = await sets.updateOne({ name: argv.set }, { $set: { 'teams.enabled': argv.enabled } });
 if (matchedCount === 0) {
   throw new Error(`Set "${argv.set}" does not exist.`);
 }
