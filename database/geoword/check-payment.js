@@ -1,5 +1,6 @@
 import { packets, payments } from './collections.js';
 
+import getSetPayment from './get-set-payment.js';
 import hasPacketPrivileges from './has-packet-privileges.js';
 
 /**
@@ -18,6 +19,11 @@ async function checkPayment (packetName, userId) {
 
   if (await hasPacketPrivileges(packetName, userId)) {
     return true;
+  }
+
+  const setPayment = await getSetPayment(packetName);
+  if (setPayment) {
+    return !!await payments.findOne({ 'set._id': setPayment.set._id, user_id: userId, packet: { $exists: false } });
   }
 
   const result = await payments.findOne({ 'packet.name': packetName, user_id: userId });
