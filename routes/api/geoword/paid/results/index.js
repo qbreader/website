@@ -4,6 +4,7 @@ import getBuzzCount from '../../../../../database/geoword/get-buzz-count.js';
 import getQuestionCount from '../../../../../database/geoword/get-question-count.js';
 
 import audioRouter from './audio.js';
+import buzzpointsRouter from './buzzpoints.js';
 import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
 import hasTeamRouter from './has-team.js';
@@ -37,6 +38,7 @@ router.use(async (req, res, next) => {
 });
 
 router.use('/audio', audioRouter);
+router.use('/buzzpoints', buzzpointsRouter);
 router.use('/category-stats', categoryStatsRouter);
 router.use('/compare', compareRouter);
 router.use('/has-team', hasTeamRouter);

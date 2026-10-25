@@ -140,6 +140,26 @@ a.list-group-item:hover {
     color: inherit;
 }
 
+// Geoword packet page: the buzzes beside each clue. An empty column keeps its width
+// beside the clue, but takes no space when it stacks under it on narrow screens.
+.buzzpoints:empty {
+    padding: 0 !important;
+}
+
+.buzzpoint-marker {
+    font-size: 0.5em;
+    vertical-align: middle;
+}
+
+// Sized like the badges it sits among
+.buzzpoints-toggle {
+    --bs-btn-padding-y: 0.35em;
+    --bs-btn-padding-x: 0.65em;
+    --bs-btn-font-size: 0.75em;
+    --bs-btn-font-weight: 700;
+    --bs-btn-line-height: 1;
+}
+
 #difficulty-settings {
     min-height: 90px;
 }
