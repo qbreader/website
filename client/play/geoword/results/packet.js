@@ -1,3 +1,4 @@
+import { countBuzzGraphBuzzes, drawBuzzGraph, getBuzzGraphTime, setBuzzGraphDot, setBuzzGraphPlayhead } from './buzz-graph.js';
 import createTabs from '../../../../scripts/utilities/create-tabs.js';
 import { escapeHTML, kebabCase, titleCase } from '../../../../shared/string-utils.js';
 
@@ -9,6 +10,10 @@ const tabContent = document.getElementById('tab-content');
 /** `${division}/${questionNumber}` -> every buzz on that tossup, earliest first */
 const buzzpointsByQuestion = new Map();
 const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+// A graph is drawn to its element's size, which changes with the window, and is zero in a hidden tab
+const graphResizeObserver = new window.ResizeObserver(entries => {
+  for (const { target } of entries) { drawBuzzGraph(target); }
+});
 
 /**
  * @param {number} seconds
@@ -112,8 +117,9 @@ function getBuzzTableHTML (tossup, buzzpoints) {
     let data = '';
     if (tossup.duration) {
       const time = getBuzzTime(buzz, tossup.duration);
-      // A buzz after the audio ended jumps to its end
+      // A buzz after the audio ended jumps to its end, and isn't on the graph
       data = `data-buzz-time="${time ?? tossup.duration}" tabindex="0"`;
+      if (time !== null) { data += ` data-correct="${buzz.points > 0}"`; }
       if (time !== null && hasClueTimes(tossup)) { data += ` data-clue="${getClueAt(tossup.clipBoundaries, time)}"`; }
     }
     const who = buzz.isYou ? ' (you)' : buzz.isTeammate ? ' (teammate)' : '';
@@ -138,6 +144,42 @@ function getBuzzTableHTML (tossup, buzzpoints) {
           <tbody>${rows}</tbody>
         </table>
       </div>
+    </div>`;
+}
+
+/**
+ * @param {object} tossup - with a duration
+ * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
+ * @returns {{ duration: number, starts: number[], correct: number[], wrong: number[] }} what
+ * drawBuzzGraph draws: the seconds at which each clue starts, and each buzz during the audio came
+ */
+function getBuzzGraphData (tossup, buzzpoints) {
+  const correct = [];
+  const wrong = [];
+  // Earliest first, so the times are sorted
+  for (const buzz of buzzpoints) {
+    const time = getBuzzTime(buzz, tossup.duration);
+    if (time !== null) { (buzz.points > 0 ? correct : wrong).push(time); }
+  }
+  return { duration: tossup.duration, starts: hasClueTimes(tossup) ? tossup.clipBoundaries : [], correct, wrong };
+}
+
+/**
+ * @param {object} tossup - with a duration
+ * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
+ * @returns {string} HTML for the box drawBuzzGraph draws in, with its legend
+ */
+function getBuzzGraphHTML (tossup, buzzpoints) {
+  const { correct, wrong } = getBuzzGraphData(tossup, buzzpoints);
+  const label = `How many correct and wrong buzzes had come by each point of question ${tossup.questionNumber}: ${correct.length} correct and ${wrong.length} wrong in all`;
+
+  return `
+    <div class="buzz-graph" role="img" aria-label="${label}">
+      <div class="buzz-graph-legend" aria-hidden="true">
+        <span><i class="buzz-graph-key-correct"></i>Correct (${correct.length})</span>
+        <span><i class="buzz-graph-key-wrong"></i>Wrong (${wrong.length})</span>
+      </div>
+      <div class="buzz-graph-readout" aria-hidden="true" hidden></div>
     </div>`;
 }
 
@@ -167,6 +209,7 @@ function getTossupHTML (tossup, division, id) {
           <div><b>ANSWER:</b> ${tossup.answer}</div>
           <div>&lt;${category}&gt;</div>
         </div>
+        ${buzzpoints.length > 0 && tossup.duration ? getBuzzGraphHTML(tossup, buzzpoints) : ''}
         ${buzzpoints.length > 0 ? getBuzzTableHTML(tossup, buzzpoints) : ''}
       </div>
     </section>`;
@@ -216,13 +259,33 @@ function highlightClue (section, index) {
 
 /**
  * @param {HTMLAudioElement} audio
+ * @returns {boolean} whether the audio has been played or moved, so has a position worth showing
+ */
+function hasPosition (audio) {
+  return !audio.paused || audio.currentTime > 0;
+}
+
+/**
+ * @param {HTMLAudioElement} audio
  * @returns {number} the index of the clue at the audio's position, or -1 if it has none
  * or hasn't been played or moved yet
  */
 function getCurrentClue (audio) {
-  if (audio.paused && audio.currentTime === 0) { return -1; }
+  if (!hasPosition(audio)) { return -1; }
   const buttons = [...audio.closest('section').querySelectorAll('button[data-start]')];
   return buttons.findLastIndex(button => parseFloat(button.dataset.start) <= audio.currentTime);
+}
+
+/**
+ * Marks the clue at the audio's position, and moves the graph's playhead there.
+ * @param {HTMLElement} section
+ * @returns {boolean} whether the marked clue changed
+ */
+function showPosition (section) {
+  const audio = section.querySelector('audio');
+  const graph = section.querySelector('.buzz-graph');
+  if (graph) { setBuzzGraphPlayhead(graph, hasPosition(audio) ? audio.currentTime : null); }
+  return highlightClue(section, getCurrentClue(audio));
 }
 
 /**
@@ -241,7 +304,7 @@ function scrollTableToClue (section, index) {
 }
 
 /**
- * Marks a buzz in the table, or none if row is null.
+ * Marks a buzz in the table and on the graph, or none if row is null.
  * @param {HTMLElement} section
  * @param {HTMLTableRowElement | null} row
  */
@@ -252,6 +315,11 @@ function selectBuzz (section, row) {
   }
   row?.classList.add('buzz-table-selected');
   row?.setAttribute('aria-current', 'true');
+
+  const graph = section.querySelector('.buzz-graph');
+  if (!graph) { return; }
+  const onGraph = row?.dataset.correct !== undefined;
+  setBuzzGraphDot(graph, onGraph ? { time: parseFloat(row.dataset.buzzTime), isCorrect: row.dataset.correct === 'true' } : null);
 }
 
 /**
@@ -265,13 +333,24 @@ function seekToBuzz (row) {
   audio.currentTime = parseFloat(row.dataset.buzzTime);
   selectBuzz(section, row);
   // Before the audio has loaded, moving it fires no timeupdate
-  highlightClue(section, getCurrentClue(audio));
+  showPosition(section);
 }
 
 tabContent.addEventListener('click', event => {
   const row = event.target.closest('tr[data-buzz-time]');
   if (row) {
     seekToBuzz(row);
+    return;
+  }
+
+  const graph = event.target.closest('.buzz-graph');
+  if (graph) {
+    const section = graph.closest('section');
+    const audio = section.querySelector('audio');
+    audio.currentTime = getBuzzGraphTime(graph, event.clientX);
+    selectBuzz(section, null);
+    showPosition(section);
+    scrollTableToClue(section, getCurrentClue(audio));
     return;
   }
 
@@ -285,6 +364,24 @@ tabContent.addEventListener('click', event => {
   selectBuzz(section, null);
   scrollTableToClue(section, [...section.querySelectorAll('button[data-start]')].indexOf(button));
 });
+
+// Hovering the graph reads out how many buzzes had come by that point
+tabContent.addEventListener('mousemove', event => {
+  const graph = event.target.closest('.buzz-graph');
+  if (!graph) { return; }
+  const time = getBuzzGraphTime(graph, event.clientX);
+  const { correct, wrong } = countBuzzGraphBuzzes(graph, time);
+  const readout = graph.querySelector('.buzz-graph-readout');
+  readout.textContent = `${formatTime(time)}: ${correct} correct, ${wrong} wrong`;
+  readout.hidden = false;
+});
+
+// mouseleave doesn't bubble, so this listens in the capture phase
+tabContent.addEventListener('mouseleave', event => {
+  if (event.target.classList?.contains('buzz-graph')) {
+    event.target.querySelector('.buzz-graph-readout').hidden = true;
+  }
+}, true);
 
 tabContent.addEventListener('keydown', event => {
   const row = event.target.closest('tr[data-buzz-time]');
@@ -301,14 +398,14 @@ tabContent.addEventListener('play', event => {
   }
 }, true);
 
-// The marked clue follows the audio's position, and while it plays, the table follows the clue
+// The marked clue and the playhead follow the audio's position, and while it plays, the
+// table follows the clue
 for (const type of ['play', 'pause', 'timeupdate']) {
   tabContent.addEventListener(type, event => {
     const audio = event.target;
     const section = audio.closest('section');
-    const index = getCurrentClue(audio);
-    if (highlightClue(section, index) && !audio.paused && index !== -1) {
-      scrollTableToClue(section, index);
+    if (showPosition(section) && !audio.paused) {
+      scrollTableToClue(section, getCurrentClue(audio));
     }
   }, true);
 }
@@ -348,5 +445,12 @@ Promise.all([
         innerHTML += getTossupHTML(tossup, division, getId(tossup));
       }
       divs[division].innerHTML += innerHTML;
+
+      for (const tossup of packets[division]) {
+        const graph = document.getElementById(getId(tossup)).querySelector('.buzz-graph');
+        if (!graph) { continue; }
+        drawBuzzGraph(graph, getBuzzGraphData(tossup, getBuzzpoints(division, tossup.questionNumber)));
+        graphResizeObserver.observe(graph);
+      }
     }
   });

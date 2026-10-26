@@ -160,6 +160,11 @@ a.list-group-item:hover {
         height: auto;
         min-height: 12rem;
     }
+
+    // As tall as the prompt and player beside it
+    .has-buzzpoints .buzz-graph {
+        height: auto;
+    }
 }
 
 .buzzpoints-head {
@@ -175,6 +180,108 @@ a.list-group-item:hover {
 
 .buzzpoints-answer {
     grid-area: answer;
+}
+
+// The graph's SVG is drawn to the box's size rather than setting it
+.buzz-graph {
+    grid-area: graph;
+    position: relative;
+    height: 9rem;
+    overflow: hidden;
+    cursor: crosshair;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+
+    svg {
+        position: absolute;
+        inset: 0;
+    }
+}
+
+.buzz-graph-legend,
+.buzz-graph-readout {
+    position: absolute;
+    top: 0.125rem;
+    padding: 0 0.25rem;
+    font-size: 0.75rem;
+    pointer-events: none;
+    background-color: var(--bs-body-bg);
+}
+
+.buzz-graph-legend {
+    right: 0.25rem;
+    display: flex;
+    gap: 0.75rem;
+    color: var(--bs-secondary-color);
+
+    i {
+        display: inline-block;
+        width: 14px;
+        margin-right: 0.25rem;
+        vertical-align: middle;
+        border-top: 2px solid;
+    }
+}
+
+// Right of the y-axis labels, so it doesn't cover them
+.buzz-graph-readout {
+    left: 1.75rem;
+    font-variant-numeric: tabular-nums;
+}
+
+// The wrong line is dashed, so it doesn't rely on color alone
+.buzz-graph-correct,
+.buzz-graph-wrong {
+    fill: none;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+
+.buzz-graph-correct,
+.buzz-graph-key-correct {
+    stroke: var(--buzz-graph-correct);
+    border-color: var(--buzz-graph-correct);
+}
+
+.buzz-graph-wrong,
+.buzz-graph-key-wrong {
+    stroke: var(--buzz-graph-wrong);
+    stroke-dasharray: 5 3;
+    border-color: var(--buzz-graph-wrong);
+    border-top-style: dashed !important;
+}
+
+.buzz-graph-clue,
+.buzz-graph-grid {
+    stroke: var(--bs-border-color);
+}
+
+.buzz-graph-grid {
+    stroke-dasharray: 2 3;
+}
+
+.buzz-graph-axis {
+    stroke: var(--bs-secondary-color);
+}
+
+.buzz-graph-label {
+    fill: var(--bs-secondary-color);
+    font-size: 10px;
+}
+
+.buzz-graph-playhead {
+    stroke: var(--bs-link-color);
+    stroke-width: 2;
+}
+
+.buzz-graph-dot {
+    fill: var(--buzz-graph-correct);
+    stroke: var(--bs-body-bg);
+    stroke-width: 2;
+
+    &.buzz-graph-dot-wrong {
+        fill: var(--buzz-graph-wrong);
+    }
 }
 
 // The table scrolls inside a box that fills its slot, so the slot's height comes from the clues
