@@ -128,14 +128,13 @@ function getBuzzTableHTML (tossup, buzzpoints) {
       if (time !== null) { data += ` data-correct="${buzz.points > 0}"`; }
       if (time !== null && hasClueTimes(tossup)) { data += ` data-clue="${getClueAt(tossup.clipBoundaries, time)}"`; }
     }
-    // A dot marks you and your teammates, and your own name is bold
-    const who = buzz.isYou ? 'You' : buzz.isTeammate ? 'Teammate' : '';
-    const marker = who ? `<i class="bi bi-circle-fill buzzpoint-marker" role="img" title="${who}" aria-label="${who}:"></i>` : '';
+    // A bar along the row's left edge marks you and your teammates, and your own name is bold
+    const who = buzz.isYou ? 'you' : buzz.isTeammate ? 'teammate' : '';
     const pointsClass = buzz.points > 0 ? 'text-success' : buzz.points < 0 ? 'text-danger' : 'text-body-secondary';
 
     rows += `
-      <tr ${data}>
-        <td class="${buzz.isYou ? 'fw-bold' : ''}">${marker}${escapeHTML(buzz.username)}</td>
+      <tr ${data} ${who ? `class="buzz-table-${who}"` : ''}>
+        <td class="${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</td>
         <td><span class="opacity-75">${escapeHTML(buzz.teamName ?? '')}</span></td>
         <td class="text-end">${(buzz.celerity ?? 0).toFixed(3)}</td>
         <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
