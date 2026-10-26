@@ -7,10 +7,8 @@ const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
 const tabContent = document.getElementById('tab-content');
-/** `${division}/${questionNumber}` -> every buzz on that tossup, earliest first */
 const buzzpointsByQuestion = new Map();
 const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-// A graph is drawn to its element's size, which changes with the window, and is zero in a hidden tab
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
@@ -33,10 +31,9 @@ function hasClueTimes ({ clues, clipBoundaries }) {
 }
 
 /**
- * Celerity is `1 - currentTime / duration`, so the duration turns it back into a time.
  * @param {object} buzz
- * @param {number} duration - the length of the tossup's audio, in seconds
- * @returns {number | null} the second of the audio the buzz came at, or null if it came after the audio ended
+ * @param {number} duration
+ * @returns {number | null}
  */
 function getBuzzTime (buzz, duration) {
   const celerity = buzz.celerity ?? 0;
@@ -44,9 +41,9 @@ function getBuzzTime (buzz, duration) {
 }
 
 /**
- * @param {number[]} starts - the second at which each clue starts
+ * @param {number[]} starts
  * @param {number} time
- * @returns {number} the index of the clue playing at that time
+ * @returns {number}
  */
 function getClueAt (starts, time) {
   return Math.max(0, starts.findLastIndex(start => start <= time));
@@ -54,15 +51,13 @@ function getClueAt (starts, time) {
 
 /**
  * @param {object} tossup
- * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
- * @returns {string} HTML for the tossup's clues: buttons that jump to each clue if their
- * start times are known, a plain list if not, or the question text if there is no list
+ * @param {object[]} buzzpoints
+ * @returns {string}
  */
 function getCluesHTML (tossup, buzzpoints) {
   const label = `aria-label="Clues for question ${tossup.questionNumber}"`;
 
   if (hasClueTimes(tossup)) {
-    // Placing a buzz on a clue takes the audio's duration. Packets uploaded before it was stored have none.
     const counts = tossup.clues.map(() => ({ correct: 0, total: 0 }));
     if (tossup.duration) {
       for (const buzz of buzzpoints) {
@@ -77,7 +72,6 @@ function getCluesHTML (tossup, buzzpoints) {
     tossup.clues.forEach((clue, index) => {
       const start = tossup.clipBoundaries[index];
       const { correct, total } = counts[index];
-      // e.g. "5/7": correct buzzes out of all the buzzes during the clue
       const count = total === 0
         ? ''
         : `<span title="${correct} of ${total} buzzes correct" aria-label="${correct} of ${total} buzzes correct">${correct}/${total}</span>`;
@@ -105,7 +99,7 @@ function getCluesHTML (tossup, buzzpoints) {
 /**
  * @param {string} division
  * @param {number} questionNumber
- * @returns {object[]} every buzz on the tossup, earliest first
+ * @returns {object[]}
  */
 function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
@@ -113,9 +107,8 @@ function getBuzzpoints (division, questionNumber) {
 
 /**
  * @param {object} tossup
- * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
- * @returns {string} HTML for a scrolling table of the buzzes. If the audio's duration is
- * known, each row knows when its buzz came and which clue was playing, so it can be jumped to.
+ * @param {object[]} buzzpoints
+ * @returns {string}
  */
 function getBuzzTableHTML (tossup, buzzpoints) {
   let rows = '';
@@ -123,12 +116,10 @@ function getBuzzTableHTML (tossup, buzzpoints) {
     let data = '';
     if (tossup.duration) {
       const time = getBuzzTime(buzz, tossup.duration);
-      // A buzz after the audio ended jumps to its end, and isn't on the graph
       data = `data-buzz-time="${time ?? tossup.duration}" tabindex="0"`;
       if (time !== null) { data += ` data-correct="${buzz.points > 0}"`; }
       if (time !== null && hasClueTimes(tossup)) { data += ` data-clue="${getClueAt(tossup.clipBoundaries, time)}"`; }
     }
-    // A bar along the row's left edge marks you and your teammates, and your own name is bold
     const who = buzz.isYou ? 'you' : buzz.isTeammate ? 'teammate' : '';
     const pointsClass = buzz.points > 0 ? 'text-success' : buzz.points < 0 ? 'text-danger' : 'text-body-secondary';
 
@@ -156,15 +147,13 @@ function getBuzzTableHTML (tossup, buzzpoints) {
 }
 
 /**
- * @param {object} tossup - with a duration
- * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
- * @returns {{ duration: number, starts: number[], correct: number[], wrong: number[] }} what
- * drawBuzzGraph draws: the seconds at which each clue starts, and each buzz during the audio came
+ * @param {object} tossup
+ * @param {object[]} buzzpoints
+ * @returns {{ duration: number, starts: number[], correct: number[], wrong: number[] }}
  */
 function getBuzzGraphData (tossup, buzzpoints) {
   const correct = [];
   const wrong = [];
-  // Earliest first, so the times are sorted
   for (const buzz of buzzpoints) {
     const time = getBuzzTime(buzz, tossup.duration);
     if (time !== null) { (buzz.points > 0 ? correct : wrong).push(time); }
@@ -173,9 +162,9 @@ function getBuzzGraphData (tossup, buzzpoints) {
 }
 
 /**
- * @param {object} tossup - with a duration
- * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
- * @returns {string} HTML for the box drawBuzzGraph draws in, with its legend
+ * @param {object} tossup
+ * @param {object[]} buzzpoints
+ * @returns {string}
  */
 function getBuzzGraphHTML (tossup, buzzpoints) {
   const { correct, wrong } = getBuzzGraphData(tossup, buzzpoints);
@@ -192,7 +181,6 @@ function getBuzzGraphHTML (tossup, buzzpoints) {
 }
 
 /**
- * Shows the totals at a second of the audio in a graph's legend, or the overall totals if time is null.
  * @param {HTMLElement} graph
  * @param {number | null} time
  */
@@ -209,9 +197,8 @@ function setLegendTime (graph, time) {
 /**
  * @param {object} tossup
  * @param {string} division
- * @param {string} id - the section's id
- * @returns {string} HTML for one tossup: its heading, prompt, player, clues, and answer,
- * with its buzzes beside them
+ * @param {string} id
+ * @returns {string}
  */
 function getTossupHTML (tossup, division, id) {
   const category = escapeHTML(tossup.category) + (tossup.subcategory ? ` / ${escapeHTML(tossup.subcategory)}` : '');
@@ -224,7 +211,6 @@ function getTossupHTML (tossup, division, id) {
       <div class="buzzpoints-layout ${buzzpoints.length > 0 ? 'has-buzzpoints' : ''}">
         <div class="buzzpoints-head">
           ${tossup.instructions ? `<div class="alert alert-info small-alert mb-0"><b>Prompt:</b> ${tossup.instructions}</div>` : ''}
-          <!-- With no download, speed, or cast items left, Chrome hides the overflow menu -->
           <audio controls controlslist="nodownload noplaybackrate" disableremoteplayback preload="none" class="w-100" src="${audioSrc}"></audio>
         </div>
         ${getCluesHTML(tossup, buzzpoints)}
@@ -252,10 +238,9 @@ function getNavHTML (tossups, getId) {
 }
 
 /**
- * Marks the clue at the audio's position, and the buzzes that came during it, or none if index is -1.
  * @param {HTMLElement} section
  * @param {number} index
- * @returns {boolean} whether the marked clue changed
+ * @returns {boolean}
  */
 function highlightClue (section, index) {
   let changed = false;
@@ -281,7 +266,7 @@ function highlightClue (section, index) {
 
 /**
  * @param {HTMLAudioElement} audio
- * @returns {boolean} whether the audio has been played or moved, so has a position worth showing
+ * @returns {boolean}
  */
 function hasPosition (audio) {
   return !audio.paused || audio.currentTime > 0;
@@ -289,8 +274,7 @@ function hasPosition (audio) {
 
 /**
  * @param {HTMLAudioElement} audio
- * @returns {number} the index of the clue at the audio's position, or -1 if it has none
- * or hasn't been played or moved yet
+ * @returns {number}
  */
 function getCurrentClue (audio) {
   if (!hasPosition(audio)) { return -1; }
@@ -299,9 +283,8 @@ function getCurrentClue (audio) {
 }
 
 /**
- * Marks the clue at the audio's position, and moves the graph's playhead there.
  * @param {HTMLElement} section
- * @returns {boolean} whether the marked clue changed
+ * @returns {boolean}
  */
 function showPosition (section) {
   const audio = section.querySelector('audio');
@@ -311,14 +294,12 @@ function showPosition (section) {
 }
 
 /**
- * Scrolls a tossup's buzz table, and not the page, so its first buzz from a clue on is at the top.
  * @param {HTMLElement} section
- * @param {number} index - the clue
+ * @param {number} index
  */
 function scrollTableToClue (section, index) {
   const box = section.querySelector('.buzz-table');
   if (!box) { return; }
-  // Buzzes after the audio ended have no clue, and come last
   const row = [...box.querySelectorAll('tr[data-buzz-time]')].find(row => Number(row.dataset.clue ?? Infinity) >= index);
   if (!row) { return; }
   const top = row.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - box.querySelector('thead').offsetHeight;
@@ -326,7 +307,6 @@ function scrollTableToClue (section, index) {
 }
 
 /**
- * Marks a buzz in the table and on the graph, or none if row is null.
  * @param {HTMLElement} section
  * @param {HTMLTableRowElement | null} row
  */
@@ -345,7 +325,6 @@ function selectBuzz (section, row) {
 }
 
 /**
- * Plays the tossup from the moment a buzz came, so you hear what came after the player buzzed.
  * @param {HTMLTableRowElement} row
  */
 function seekToBuzz (row) {
@@ -386,13 +365,11 @@ tabContent.addEventListener('click', event => {
   scrollTableToClue(section, [...section.querySelectorAll('button[data-start]')].indexOf(button));
 });
 
-// Hovering the graph shows in its legend how many buzzes had come by that point
 tabContent.addEventListener('mousemove', event => {
   const graph = event.target.closest('.buzz-graph');
   if (graph) { setLegendTime(graph, getBuzzGraphTime(graph, event.clientX)); }
 });
 
-// mouseleave doesn't bubble, so this listens in the capture phase
 tabContent.addEventListener('mouseleave', event => {
   if (event.target.classList?.contains('buzz-graph')) { setLegendTime(event.target, null); }
 }, true);
@@ -412,8 +389,6 @@ tabContent.addEventListener('play', event => {
   }
 }, true);
 
-// The marked clue and the playhead follow the audio's position, and while it plays, the
-// table follows the clue
 for (const type of ['play', 'pause', 'timeupdate']) {
   tabContent.addEventListener(type, event => {
     const audio = event.target;

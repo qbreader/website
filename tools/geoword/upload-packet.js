@@ -1,7 +1,5 @@
 // Uploads a Geoword packet (audio, tossups, sample clip) to whatever database MONGODB_URI points at.
 //
-// --mode test: a demo setup for local development. Also creates test users, teams and their
-//              simulated buzzes, and freely deletes and recreates the packet and its buzzes.
 // --mode prod: a real round. Creates no teams or players (just a special user), requires an explicit --cost (unless the packet exists, whose cost is
 //              kept), hides the packet until published, and refuses to replace a packet anyone has used.
 // --upsert:    in either mode, updates an existing packet's tossups in place instead, which is safe
@@ -35,11 +33,6 @@ const UPSERTED_TOSSUP_FIELDS = [...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS
 // These are deliberately NOT admins: recordBuzz marks an admin's buzz `active: false`,
 // and leaderboards only count active buzzes, so an admin's play never shows up in
 // standings. Playing as a normal user exercises the same path a real competitor will.
-//
-// Alice has no buzzes, so the game itself can be played as her. Everyone else gets
-// simulated buzzes, so the results pages have a crowd to show: on every question, or
-// on the first `played` questions for a player still partway through the packet.
-// Players with no team play as individuals.
 const TEST_USERS = [
   { name: 'alice', team: 'Tracer Bullets', played: 0 },
   { name: 'bob', team: 'Tracer Bullets' },
@@ -55,9 +48,8 @@ const TEST_USERS = [
 ].map(user => ({ ...user, username: `soundtracks-${user.name}`, password: 'password' }));
 
 /**
- * A small seeded random number generator (mulberry32), so that re-seeding gives the same buzzes.
  * @param {number} seed
- * @returns {() => number} returns a number in [0, 1) on each call
+ * @returns {() => number}
  */
 function createRandom (seed) {
   return () => {
@@ -69,30 +61,26 @@ function createRandom (seed) {
 }
 
 /**
- * @param {string} answer - e.g. `The Stranger {by Billy Joel}`
- * @returns {string} what a player would type, e.g. `The Stranger`
+ * @param {string} answer
+ * @returns {string}
  */
 function getTypedAnswer (answer) {
   return answer.replace(/\s*[[({].*$/, '');
 }
 
 /**
- * Simulates one player's buzz on a tossup. Most players buzz during the clue that gives
- * the answer away, so that clue gets a crowd, as it would with a full field.
  * @param {Object} tossup
- * @param {string[]} wrongAnswers - answers to other tossups, to give as wrong answers
+ * @param {string[]} wrongAnswers
  * @param {() => number} random
  * @returns {{ celerity: number, isCorrect: boolean, givenAnswer: string }}
  */
 function simulateBuzz (tossup, wrongAnswers, random) {
   const { duration } = tossup;
-  // Without clue times, pretend the audio is six even clues
   const starts = tossup.clipBoundaries ?? [0, 1, 2, 3, 4, 5].map(index => index * duration / 6);
   const giveaway = Math.min(starts.length - 1, 2 + tossup.questionNumber % Math.max(1, starts.length - 2));
 
   let celerity = 0;
   let isCorrect = random() < 0.5;
-  // A few players wait until the audio has ended
   if (random() >= 0.06) {
     const roll = random();
     const offset = roll < 0.7 ? 0 : roll < 0.85 ? -1 : roll < 0.95 ? -2 : 1;
@@ -109,9 +97,8 @@ function simulateBuzz (tossup, wrongAnswers, random) {
 }
 
 /**
- * Replaces the packet's buzzes and division choices with simulated ones for the test users.
  * @param {ObjectId} packetId
- * @param {Object<string, ObjectId>} userIds - by username
+ * @param {Object<string, ObjectId>} userIds
  */
 async function seedBuzzes (packetId, userIds) {
   await buzzes.deleteMany({ 'packet.name': PACKET_NAME });
@@ -382,7 +369,6 @@ async function insertTossup (packetId, { questionNumber, filename }, entry) {
     // The results Packet page uses these to jump between clues. Scoring is continuous celerity,
     // so they could also serve per-clip scoring later.
     ...(clipBoundaries && { clipBoundaries }),
-    // In seconds. With clipBoundaries, this turns a buzz's celerity back into the clue it came during.
     duration
   });
 

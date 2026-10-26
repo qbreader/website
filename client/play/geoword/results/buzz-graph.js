@@ -1,14 +1,7 @@
-// Draws a tossup's cumulative correct and wrong buzzes over the length of its audio, as an
-// SVG sized to the element it is drawn in, with a playhead and a dot for a chosen buzz.
-
 const SVG_NS = 'http://www.w3.org/2000/svg';
-// Room around the plot for the axis labels. The legend sits over the plot's top left
-// corner, which cumulative lines only reach at the end, if at all.
 const PADDING = { left: 26, right: 10, top: 8, bottom: 6 };
-// Clue numbers go under the plot only when it is tall enough to spare the room
 const CLUE_LABEL_MIN_HEIGHT = 90;
 
-/** graph element -> what it shows and where its playhead and dot are */
 const graphs = new WeakMap();
 
 /**
@@ -37,7 +30,6 @@ function createSvgElement (name, attributes) {
 /**
  * @param {HTMLElement} graph
  * @returns {{ x: (time: number) => number, y: (count: number) => number, width: number, height: number, plotHeight: number }}
- * the scales from seconds and buzz counts to pixels
  */
 function getScales (graph) {
   const { duration, correct, wrong } = graphs.get(graph);
@@ -58,11 +50,11 @@ function getScales (graph) {
 }
 
 /**
- * @param {number[]} times - sorted
+ * @param {number[]} times
  * @param {(time: number) => number} x
  * @param {(count: number) => number} y
  * @param {number} duration
- * @returns {string} a path that steps up by one at each time
+ * @returns {string}
  */
 function getStepPath (times, x, y, duration) {
   let d = `M${x(0)},${y(0)}`;
@@ -71,11 +63,8 @@ function getStepPath (times, x, y, duration) {
 }
 
 /**
- * Draws a graph into an element, or draws it again at the element's current size.
  * @param {HTMLElement} graph
- * @param {{ duration: number, starts: number[], correct: number[], wrong: number[] }} [data] - the
- * audio's length and each clue's start, in seconds, and the seconds of the correct and wrong buzzes,
- * earliest first. Leave it out to redraw with the data already given.
+ * @param {{ duration: number, starts: number[], correct: number[], wrong: number[] }} [data]
  */
 export function drawBuzzGraph (graph, data) {
   if (data) {
@@ -84,7 +73,6 @@ export function drawBuzzGraph (graph, data) {
   const state = graphs.get(graph);
   if (!state) { return; }
   graph.querySelector('svg')?.remove();
-  // A graph in a hidden tab has no size, and is drawn when the tab is shown
   if (graph.clientWidth === 0) { return; }
 
   const { duration, starts, correct, wrong } = state;
@@ -120,8 +108,8 @@ export function drawBuzzGraph (graph, data) {
 
 /**
  * @param {HTMLElement} graph
- * @param {number} clientX - from a mouse event
- * @returns {number} the second of the audio under that point
+ * @param {number} clientX
+ * @returns {number}
  */
 export function getBuzzGraphTime (graph, clientX) {
   const { duration } = graphs.get(graph);
@@ -132,7 +120,7 @@ export function getBuzzGraphTime (graph, clientX) {
 /**
  * @param {HTMLElement} graph
  * @param {number} time
- * @returns {{ correct: number, wrong: number }} how many of each buzz came by that second
+ * @returns {{ correct: number, wrong: number }}
  */
 export function countBuzzGraphBuzzes (graph, time) {
   const { correct, wrong } = graphs.get(graph);
@@ -140,7 +128,6 @@ export function countBuzzGraphBuzzes (graph, time) {
 }
 
 /**
- * Moves the playhead to a second of the audio, or hides it if time is null.
  * @param {HTMLElement} graph
  * @param {number | null} time
  */
@@ -159,7 +146,6 @@ export function setBuzzGraphPlayhead (graph, time) {
 }
 
 /**
- * Puts a dot on the line at a chosen buzz, or hides it if buzz is null.
  * @param {HTMLElement} graph
  * @param {{ time: number, isCorrect: boolean } | null} buzz
  */

@@ -141,9 +141,6 @@ a.list-group-item:hover {
     color: inherit;
 }
 
-// Geoword packet page: each tossup's buzzes beside its clues on wide screens, below them
-// on narrow ones. The rows pair the player with the graph and the clues with the table,
-// so each pair is the same height.
 .buzzpoints-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -152,7 +149,6 @@ a.list-group-item:hover {
 }
 
 @include media-breakpoint-up(lg) {
-    // The table gets the wider side, for its team and answer columns
     .buzzpoints-layout.has-buzzpoints {
         grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
         grid-template-areas: "head graph" "clues table" "answer .";
@@ -163,7 +159,6 @@ a.list-group-item:hover {
         min-height: 12rem;
     }
 
-    // As tall as the prompt and player beside it
     .has-buzzpoints .buzz-graph {
         height: auto;
     }
@@ -184,7 +179,6 @@ a.list-group-item:hover {
     grid-area: answer;
 }
 
-// The graph's SVG is drawn to the box's size rather than setting it
 .buzz-graph {
     grid-area: graph;
     position: relative;
@@ -200,8 +194,6 @@ a.list-group-item:hover {
     }
 }
 
-// Top left, right of the y-axis labels: cumulative lines start low and end high, so this
-// corner stays clear. The translucent background keeps it readable if a line does pass under.
 .buzz-graph-legend {
     position: absolute;
     top: 0.125rem;
@@ -216,7 +208,6 @@ a.list-group-item:hover {
     background-color: rgba(var(--bs-body-bg-rgb), 0.85);
 }
 
-// A short sample of the line, between its icon and its count, which ties both to the line
 .buzz-graph-key {
     display: inline-block;
     width: 14px;
@@ -225,8 +216,6 @@ a.list-group-item:hover {
     border-top: 2px solid;
 }
 
-// While hovering, the second whose totals the legend shows. It comes last, and each count
-// keeps the width of its total, so nothing before it moves as the counts change.
 .buzz-graph-legend-time {
     color: var(--bs-body-color);
 }
@@ -235,7 +224,6 @@ a.list-group-item:hover {
     display: inline-block;
 }
 
-// The wrong line is dashed, so it doesn't rely on color alone
 .buzz-graph-correct,
 .buzz-graph-wrong {
     fill: none;
@@ -290,7 +278,6 @@ a.list-group-item:hover {
     }
 }
 
-// The table scrolls inside a box that fills its slot, so the slot's height comes from the clues
 .buzz-table-slot {
     grid-area: table;
     position: relative;
@@ -305,8 +292,6 @@ a.list-group-item:hover {
     border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
 
-    // A default table's rows are as tall as the list group items beside it. The outer
-    // cells take a list group item's padding, so the two line up at their edges too.
     table {
         white-space: nowrap;
     }
@@ -319,13 +304,10 @@ a.list-group-item:hover {
         padding-right: 1rem;
     }
 
-    // Celerities line up at the decimal point
     tbody td {
         font-variant-numeric: tabular-nums;
     }
 
-    // A bar along the left edge marks your rows, and fainter, your teammates'. Bootstrap tints
-    // a cell with a box shadow too, so the bar is drawn alongside that tint, not in its place.
     tbody tr.buzz-table-you > :first-child {
         box-shadow: inset 3px 0 0 rgb(var(--bs-primary-rgb)), inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
     }
@@ -334,12 +316,10 @@ a.list-group-item:hover {
         box-shadow: inset 3px 0 0 rgba(var(--bs-primary-rgb), 0.4), inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
     }
 
-    // The box's border closes the table, as it does a list group
     tbody tr:last-child > * {
         border-bottom-width: 0;
     }
 
-    // A collapsed border doesn't stick with its cell, so the header draws its own
     thead th {
         position: sticky;
         top: 0;
@@ -352,8 +332,6 @@ a.list-group-item:hover {
         cursor: pointer;
     }
 
-    // The buzzes during the clue that is playing, and the one last chosen. As specific as
-    // .table-hover's rule, so that hovering doesn't hide them.
     tbody tr.buzz-table-current > * {
         --bs-table-bg-state: rgba(var(--bs-primary-rgb), 0.12);
     }
@@ -363,7 +341,6 @@ a.list-group-item:hover {
     }
 }
 
-// Long answers are cut short; the full answer is in the cell's title
 .buzz-table-answer {
     width: 40%;
     max-width: 0;
