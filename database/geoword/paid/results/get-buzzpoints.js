@@ -18,17 +18,20 @@ async function getBuzzpoints ({ packetName, viewerId, setId }) {
   const getTeamName = userId => teamList.find(team => team.members.some(id => id.equals(userId)))?.teamName ?? null;
   const viewerTeamName = getTeamName(viewerId);
 
-  return await Promise.all(buzzList.map(async ({ user_id: userId, ...buzz }) => {
+  const userIds = new Map(buzzList.map(buzz => [String(buzz.user_id), buzz.user_id]));
+  const usernames = new Map(await Promise.all([...userIds].map(async ([key, userId]) => [key, await getUsername(userId)])));
+
+  return buzzList.map(({ user_id: userId, ...buzz }) => {
     const teamName = getTeamName(userId);
     const isYou = userId.equals(viewerId);
     return {
       ...buzz,
-      username: await getUsername(userId),
+      username: usernames.get(String(userId)),
       teamName,
       isYou,
       isTeammate: !isYou && viewerTeamName !== null && teamName === viewerTeamName
     };
-  }));
+  });
 }
 
 export default getBuzzpoints;
