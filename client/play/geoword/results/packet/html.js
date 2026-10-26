@@ -68,8 +68,10 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
 
     rows += `
       <tr ${data} ${who ? `class="buzz-table-${who}"` : ''}>
-        <td class="${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</td>
-        <td><span class="opacity-75">${escapeHTML(buzz.teamName ?? '')}</span></td>
+        <td>
+          <span class="${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
+          ${buzz.teamName ? `<small class="d-block opacity-75">${escapeHTML(buzz.teamName)}</small>` : ''}
+        </td>
         <td class="text-end">${(buzz.celerity ?? 0).toFixed(3)}</td>
         <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
         <td class="buzz-table-answer" title="${escapeHTML(buzz.givenAnswer)}">${escapeHTML(buzz.givenAnswer)}</td>
@@ -81,7 +83,7 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
       <div class="buzz-table" tabindex="0" aria-label="Buzzes on question ${tossup.questionNumber}">
         <table class="table table-hover mb-0">
           <thead>
-            <tr><th scope="col">Player</th><th scope="col">Team</th><th scope="col" class="text-end">Celerity</th><th scope="col" class="text-end">Points</th><th scope="col">Answer</th></tr>
+            <tr><th scope="col">Player</th><th scope="col" class="text-end">Celerity</th><th scope="col" class="text-end">Pts</th><th scope="col">Answer</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
