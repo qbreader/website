@@ -215,11 +215,11 @@ a.list-group-item:hover {
     background-color: rgba(var(--bs-body-bg-rgb), 0.85);
 }
 
-// A short sample of the line, which is what ties each icon to its line
+// A short sample of the line, between its icon and its count, which ties both to the line
 .buzz-graph-key {
     display: inline-block;
     width: 14px;
-    margin-right: 0.25rem;
+    margin: 0 0.25rem;
     vertical-align: middle;
     border-top: 2px solid;
 }

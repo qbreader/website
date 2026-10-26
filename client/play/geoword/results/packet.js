@@ -86,7 +86,6 @@ function getCluesHTML (tossup, buzzpoints) {
           <span class="font-monospace opacity-75">${formatTime(start)}</span>
           <span>${escapeHTML(clue)}</span>
           <span class="ms-auto small text-nowrap opacity-75">${count}</span>
-          <i class="bi bi-play-fill invisible" aria-hidden="true"></i>
         </button>`;
     });
     return html + '</div>';
@@ -187,8 +186,8 @@ function getBuzzGraphHTML (tossup, buzzpoints) {
     <div class="buzz-graph" role="img" aria-label="${label}">
       <div class="buzz-graph-legend" aria-hidden="true">
         <span class="buzz-graph-legend-time" hidden></span>
-        <span><span class="buzz-graph-key buzz-graph-key-correct"></span><i class="bi bi-check-lg"></i> <span data-count="correct">${correct.length}</span></span>
-        <span><span class="buzz-graph-key buzz-graph-key-wrong"></span><i class="bi bi-x-lg"></i> <span data-count="wrong">${wrong.length}</span></span>
+        <span><i class="bi bi-check-lg"></i><span class="buzz-graph-key buzz-graph-key-correct"></span><span data-count="correct">${correct.length}</span></span>
+        <span><i class="bi bi-x-lg"></i><span class="buzz-graph-key buzz-graph-key-wrong"></span><span data-count="wrong">${wrong.length}</span></span>
       </div>
     </div>`;
 }
@@ -266,7 +265,6 @@ function highlightClue (section, index) {
     if (active === button.classList.contains('active')) { return; }
     changed = true;
     button.classList.toggle('active', active);
-    button.querySelector('.bi-play-fill').classList.toggle('invisible', !active);
     if (active) {
       button.setAttribute('aria-current', 'true');
     } else {
