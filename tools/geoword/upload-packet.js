@@ -1,5 +1,7 @@
 // Uploads a Geoword packet (audio, tossups, sample clip) to whatever database MONGODB_URI points at.
 //
+// --mode test: a demo setup for local development. Also creates test users and teams, and
+//              freely deletes and recreates the packet.
 // --mode prod: a real round. Creates no teams or players (just a special user), requires an explicit --cost (unless the packet exists, whose cost is
 //              kept), hides the packet until published, and refuses to replace a packet anyone has used.
 // --upsert:    in either mode, updates an existing packet's tossups in place instead, which is safe
@@ -9,7 +11,7 @@ import { users } from '../../database/account-info/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 import { saltAndHashPassword } from '../../server/authentication.js';
 import getRandomName from '../../shared/get-random-name.js';
-import scoreBuzz, { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
+import { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
 import getMp3Duration from './get-mp3-duration.js';
 
 import { readdir, readFile } from 'fs/promises';
@@ -34,108 +36,10 @@ const UPSERTED_TOSSUP_FIELDS = [...TOSSUP_TEXT_FIELDS, ...OPTIONAL_TOSSUP_FIELDS
 // and leaderboards only count active buzzes, so an admin's play never shows up in
 // standings. Playing as a normal user exercises the same path a real competitor will.
 const TEST_USERS = [
-  { name: 'alice', team: 'Tracer Bullets', played: 0 },
-  { name: 'bob', team: 'Tracer Bullets' },
-  { name: 'dave', team: 'Tracer Bullets' },
-  { name: 'carol', team: 'Solo Act' },
-  ...['erin', 'frank', 'grace', 'heidi'].map(name => ({ name, team: 'Earworms' })),
-  ...['ivan', 'judy', 'kai', 'lena'].map(name => ({ name, team: 'Deep Cuts' })),
-  ...['mallory', 'niaj', 'olivia', 'peggy'].map(name => ({ name, team: 'Liner Notes' })),
-  { name: 'quinn', team: 'B-Sides' },
-  { name: 'rupert', team: 'B-Sides' },
-  { name: 'sybil', team: 'B-Sides', played: 6 },
-  ...['omar', 'priya', 'sam', 'trent', 'uma', 'victor', 'wendy', 'xavier', 'yara', 'zoe'].map(name => ({ name }))
-].map(user => ({ ...user, username: `soundtracks-${user.name}`, password: 'password' }));
-
-/**
- * @param {number} seed
- * @returns {() => number}
- */
-function createRandom (seed) {
-  return () => {
-    seed = (seed + 0x6D2B79F5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-/**
- * @param {string} answer
- * @returns {string}
- */
-function getTypedAnswer (answer) {
-  return answer.replace(/\s*[[({].*$/, '');
-}
-
-/**
- * @param {Object} tossup
- * @param {string[]} wrongAnswers
- * @param {() => number} random
- * @returns {{ celerity: number, isCorrect: boolean, givenAnswer: string }}
- */
-function simulateBuzz (tossup, wrongAnswers, random) {
-  const { duration } = tossup;
-  const starts = tossup.clipBoundaries ?? [0, 1, 2, 3, 4, 5].map(index => index * duration / 6);
-  const giveaway = Math.min(starts.length - 1, 2 + tossup.questionNumber % Math.max(1, starts.length - 2));
-
-  let celerity = 0;
-  let isCorrect = random() < 0.5;
-  if (random() >= 0.06) {
-    const roll = random();
-    const offset = roll < 0.7 ? 0 : roll < 0.85 ? -1 : roll < 0.95 ? -2 : 1;
-    const clue = Math.min(starts.length - 1, Math.max(0, giveaway + offset));
-    const time = starts[clue] + random() * ((starts[clue + 1] ?? duration) - starts[clue]);
-    celerity = 1 - time / duration;
-    isCorrect = random() < (clue >= giveaway ? 0.85 : 0.45);
-  }
-
-  const givenAnswer = isCorrect
-    ? getTypedAnswer(tossup.answer_sanitized ?? '')
-    : getTypedAnswer(wrongAnswers[Math.floor(random() * wrongAnswers.length)] ?? '');
-  return { celerity, isCorrect, givenAnswer };
-}
-
-/**
- * @param {ObjectId} packetId
- * @param {Object<string, ObjectId>} userIds
- */
-async function seedBuzzes (packetId, userIds) {
-  await buzzes.deleteMany({ 'packet.name': PACKET_NAME });
-  await divisionChoices.deleteMany({ 'packet.name': PACKET_NAME });
-
-  const tossupList = await tossups.find({ 'packet._id': packetId }, { sort: { questionNumber: 1 } }).toArray();
-  const random = createRandom(1);
-  let count = 0;
-
-  for (const { username, played = Infinity } of TEST_USERS) {
-    if (played === 0) { continue; }
-    const userId = userIds[username];
-
-    await divisionChoices.insertOne({ user_id: userId, packet: { _id: packetId, name: PACKET_NAME }, set: SET, division: argv.division });
-
-    for (const tossup of tossupList.slice(0, played)) {
-      const wrongAnswers = tossupList.filter(other => other !== tossup).map(other => other.answer_sanitized);
-      const { celerity, isCorrect, givenAnswer } = simulateBuzz(tossup, wrongAnswers, random);
-      await buzzes.insertOne({
-        active: true,
-        celerity,
-        division: argv.division,
-        givenAnswer,
-        isCorrect,
-        points: scoreBuzz(argv.scoring, { celerity, isCorrect }),
-        packet: { _id: packetId, name: PACKET_NAME },
-        set: SET,
-        questionNumber: tossup.questionNumber,
-        tossup_id: tossup._id,
-        user_id: userId
-      });
-      count++;
-    }
-  }
-
-  console.log(`${count} simulated buzzes`);
-}
+  { username: 'soundtracks-alice', password: 'password', team: 'Tracer Bullets' },
+  { username: 'soundtracks-bob', password: 'password', team: 'Tracer Bullets' },
+  { username: 'soundtracks-carol', password: 'password', team: 'Solo Act' }
+];
 
 /**
  * @returns {string} four random words joined by dashes, e.g. `brave-otter-vivid-falcon`
@@ -481,7 +385,7 @@ if (!Number.isInteger(costInCents) || costInCents < 0) {
  */
 async function getOrCreateSet (setName) {
   const teamsEnabled = argv.teams ?? (PROD ? undefined : true);
-  const update = { $setOnInsert: { name: setName }, ...(teamsEnabled !== undefined && { $set: { teamsEnabled } }) };
+  const update = { $setOnInsert: { name: setName }, ...(teamsEnabled !== undefined && { $set: { 'teams.enabled': teamsEnabled } }) };
   const set = await sets.findOneAndUpdate({ name: setName }, update, { upsert: true, returnDocument: 'after' });
   return { _id: set._id, name: set.name };
 }
@@ -584,7 +488,7 @@ if (PROD) {
   // The password is reset on every run.
   console.log(`\nSpecial user (can view this packet while hidden; not a site admin): ${ADMIN_USERNAME} (password: "${adminPassword}").`);
 } else {
-  const teamNames = [...new Set(TEST_USERS.map(user => user.team).filter(team => team))];
+  const teamNames = [...new Set(TEST_USERS.map(user => user.team))];
 
   await teams.deleteMany({ 'set._id': SET._id, teamName: { $in: teamNames } });
 
@@ -595,10 +499,8 @@ if (PROD) {
     console.log(`team "${teamName}": ${members.length} member(s)`);
   }
 
-  await seedBuzzes(packetId, userIds);
-
-  console.log(`\nSeeded "${PACKET_NAME}" with ${files.length} tossups, ${TEST_USERS.length} players and ${teamNames.length} teams.`);
-  console.log('Play as soundtracks-alice, or see the results as anyone else, e.g. soundtracks-bob (password: "password" for all).');
+  console.log(`\nSeeded "${PACKET_NAME}" with ${files.length} tossups and ${teamNames.length} teams.`);
+  console.log(`Play as ${TEST_USERS.map(user => user.username).join(' / ')} (password: "password").`);
   console.log(`View the packet early as ${ADMIN_USERNAME} (password: "password").`);
 }
 
