@@ -12,6 +12,7 @@ import { geoword, mongoClient } from '../../database/databases.js';
 import { saltAndHashPassword } from '../../server/authentication.js';
 import getRandomName from '../../shared/get-random-name.js';
 import { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
+import getMp3Duration from './get-mp3-duration.js';
 
 import { readdir, readFile } from 'fs/promises';
 import path from 'path';
@@ -258,6 +259,7 @@ async function insertTossup (packetId, { questionNumber, filename }, entry) {
     throw new Error(`"${filename}" is ${(buffer.length / 1024 / 1024).toFixed(1)} MB, over MongoDB's 16 MB document limit.`);
   }
 
+  const duration = getMp3Duration(buffer);
   const { insertedId: audioId } = await audio.insertOne({ audio: buffer });
   const { clipBoundaries } = entry;
 
@@ -270,10 +272,11 @@ async function insertTossup (packetId, { questionNumber, filename }, entry) {
     audio_id: audioId,
     // The results Packet page uses these to jump between clues. Scoring is continuous celerity,
     // so they could also serve per-clip scoring later.
-    ...(clipBoundaries && { clipBoundaries })
+    ...(clipBoundaries && { clipBoundaries }),
+    duration
   });
 
-  console.log(`question ${questionNumber}: ${filename} (${(buffer.length / 1024).toFixed(0)} KB)`);
+  console.log(`question ${questionNumber}: ${filename} (${(buffer.length / 1024).toFixed(0)} KB, ${duration.toFixed(1)}s)`);
 }
 
 /**

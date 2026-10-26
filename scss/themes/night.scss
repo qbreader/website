@@ -59,6 +59,8 @@ $form-switch-checked-bg-image-night: url("data:image/svg+xml,<svg xmlns='http://
     --logo-prefix-color: #0080ff;
     --logo-suffix-color: #ffffff;
     --user-score-background: #4A90E2;
+    --buzz-graph-correct: #1fae84;
+    --buzz-graph-wrong: #e2681f;
 
     .dropdown-checklist button {
         --dropdown-checklist-border-color: #{$border-color-night};

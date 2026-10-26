@@ -5,6 +5,8 @@ $link-color: #003399;
     --logo-prefix-color: #0080ff;
     --logo-suffix-color: #000000;
     --user-score-background: #FFF9C4;
+    --buzz-graph-correct: #009e73;
+    --buzz-graph-wrong: #d55e00;
 
     .dropdown-checklist button {
         --dropdown-checklist-border-color: #{$gray-400};

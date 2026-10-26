@@ -62,7 +62,7 @@ document.getElementById('team-link').href = `./team?packetName=${packetName}`;
 fetch('/api/geoword/paid/results/has-team?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(({ hasTeam }) => document.getElementById('team-link-container').classList.toggle('d-none', !hasTeam));
-document.getElementById('packet-link').href = `./packet?packetName=${packetName}`;
+document.getElementById('packet-link').href = `./packet/?packetName=${packetName}`;
 
 function getPromptString (buzz) {
   if (!buzz?.prompts) {

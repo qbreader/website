@@ -24,7 +24,7 @@ const TOOL_GROUPS = [
     label: 'Questions',
     color: 'secondary',
     tools: [
-      ['Packet', '/play/geoword/results/packet']
+      ['Packet', '/play/geoword/results/packet/']
     ]
   }
 ];
