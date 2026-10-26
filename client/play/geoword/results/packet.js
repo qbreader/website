@@ -63,17 +63,24 @@ function getCluesHTML (tossup, buzzpoints) {
 
   if (hasClueTimes(tossup)) {
     // Placing a buzz on a clue takes the audio's duration. Packets uploaded before it was stored have none.
-    const counts = tossup.clues.map(() => 0);
+    const counts = tossup.clues.map(() => ({ correct: 0, total: 0 }));
     if (tossup.duration) {
       for (const buzz of buzzpoints) {
         const time = getBuzzTime(buzz, tossup.duration);
-        if (time !== null) { counts[getClueAt(tossup.clipBoundaries, time)]++; }
+        if (time === null) { continue; }
+        const count = counts[getClueAt(tossup.clipBoundaries, time)];
+        count.total++;
+        if (buzz.points > 0) { count.correct++; }
       }
     }
     let html = `<div class="list-group buzzpoints-clues" role="group" ${label}>`;
     tossup.clues.forEach((clue, index) => {
       const start = tossup.clipBoundaries[index];
-      const count = counts[index] === 0 ? '' : `${counts[index]} ${counts[index] === 1 ? 'buzz' : 'buzzes'}`;
+      const { correct, total } = counts[index];
+      // e.g. "5/7": correct buzzes out of all the buzzes during the clue
+      const count = total === 0
+        ? ''
+        : `<span title="${correct} of ${total} buzzes correct" aria-label="${correct} of ${total} buzzes correct">${correct}/${total}</span>`;
       html += `
         <button type="button" class="list-group-item list-group-item-action d-flex align-items-baseline gap-3" data-start="${start}">
           <span class="font-monospace opacity-75">${formatTime(start)}</span>
@@ -122,13 +129,16 @@ function getBuzzTableHTML (tossup, buzzpoints) {
       if (time !== null) { data += ` data-correct="${buzz.points > 0}"`; }
       if (time !== null && hasClueTimes(tossup)) { data += ` data-clue="${getClueAt(tossup.clipBoundaries, time)}"`; }
     }
-    const who = buzz.isYou ? ' (you)' : buzz.isTeammate ? ' (teammate)' : '';
+    // A dot marks you and your teammates, and your own name is bold
+    const who = buzz.isYou ? 'You' : buzz.isTeammate ? 'Teammate' : '';
+    const marker = who ? `<i class="bi bi-circle-fill buzzpoint-marker" role="img" title="${who}" aria-label="${who}:"></i>` : '';
     const pointsClass = buzz.points > 0 ? 'text-success' : buzz.points < 0 ? 'text-danger' : 'text-body-secondary';
 
     rows += `
       <tr ${data}>
-        <td class="${who ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}<span class="fw-normal opacity-75">${who}</span></td>
-        <td class="text-end"><span class="font-monospace opacity-75">${(buzz.celerity ?? 0).toFixed(3)}</span></td>
+        <td class="${buzz.isYou ? 'fw-bold' : ''}">${marker}${escapeHTML(buzz.username)}</td>
+        <td><span class="opacity-75">${escapeHTML(buzz.teamName ?? '')}</span></td>
+        <td class="text-end">${(buzz.celerity ?? 0).toFixed(3)}</td>
         <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
         <td class="buzz-table-answer" title="${escapeHTML(buzz.givenAnswer)}">${escapeHTML(buzz.givenAnswer)}</td>
       </tr>`;
@@ -139,7 +149,7 @@ function getBuzzTableHTML (tossup, buzzpoints) {
       <div class="buzz-table" tabindex="0" aria-label="Buzzes on question ${tossup.questionNumber}">
         <table class="table table-hover mb-0">
           <thead>
-            <tr><th scope="col">Player</th><th scope="col" class="text-end">Celerity</th><th scope="col" class="text-end">Points</th><th scope="col">Answer</th></tr>
+            <tr><th scope="col">Player</th><th scope="col">Team</th><th scope="col" class="text-end">Celerity</th><th scope="col" class="text-end">Points</th><th scope="col">Answer</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

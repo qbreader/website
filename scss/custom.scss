@@ -151,8 +151,9 @@ a.list-group-item:hover {
 }
 
 @include media-breakpoint-up(lg) {
+    // The table gets the wider side, for its team and answer columns
     .buzzpoints-layout.has-buzzpoints {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
         grid-template-areas: "head graph" "clues table" "answer .";
     }
 
@@ -310,6 +311,19 @@ a.list-group-item:hover {
 
     tr > :last-child {
         padding-right: 1rem;
+    }
+
+    // Celerities line up at the decimal point
+    tbody td {
+        font-variant-numeric: tabular-nums;
+    }
+
+    // Hangs in the cell's padding, so marked names line up with the rest
+    .buzzpoint-marker {
+        margin-left: -0.75rem;
+        margin-right: 0.25rem;
+        font-size: 0.5em;
+        vertical-align: middle;
     }
 
     // The box's border closes the table, as it does a list group
