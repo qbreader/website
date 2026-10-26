@@ -184,9 +184,9 @@ function getBuzzGraphHTML (tossup, buzzpoints) {
   return `
     <div class="buzz-graph" role="img" aria-label="${label}">
       <div class="buzz-graph-legend" aria-hidden="true">
+        <span><i class="bi bi-check-lg"></i><span class="buzz-graph-key buzz-graph-key-correct"></span><span data-count="correct" style="min-width: ${String(correct.length).length}ch">${correct.length}</span></span>
+        <span><i class="bi bi-x-lg"></i><span class="buzz-graph-key buzz-graph-key-wrong"></span><span data-count="wrong" style="min-width: ${String(wrong.length).length}ch">${wrong.length}</span></span>
         <span class="buzz-graph-legend-time" hidden></span>
-        <span><i class="bi bi-check-lg"></i><span class="buzz-graph-key buzz-graph-key-correct"></span><span data-count="correct">${correct.length}</span></span>
-        <span><i class="bi bi-x-lg"></i><span class="buzz-graph-key buzz-graph-key-wrong"></span><span data-count="wrong">${wrong.length}</span></span>
       </div>
     </div>`;
 }

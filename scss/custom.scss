@@ -225,9 +225,14 @@ a.list-group-item:hover {
     border-top: 2px solid;
 }
 
-// While hovering, the second whose totals the legend shows
+// While hovering, the second whose totals the legend shows. It comes last, and each count
+// keeps the width of its total, so nothing before it moves as the counts change.
 .buzz-graph-legend-time {
     color: var(--bs-body-color);
+}
+
+.buzz-graph-legend [data-count] {
+    display: inline-block;
 }
 
 // The wrong line is dashed, so it doesn't rely on color alone
