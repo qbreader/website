@@ -1,7 +1,3 @@
-/**
- * @param {number} seconds
- * @returns {string} e.g. "1:05"
- */
 export function formatTime (seconds) {
   return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 }

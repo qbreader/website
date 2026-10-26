@@ -15,11 +15,6 @@ const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
 
-/**
- * @param {string} division
- * @param {number} questionNumber
- * @returns {object[]}
- */
 function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
 }
@@ -108,10 +103,6 @@ function highlightClue (section, index) {
   return changed;
 }
 
-/**
- * @param {HTMLAudioElement} audio
- * @returns {boolean}
- */
 function hasPosition (audio) {
   return !audio.paused || audio.currentTime > 0;
 }
@@ -122,8 +113,7 @@ function hasPosition (audio) {
  */
 function getCurrentClue (audio) {
   if (!hasPosition(audio)) { return -1; }
-  const buttons = [...audio.closest('section').querySelectorAll('button[data-start]')];
-  return buttons.findLastIndex(button => parseFloat(button.dataset.start) <= audio.currentTime);
+  return [...audio.closest('section').querySelectorAll('button[data-start]')].findLastIndex(button => parseFloat(button.dataset.start) <= audio.currentTime);
 }
 
 /**
@@ -164,8 +154,10 @@ function selectBuzz (section, row) {
 
   const graph = section.querySelector('.buzz-graph');
   if (!graph) { return; }
-  const onGraph = row?.dataset.correct !== undefined;
-  setBuzzGraphDot(graph, onGraph ? { time: parseFloat(row.dataset.buzzTime), isCorrect: row.dataset.correct === 'true' } : null);
+  setBuzzGraphDot(graph, row?.dataset.correct === undefined
+    ? null
+    : { time: parseFloat(row.dataset.buzzTime), isCorrect: row.dataset.correct === 'true' }
+  );
 }
 
 /**

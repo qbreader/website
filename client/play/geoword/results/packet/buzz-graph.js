@@ -1,15 +1,8 @@
-const SVG_NS = 'http://www.w3.org/2000/svg';
 const PADDING = { left: 26, right: 10, top: 8, bottom: 6 };
 const CLUE_LABEL_MIN_HEIGHT = 90;
 
 const graphs = new WeakMap();
 
-/**
- * @param {number} value
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
 function clamp (value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -20,7 +13,7 @@ function clamp (value, min, max) {
  * @returns {SVGElement}
  */
 function createSvgElement (name, attributes) {
-  const element = document.createElementNS(SVG_NS, name);
+  const element = document.createElementNS('http://www.w3.org/2000/svg', name);
   for (const [key, value] of Object.entries(attributes)) {
     element.setAttribute(key, value);
   }
