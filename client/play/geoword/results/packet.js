@@ -128,8 +128,8 @@ function getBuzzTableHTML (tossup, buzzpoints) {
     rows += `
       <tr ${data}>
         <td class="${who ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}<span class="fw-normal opacity-75">${who}</span></td>
-        <td class="text-end font-monospace">${(buzz.celerity ?? 0).toFixed(3)}</td>
-        <td class="text-end fw-bold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
+        <td class="text-end"><span class="font-monospace opacity-75">${(buzz.celerity ?? 0).toFixed(3)}</span></td>
+        <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
         <td class="buzz-table-answer" title="${escapeHTML(buzz.givenAnswer)}">${escapeHTML(buzz.givenAnswer)}</td>
       </tr>`;
   }
@@ -137,7 +137,7 @@ function getBuzzTableHTML (tossup, buzzpoints) {
   return `
     <div class="buzz-table-slot">
       <div class="buzz-table" tabindex="0" aria-label="Buzzes on question ${tossup.questionNumber}">
-        <table class="table table-sm table-hover mb-0">
+        <table class="table table-hover mb-0">
           <thead>
             <tr><th scope="col">Player</th><th scope="col" class="text-end">Celerity</th><th scope="col" class="text-end">Points</th><th scope="col">Answer</th></tr>
           </thead>
@@ -176,11 +176,26 @@ function getBuzzGraphHTML (tossup, buzzpoints) {
   return `
     <div class="buzz-graph" role="img" aria-label="${label}">
       <div class="buzz-graph-legend" aria-hidden="true">
-        <span><i class="buzz-graph-key-correct"></i>Correct (${correct.length})</span>
-        <span><i class="buzz-graph-key-wrong"></i>Wrong (${wrong.length})</span>
+        <span class="buzz-graph-legend-time" hidden></span>
+        <span><span class="buzz-graph-key buzz-graph-key-correct"></span><i class="bi bi-check-lg"></i> <span data-count="correct">${correct.length}</span></span>
+        <span><span class="buzz-graph-key buzz-graph-key-wrong"></span><i class="bi bi-x-lg"></i> <span data-count="wrong">${wrong.length}</span></span>
       </div>
-      <div class="buzz-graph-readout" aria-hidden="true" hidden></div>
     </div>`;
+}
+
+/**
+ * Shows the totals at a second of the audio in a graph's legend, or the overall totals if time is null.
+ * @param {HTMLElement} graph
+ * @param {number | null} time
+ */
+function setLegendTime (graph, time) {
+  const counts = countBuzzGraphBuzzes(graph, time ?? Infinity);
+  const label = graph.querySelector('.buzz-graph-legend-time');
+  label.hidden = time === null;
+  label.textContent = time === null ? '' : formatTime(time);
+  for (const count of graph.querySelectorAll('[data-count]')) {
+    count.textContent = counts[count.dataset.count];
+  }
 }
 
 /**
@@ -323,16 +338,15 @@ function selectBuzz (section, row) {
 }
 
 /**
- * Pauses the tossup at the moment a buzz came, so pressing play lets you hear what the player heard.
+ * Plays the tossup from the moment a buzz came, so you hear what came after the player buzzed.
  * @param {HTMLTableRowElement} row
  */
 function seekToBuzz (row) {
   const section = row.closest('section');
   const audio = section.querySelector('audio');
-  audio.pause();
   audio.currentTime = parseFloat(row.dataset.buzzTime);
+  audio.play().catch(console.error);
   selectBuzz(section, row);
-  // Before the audio has loaded, moving it fires no timeupdate
   showPosition(section);
 }
 
@@ -365,22 +379,15 @@ tabContent.addEventListener('click', event => {
   scrollTableToClue(section, [...section.querySelectorAll('button[data-start]')].indexOf(button));
 });
 
-// Hovering the graph reads out how many buzzes had come by that point
+// Hovering the graph shows in its legend how many buzzes had come by that point
 tabContent.addEventListener('mousemove', event => {
   const graph = event.target.closest('.buzz-graph');
-  if (!graph) { return; }
-  const time = getBuzzGraphTime(graph, event.clientX);
-  const { correct, wrong } = countBuzzGraphBuzzes(graph, time);
-  const readout = graph.querySelector('.buzz-graph-readout');
-  readout.textContent = `${formatTime(time)}: ${correct} correct, ${wrong} wrong`;
-  readout.hidden = false;
+  if (graph) { setLegendTime(graph, getBuzzGraphTime(graph, event.clientX)); }
 });
 
 // mouseleave doesn't bubble, so this listens in the capture phase
 tabContent.addEventListener('mouseleave', event => {
-  if (event.target.classList?.contains('buzz-graph')) {
-    event.target.querySelector('.buzz-graph-readout').hidden = true;
-  }
+  if (event.target.classList?.contains('buzz-graph')) { setLegendTime(event.target, null); }
 }, true);
 
 tabContent.addEventListener('keydown', event => {

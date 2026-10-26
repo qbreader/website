@@ -2,8 +2,9 @@
 // SVG sized to the element it is drawn in, with a playhead and a dot for a chosen buzz.
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
-// Room around the plot for the axis labels and the legend
-const PADDING = { left: 26, right: 10, top: 22, bottom: 6 };
+// Room around the plot for the axis labels. The legend sits over the plot's top left
+// corner, which cumulative lines only reach at the end, if at all.
+const PADDING = { left: 26, right: 10, top: 8, bottom: 6 };
 // Clue numbers go under the plot only when it is tall enough to spare the room
 const CLUE_LABEL_MIN_HEIGHT = 90;
 

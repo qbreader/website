@@ -198,35 +198,34 @@ a.list-group-item:hover {
     }
 }
 
-.buzz-graph-legend,
-.buzz-graph-readout {
+// Top left, right of the y-axis labels: cumulative lines start low and end high, so this
+// corner stays clear. The translucent background keeps it readable if a line does pass under.
+.buzz-graph-legend {
     position: absolute;
     top: 0.125rem;
-    padding: 0 0.25rem;
-    font-size: 0.75rem;
-    pointer-events: none;
-    background-color: var(--bs-body-bg);
-}
-
-.buzz-graph-legend {
-    right: 0.25rem;
+    left: 1.75rem;
     display: flex;
     gap: 0.75rem;
+    padding: 0 0.25rem;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
     color: var(--bs-secondary-color);
-
-    i {
-        display: inline-block;
-        width: 14px;
-        margin-right: 0.25rem;
-        vertical-align: middle;
-        border-top: 2px solid;
-    }
+    pointer-events: none;
+    background-color: rgba(var(--bs-body-bg-rgb), 0.85);
 }
 
-// Right of the y-axis labels, so it doesn't cover them
-.buzz-graph-readout {
-    left: 1.75rem;
-    font-variant-numeric: tabular-nums;
+// A short sample of the line, which is what ties each icon to its line
+.buzz-graph-key {
+    display: inline-block;
+    width: 14px;
+    margin-right: 0.25rem;
+    vertical-align: middle;
+    border-top: 2px solid;
+}
+
+// While hovering, the second whose totals the legend shows
+.buzz-graph-legend-time {
+    color: var(--bs-body-color);
 }
 
 // The wrong line is dashed, so it doesn't rely on color alone
@@ -248,7 +247,7 @@ a.list-group-item:hover {
     stroke: var(--buzz-graph-wrong);
     stroke-dasharray: 5 3;
     border-color: var(--buzz-graph-wrong);
-    border-top-style: dashed !important;
+    border-top-style: dashed;
 }
 
 .buzz-graph-clue,
@@ -299,15 +298,32 @@ a.list-group-item:hover {
     border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
 
+    // A default table's rows are as tall as the list group items beside it. The outer
+    // cells take a list group item's padding, so the two line up at their edges too.
     table {
         white-space: nowrap;
     }
 
+    tr > :first-child {
+        padding-left: 1rem;
+    }
+
+    tr > :last-child {
+        padding-right: 1rem;
+    }
+
+    // The box's border closes the table, as it does a list group
+    tbody tr:last-child > * {
+        border-bottom-width: 0;
+    }
+
+    // A collapsed border doesn't stick with its cell, so the header draws its own
     thead th {
         position: sticky;
         top: 0;
         z-index: 1;
-        --bs-table-bg: var(--bs-tertiary-bg);
+        border-bottom-width: 0;
+        box-shadow: inset 0 calc(-1 * var(--bs-border-width)) 0 var(--bs-border-color);
     }
 
     tr[data-buzz-time] {
