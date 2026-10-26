@@ -8,10 +8,7 @@ const packetTitle = titleCase(packetName);
 const tabContent = document.getElementById('tab-content');
 /** `${division}/${questionNumber}` -> every buzz on that tossup, earliest first */
 const buzzpointsByQuestion = new Map();
-// How many rows of pills a clue shows before collapsing the rest
-const MAX_PILL_ROWS = 2;
-// The widest column, since a clue can draw buzzes from most of the field
-const BUZZPOINTS_CLASS = 'buzzpoints col-md-7 d-flex flex-wrap align-content-center gap-1 px-3 py-2';
+const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
 /**
  * @param {number} seconds
@@ -31,59 +28,67 @@ function hasClueTimes ({ clues, clipBoundaries }) {
 }
 
 /**
+ * Celerity is `1 - currentTime / duration`, so the duration turns it back into a time.
+ * @param {object} buzz
+ * @param {number} duration - the length of the tossup's audio, in seconds
+ * @returns {number | null} the second of the audio the buzz came at, or null if it came after the audio ended
+ */
+function getBuzzTime (buzz, duration) {
+  const celerity = buzz.celerity ?? 0;
+  return celerity > 0 ? (1 - celerity) * duration : null;
+}
+
+/**
+ * @param {number[]} starts - the second at which each clue starts
+ * @param {number} time
+ * @returns {number} the index of the clue playing at that time
+ */
+function getClueAt (starts, time) {
+  return Math.max(0, starts.findLastIndex(start => start <= time));
+}
+
+/**
  * @param {object} tossup
- * @param {string} division
+ * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
  * @returns {string} HTML for the tossup's clues: buttons that jump to each clue if their
  * start times are known, a plain list if not, or the question text if there is no list
  */
-function getCluesHTML (tossup, division) {
+function getCluesHTML (tossup, buzzpoints) {
   const label = `aria-label="Clues for question ${tossup.questionNumber}"`;
-  const buzzpoints = getBuzzpoints(division, tossup.questionNumber);
-  // Where buzzes can't be placed on a clue, they are listed together
-  const buzzpointsHTML = buzzpoints.length === 0
-    ? ''
-    : `<div class="d-flex flex-wrap gap-1 mb-2" aria-label="Buzzes">${getPillsHTML(buzzpoints)}</div>`;
 
   if (hasClueTimes(tossup)) {
-    // Each clue has a column on its right for the buzzes that came during it, which takes
-    // the audio's duration to work out. Packets uploaded before it was stored have none.
-    const byClue = tossup.duration ? groupByClue(buzzpoints, tossup.clipBoundaries, tossup.duration) : null;
-    let html = `<div class="list-group mb-2" role="group" ${label}>`;
+    // Placing a buzz on a clue takes the audio's duration. Packets uploaded before it was stored have none.
+    const counts = tossup.clues.map(() => 0);
+    if (tossup.duration) {
+      for (const buzz of buzzpoints) {
+        const time = getBuzzTime(buzz, tossup.duration);
+        if (time !== null) { counts[getClueAt(tossup.clipBoundaries, time)]++; }
+      }
+    }
+    let html = `<div class="list-group buzzpoints-clues" role="group" ${label}>`;
     tossup.clues.forEach((clue, index) => {
       const start = tossup.clipBoundaries[index];
+      const count = counts[index] === 0 ? '' : `${counts[index]} ${counts[index] === 1 ? 'buzz' : 'buzzes'}`;
       html += `
-        <div class="list-group-item p-0 d-md-flex">
-          <button type="button" class="list-group-item list-group-item-action border-0 rounded-0 d-flex align-items-baseline gap-3" data-start="${start}">
-            <span class="font-monospace opacity-75">${formatTime(start)}</span>
-            <span>${escapeHTML(clue)}</span>
-            <i class="bi bi-play-fill ms-auto invisible" aria-hidden="true"></i>
-          </button>
-          ${byClue ? `<div class="${BUZZPOINTS_CLASS}">${getPillsHTML(byClue[index])}</div>` : ''}
-        </div>`;
+        <button type="button" class="list-group-item list-group-item-action d-flex align-items-baseline gap-3" data-start="${start}">
+          <span class="font-monospace opacity-75">${formatTime(start)}</span>
+          <span>${escapeHTML(clue)}</span>
+          <span class="ms-auto small text-nowrap opacity-75">${count}</span>
+          <i class="bi bi-play-fill invisible" aria-hidden="true"></i>
+        </button>`;
     });
-    const afterAudio = byClue?.[tossup.clues.length] ?? [];
-    if (afterAudio.length > 0) {
-      html += `
-        <div class="list-group-item p-0 d-md-flex">
-          <div class="flex-grow-1 px-3 py-2 d-flex align-items-baseline gap-3" title="After the audio ended">
-            <span class="font-monospace opacity-75" aria-hidden="true">-:--</span>
-            <span style="font-variant-caps: all-small-caps">End</span>
-          </div>
-          <div class="${BUZZPOINTS_CLASS}">${getPillsHTML(afterAudio)}</div>
-        </div>`;
-    }
-    return html + '</div>' + (byClue ? '' : buzzpointsHTML);
+    return html + '</div>';
   }
 
   if (Array.isArray(tossup.clues)) {
-    let html = `<ol class="list-group list-group-numbered mb-2" ${label}>`;
+    let html = `<ol class="list-group list-group-numbered buzzpoints-clues" ${label}>`;
     for (const clue of tossup.clues) {
       html += `<li class="list-group-item">${escapeHTML(clue)}</li>`;
     }
-    return html + '</ol>' + buzzpointsHTML;
+    return html + '</ol>';
   }
 
-  return `<p class="mb-2">${tossup.question}</p>` + buzzpointsHTML;
+  return `<p class="buzzpoints-clues mb-0">${tossup.question}</p>`;
 }
 
 /**
@@ -96,149 +101,74 @@ function getBuzzpoints (division, questionNumber) {
 }
 
 /**
- * @param {object[]} buzzes - earliest first
- * @returns {string} HTML for a pill per buzz, then a button for revealing the ones that
- * collapsePills hides
+ * @param {object} tossup
+ * @param {object[]} buzzpoints - every buzz on the tossup, earliest first
+ * @returns {string} HTML for a scrolling table of the buzzes. If the audio's duration is
+ * known, each row knows when its buzz came and which clue was playing, so it can be jumped to.
  */
-function getPillsHTML (buzzes) {
-  if (buzzes.length === 0) { return ''; }
+function getBuzzTableHTML (tossup, buzzpoints) {
+  let rows = '';
+  for (const buzz of buzzpoints) {
+    let data = '';
+    if (tossup.duration) {
+      const time = getBuzzTime(buzz, tossup.duration);
+      // A buzz after the audio ended jumps to its end
+      data = `data-buzz-time="${time ?? tossup.duration}" tabindex="0"`;
+      if (time !== null && hasClueTimes(tossup)) { data += ` data-clue="${getClueAt(tossup.clipBoundaries, time)}"`; }
+    }
+    const who = buzz.isYou ? ' (you)' : buzz.isTeammate ? ' (teammate)' : '';
+    const pointsClass = buzz.points > 0 ? 'text-success' : buzz.points < 0 ? 'text-danger' : 'text-body-secondary';
 
-  return buzzes.map(getPillHTML).join('') + `
-    <button type="button" class="btn btn-outline-secondary rounded-pill buzzpoints-toggle d-none" data-buzzpoints-toggle
-      aria-expanded="false"></button>`;
-}
-
-/**
- * @param {object} buzz
- * @returns {string} HTML for a pill naming who buzzed, with the details in a tooltip
- */
-function getPillHTML (buzz) {
-  const who = buzz.isYou ? `${buzz.username} (you)` : buzz.isTeammate ? `${buzz.username} (teammate)` : buzz.username;
-  // e.g. 0.485 (+10): "The Stranger"
-  const details = `${(buzz.celerity ?? 0).toFixed(3)} (${buzz.points > 0 ? '+' : ''}${buzz.points}): "${buzz.givenAnswer}"`;
-  // A dot marks you and your teammates
-  const marker = buzz.isYou || buzz.isTeammate ? '<i class="bi bi-circle-fill me-1 buzzpoint-marker" aria-hidden="true"></i>' : '';
-  // Green for points, red for a neg, gray for a wrong answer that cost nothing
-  const color = buzz.points > 0 ? 'bg-success' : buzz.points < 0 ? 'bg-danger' : 'bg-secondary';
+    rows += `
+      <tr ${data}>
+        <td class="${who ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}<span class="fw-normal opacity-75">${who}</span></td>
+        <td class="text-end font-monospace">${(buzz.celerity ?? 0).toFixed(3)}</td>
+        <td class="text-end fw-bold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
+        <td class="buzz-table-answer" title="${escapeHTML(buzz.givenAnswer)}">${escapeHTML(buzz.givenAnswer)}</td>
+      </tr>`;
+  }
 
   return `
-    <span class="badge rounded-pill ${color}" tabindex="0" ${buzz.isYou || buzz.isTeammate ? 'data-yours' : ''}
-      data-bs-toggle="tooltip" data-bs-title="${escapeHTML(details)}" aria-label="${escapeHTML(`${who}: ${details}`)}">${marker}${escapeHTML(buzz.username)}</span>`;
-}
-
-/**
- * @param {HTMLElement[]} elements - laid out in the same wrapping row
- * @returns {number} how many rows the visible ones wrap onto
- */
-function countRows (elements) {
-  return new Set(elements.filter(element => !element.classList.contains('d-none')).map(element => element.offsetTop)).size;
-}
-
-/**
- * Collapses a group of pills to MAX_PILL_ROWS rows, hiding the latest buzzes first and
- * ending the last row with a "+N" button that reveals them. Yours and your teammates'
- * stay in view. How many pills fit a row depends on the width they wrap to, so this
- * measures them, and has to run again when that width changes.
- * @param {HTMLElement} group - the element holding the pills and their toggle button
- */
-function collapsePills (group) {
-  const toggle = group.querySelector('[data-buzzpoints-toggle]');
-  // An expanded group stays expanded, and a group in a hidden tab can't be measured
-  if (!toggle || toggle.getAttribute('aria-expanded') === 'true' || group.offsetParent === null) { return; }
-
-  const pills = [...group.querySelectorAll('.badge')];
-  for (const pill of pills) { pill.classList.remove('d-none'); }
-  toggle.classList.add('d-none');
-  if (countRows(pills) <= MAX_PILL_ROWS) { return; }
-
-  // Hide every pill past the last row, then more until the button fits on it too
-  const rowTops = [...new Set(pills.map(pill => pill.offsetTop))];
-  const hideable = pills.filter(pill => !pill.hasAttribute('data-yours'));
-  for (const pill of hideable) {
-    pill.classList.toggle('d-none', pill.offsetTop > rowTops[MAX_PILL_ROWS - 1]);
-  }
-  const visible = hideable.filter(pill => !pill.classList.contains('d-none'));
-  const countHidden = () => pills.filter(pill => pill.classList.contains('d-none')).length;
-  toggle.classList.remove('d-none');
-  toggle.textContent = `+${countHidden()}`;
-  while (countRows([...pills, toggle]) > MAX_PILL_ROWS && visible.length > 0) {
-    visible.pop().classList.add('d-none');
-    toggle.textContent = `+${countHidden()}`;
-  }
-
-  toggle.setAttribute('aria-label', `Show ${countHidden()} more buzzes`);
-  // Keyboard focus on a pill that was just hidden would otherwise be lost
-  if (group.contains(document.activeElement) && document.activeElement.classList.contains('d-none')) {
-    toggle.focus();
-  }
-}
-
-/**
- * Re-collapses every group of pills that is in view, for when the width they wrap to changes.
- */
-function collapseAllPills () {
-  for (const toggle of tabContent.querySelectorAll('[data-buzzpoints-toggle]')) {
-    collapsePills(toggle.parentElement);
-  }
-}
-
-/**
- * Reveals or re-hides the pills collapsed behind a toggle button.
- * @param {HTMLButtonElement} toggle
- */
-function toggleOverflow (toggle) {
-  const expanded = toggle.getAttribute('aria-expanded') !== 'true';
-  toggle.setAttribute('aria-expanded', expanded);
-  if (expanded) {
-    toggle.textContent = 'Show less';
-    toggle.setAttribute('aria-label', 'Show fewer buzzes');
-    for (const pill of toggle.parentElement.querySelectorAll('.badge')) { pill.classList.remove('d-none'); }
-  } else {
-    collapsePills(toggle.parentElement);
-  }
-}
-
-/**
- * Sorts a tossup's buzzes by the clue that was playing when each came.
- * Celerity is `1 - currentTime / duration`, so the duration turns it back into a time.
- * @param {object[]} buzzes - earliest first
- * @param {number[]} starts - the second at which each clue starts
- * @param {number} duration - the length of the tossup's audio, in seconds
- * @returns {object[][]} one list per clue, then one for buzzes after the audio ended
- */
-function groupByClue (buzzes, starts, duration) {
-  const lists = [...starts, 'after the audio'].map(() => []);
-
-  for (const buzz of buzzes) {
-    const celerity = buzz.celerity ?? 0;
-    const index = celerity > 0
-      ? Math.max(0, starts.findLastIndex(start => start <= (1 - celerity) * duration))
-      : starts.length;
-    lists[index].push(buzz);
-  }
-
-  return lists;
+    <div class="buzz-table-slot">
+      <div class="buzz-table" tabindex="0" aria-label="Buzzes on question ${tossup.questionNumber}">
+        <table class="table table-sm table-hover mb-0">
+          <thead>
+            <tr><th scope="col">Player</th><th scope="col" class="text-end">Celerity</th><th scope="col" class="text-end">Points</th><th scope="col">Answer</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
 }
 
 /**
  * @param {object} tossup
  * @param {string} division
  * @param {string} id - the section's id
- * @returns {string} HTML for one tossup: its heading, prompt, player, clues, and answer
+ * @returns {string} HTML for one tossup: its heading, prompt, player, clues, and answer,
+ * with its buzzes beside them
  */
 function getTossupHTML (tossup, division, id) {
   const category = escapeHTML(tossup.category) + (tossup.subcategory ? ` / ${escapeHTML(tossup.subcategory)}` : '');
   const audioSrc = '/api/geoword/paid/results/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber });
+  const buzzpoints = getBuzzpoints(division, tossup.questionNumber);
 
   return `
     <section class="mb-5" style="scroll-margin-top: 1rem" id="${id}" aria-labelledby="${id}-heading">
       <h2 class="h5" id="${id}-heading">Question ${tossup.questionNumber}</h2>
-      ${tossup.instructions ? `<div class="alert alert-info small-alert mb-2"><b>Prompt:</b> ${tossup.instructions}</div>` : ''}
-      <!-- With no download, speed, or cast items left, Chrome hides the overflow menu -->
-      <audio controls controlslist="nodownload noplaybackrate" disableremoteplayback preload="none" class="w-100 mb-2" src="${audioSrc}"></audio>
-      ${getCluesHTML(tossup, division)}
-      <div><b>ANSWER:</b> ${tossup.answer}</div>
-      <div>&lt;${category}&gt;</div>
+      <div class="buzzpoints-layout ${buzzpoints.length > 0 ? 'has-buzzpoints' : ''}">
+        <div class="buzzpoints-head">
+          ${tossup.instructions ? `<div class="alert alert-info small-alert mb-0"><b>Prompt:</b> ${tossup.instructions}</div>` : ''}
+          <!-- With no download, speed, or cast items left, Chrome hides the overflow menu -->
+          <audio controls controlslist="nodownload noplaybackrate" disableremoteplayback preload="none" class="w-100" src="${audioSrc}"></audio>
+        </div>
+        ${getCluesHTML(tossup, buzzpoints)}
+        <div class="buzzpoints-answer">
+          <div><b>ANSWER:</b> ${tossup.answer}</div>
+          <div>&lt;${category}&gt;</div>
+        </div>
+        ${buzzpoints.length > 0 ? getBuzzTableHTML(tossup, buzzpoints) : ''}
+      </div>
     </section>`;
 }
 
@@ -256,14 +186,17 @@ function getNavHTML (tossups, getId) {
 }
 
 /**
- * Marks the clue that is playing, or none if index is -1.
+ * Marks the clue at the audio's position, and the buzzes that came during it, or none if index is -1.
  * @param {HTMLElement} section
  * @param {number} index
+ * @returns {boolean} whether the marked clue changed
  */
 function highlightClue (section, index) {
+  let changed = false;
   section.querySelectorAll('button[data-start]').forEach((button, i) => {
     const active = i === index;
     if (active === button.classList.contains('active')) { return; }
+    changed = true;
     button.classList.toggle('active', active);
     button.querySelector('.bi-play-fill').classList.toggle('invisible', !active);
     if (active) {
@@ -272,30 +205,92 @@ function highlightClue (section, index) {
       button.removeAttribute('aria-current');
     }
   });
+
+  if (changed) {
+    for (const row of section.querySelectorAll('tr[data-clue]')) {
+      row.classList.toggle('buzz-table-current', Number(row.dataset.clue) === index);
+    }
+  }
+  return changed;
 }
 
 /**
  * @param {HTMLAudioElement} audio
- * @returns {number} the index of the clue playing at the audio's current time, or -1 if it has none
+ * @returns {number} the index of the clue at the audio's position, or -1 if it has none
+ * or hasn't been played or moved yet
  */
 function getCurrentClue (audio) {
+  if (audio.paused && audio.currentTime === 0) { return -1; }
   const buttons = [...audio.closest('section').querySelectorAll('button[data-start]')];
   return buttons.findLastIndex(button => parseFloat(button.dataset.start) <= audio.currentTime);
 }
 
+/**
+ * Scrolls a tossup's buzz table, and not the page, so its first buzz from a clue on is at the top.
+ * @param {HTMLElement} section
+ * @param {number} index - the clue
+ */
+function scrollTableToClue (section, index) {
+  const box = section.querySelector('.buzz-table');
+  if (!box) { return; }
+  // Buzzes after the audio ended have no clue, and come last
+  const row = [...box.querySelectorAll('tr[data-buzz-time]')].find(row => Number(row.dataset.clue ?? Infinity) >= index);
+  if (!row) { return; }
+  const top = row.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - box.querySelector('thead').offsetHeight;
+  box.scrollTo({ top, behavior: scrollBehavior });
+}
+
+/**
+ * Marks a buzz in the table, or none if row is null.
+ * @param {HTMLElement} section
+ * @param {HTMLTableRowElement | null} row
+ */
+function selectBuzz (section, row) {
+  for (const selected of section.querySelectorAll('tr.buzz-table-selected')) {
+    selected.classList.remove('buzz-table-selected');
+    selected.removeAttribute('aria-current');
+  }
+  row?.classList.add('buzz-table-selected');
+  row?.setAttribute('aria-current', 'true');
+}
+
+/**
+ * Pauses the tossup at the moment a buzz came, so pressing play lets you hear what the player heard.
+ * @param {HTMLTableRowElement} row
+ */
+function seekToBuzz (row) {
+  const section = row.closest('section');
+  const audio = section.querySelector('audio');
+  audio.pause();
+  audio.currentTime = parseFloat(row.dataset.buzzTime);
+  selectBuzz(section, row);
+  // Before the audio has loaded, moving it fires no timeupdate
+  highlightClue(section, getCurrentClue(audio));
+}
+
 tabContent.addEventListener('click', event => {
-  const toggle = event.target.closest('button[data-buzzpoints-toggle]');
-  if (toggle) {
-    toggleOverflow(toggle);
+  const row = event.target.closest('tr[data-buzz-time]');
+  if (row) {
+    seekToBuzz(row);
     return;
   }
 
   const button = event.target.closest('button[data-start]');
   if (!button) { return; }
 
-  const audio = button.closest('section').querySelector('audio');
+  const section = button.closest('section');
+  const audio = section.querySelector('audio');
   audio.currentTime = parseFloat(button.dataset.start);
   audio.play().catch(console.error);
+  selectBuzz(section, null);
+  scrollTableToClue(section, [...section.querySelectorAll('button[data-start]')].indexOf(button));
+});
+
+tabContent.addEventListener('keydown', event => {
+  const row = event.target.closest('tr[data-buzz-time]');
+  if (!row || (event.key !== 'Enter' && event.key !== ' ')) { return; }
+  event.preventDefault();
+  seekToBuzz(row);
 });
 
 // Media events don't bubble, so these listen in the capture phase.
@@ -306,30 +301,17 @@ tabContent.addEventListener('play', event => {
   }
 }, true);
 
-// Only a playing tossup has a highlighted clue
+// The marked clue follows the audio's position, and while it plays, the table follows the clue
 for (const type of ['play', 'pause', 'timeupdate']) {
   tabContent.addEventListener(type, event => {
     const audio = event.target;
-    highlightClue(audio.closest('section'), audio.paused ? -1 : getCurrentClue(audio));
+    const section = audio.closest('section');
+    const index = getCurrentClue(audio);
+    if (highlightClue(section, index) && !audio.paused && index !== -1) {
+      scrollTableToClue(section, index);
+    }
   }, true);
 }
-
-// How many pills fit in two rows changes with the width they wrap to, and pills in a
-// hidden tab can only be measured once it is shown
-let collapseRequested = false;
-window.addEventListener('resize', () => {
-  if (collapseRequested) { return; }
-  collapseRequested = true;
-  window.requestAnimationFrame(() => {
-    collapseRequested = false;
-    collapseAllPills();
-  });
-});
-document.getElementById('tabs').addEventListener('shown.bs.tab', collapseAllPills);
-
-// One delegated instance covers every pill, including ones added later
-// eslint-disable-next-line no-new
-new bootstrap.Tooltip(tabContent, { selector: '[data-bs-toggle="tooltip"]' });
 
 document.getElementById('back-link').href = `./?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
@@ -367,6 +349,4 @@ Promise.all([
       }
       divs[division].innerHTML += innerHTML;
     }
-
-    collapseAllPills();
   });

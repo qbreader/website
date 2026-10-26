@@ -140,24 +140,90 @@ a.list-group-item:hover {
     color: inherit;
 }
 
-// Geoword packet page: the buzzes beside each clue. An empty column keeps its width
-// beside the clue, but takes no space when it stacks under it on narrow screens.
-.buzzpoints:empty {
-    padding: 0 !important;
+// Geoword packet page: each tossup's buzzes beside its clues on wide screens, below them
+// on narrow ones. The rows pair the player with the graph and the clues with the table,
+// so each pair is the same height.
+.buzzpoints-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "clues" "answer" "graph" "table";
+    gap: 0.5rem 1rem;
 }
 
-.buzzpoint-marker {
-    font-size: 0.5em;
-    vertical-align: middle;
+@include media-breakpoint-up(lg) {
+    .buzzpoints-layout.has-buzzpoints {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas: "head graph" "clues table" "answer .";
+    }
+
+    .has-buzzpoints .buzz-table-slot {
+        height: auto;
+        min-height: 12rem;
+    }
 }
 
-// Sized like the badges it sits among
-.buzzpoints-toggle {
-    --bs-btn-padding-y: 0.35em;
-    --bs-btn-padding-x: 0.65em;
-    --bs-btn-font-size: 0.75em;
-    --bs-btn-font-weight: 700;
-    --bs-btn-line-height: 1;
+.buzzpoints-head {
+    grid-area: head;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.buzzpoints-clues {
+    grid-area: clues;
+}
+
+.buzzpoints-answer {
+    grid-area: answer;
+}
+
+// The table scrolls inside a box that fills its slot, so the slot's height comes from the clues
+.buzz-table-slot {
+    grid-area: table;
+    position: relative;
+    height: 20rem;
+}
+
+.buzz-table {
+    position: absolute;
+    inset: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+
+    table {
+        white-space: nowrap;
+    }
+
+    thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        --bs-table-bg: var(--bs-tertiary-bg);
+    }
+
+    tr[data-buzz-time] {
+        cursor: pointer;
+    }
+
+    // The buzzes during the clue that is playing, and the one last chosen. As specific as
+    // .table-hover's rule, so that hovering doesn't hide them.
+    tbody tr.buzz-table-current > * {
+        --bs-table-bg-state: rgba(var(--bs-primary-rgb), 0.12);
+    }
+
+    tbody tr.buzz-table-selected > * {
+        --bs-table-bg-state: rgba(var(--bs-primary-rgb), 0.3);
+    }
+}
+
+// Long answers are cut short; the full answer is in the cell's title
+.buzz-table-answer {
+    width: 40%;
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #difficulty-settings {
