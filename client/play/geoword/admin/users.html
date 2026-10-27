@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Admin - Geoword - Users</title>
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h1 class="text-center lead mb-3">Users registered for <span id="packet-name"></span>'s set</h1>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span>Total users: <b id="total-users">0</b></span>
+            <span>
+                <button type="button" class="btn btn-sm btn-success me-3" id="export-csv" disabled>Export CSV</button>
+                <a href="./">Back to admin</a>
+            </span>
+        </div>
+        <div class="text-center" id="spinner">
+            <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+        </div>
+        <p class="text-muted d-none" id="empty">No registered users yet.</p>
+        <table class="table table-sm d-none" id="user-table">
+            <thead>
+                <tr><th>Username</th><th>Email</th></tr>
+            </thead>
+            <tbody id="user-table-body"></tbody>
+        </table>
+    </div>
+
+    <script type="module" src="./users.js"></script>
+</body>
+
+</html>
