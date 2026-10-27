@@ -41,6 +41,7 @@ document.getElementById('record-payment-form').addEventListener('submit', event 
     switch (response.status) {
       case 200: return window.location.reload();
       case 400: return window.alert('User not found');
+      case 404: return window.alert('Packet not found');
       default: return window.alert('Something went wrong. Please try again.');
     }
   });
