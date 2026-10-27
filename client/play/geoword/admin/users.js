@@ -12,7 +12,7 @@ function csvField (value) {
 }
 
 function exportCsv (users) {
-  const lines = [['username', 'email'], ...users.map(({ username, email }) => [username, email ?? ''])];
+  const lines = [['username', 'email', 'registered_at'], ...users.map(({ username, email, registeredAt }) => [username, email ?? '', registeredAt])];
   const blob = new window.Blob([lines.map(line => line.map(csvField).join(',')).join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -25,9 +25,9 @@ document.getElementById('packet-name').textContent = titleCase(packetName);
 
 const { users } = await fetch('/api/geoword/admin/users?' + new URLSearchParams({ packetName })).then(response => response.json());
 
-document.getElementById('user-table-body').replaceChildren(...users.map(({ username, email }) => {
+document.getElementById('user-table-body').replaceChildren(...users.map(({ username, email, registeredAt }) => {
   const row = document.createElement('tr');
-  for (const text of [username, email ?? '']) {
+  for (const text of [username, email ?? '', new Date(registeredAt).toLocaleString()]) {
     const cell = document.createElement('td');
     cell.textContent = text;
     row.appendChild(cell);
