@@ -15,7 +15,7 @@ router.put('/', async (req, res) => {
 
   console.log(userId, result);
 
-  if (result.upsertedCount === 1) {
+  if (result.upsertedCount === 1 || result.modifiedCount === 1) {
     res.status(200).send('Payment recorded successfully');
   } else {
     res.status(500).send('Failed to record payment');
