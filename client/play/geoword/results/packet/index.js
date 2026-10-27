@@ -196,7 +196,13 @@ tabContent.addEventListener('click', event => {
   const section = button.closest('section');
   const audio = section.querySelector('audio');
   audio.currentTime = parseFloat(button.dataset.start);
-  audio.play().catch(console.error);
+  // Playing from the end would start the audio over
+  if ('end' in button.dataset) {
+    audio.pause();
+    showPosition(section);
+  } else {
+    audio.play().catch(console.error);
+  }
   selectBuzz(section, null);
   scrollTableToClue(section, [...section.querySelectorAll('button[data-start]')].indexOf(button));
 });

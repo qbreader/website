@@ -29,3 +29,13 @@ export function getBuzzTime (buzz, duration) {
 export function getClueAt (starts, time) {
   return Math.max(0, starts.findLastIndex(start => start <= time));
 }
+
+/**
+ * @param {object} buzz
+ * @param {object} tossup - with clue times and a duration
+ * @returns {number} the buzz's clue, or the number of clues if it came after the audio ended
+ */
+export function getBuzzClue (buzz, { clipBoundaries, duration }) {
+  const time = getBuzzTime(buzz, duration);
+  return time === null ? clipBoundaries.length : getClueAt(clipBoundaries, time);
+}
