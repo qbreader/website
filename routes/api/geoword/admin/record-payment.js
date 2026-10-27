@@ -1,4 +1,5 @@
 import getCost from '../../../../database/geoword/get-cost.js';
+import getSetPayment from '../../../../database/geoword/get-set-payment.js';
 import recordPayment from '../../../../database/geoword/record-payment.js';
 import getUserId from '../../../../database/account-info/get-user-id.js';
 import getPacketStatus from '../../../../database/geoword/get-packet-status.js';
@@ -15,7 +16,8 @@ router.put('/', async (req, res) => {
   const userId = await getUserId(username);
   if (!userId) { return res.status(400).send('User not found'); }
 
-  const amountInCents = await getCost(packetName);
+  const setPayment = await getSetPayment(packetName);
+  const amountInCents = setPayment?.costInCents ?? await getCost(packetName);
   const result = await recordPayment(packetName, userId, { manual: true, amountInCents, recordedBy: res.locals.userId });
 
   console.log(userId, result);
