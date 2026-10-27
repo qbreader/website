@@ -8,9 +8,7 @@ import getSetPayment from './get-set-payment.js';
  */
 async function getCost (packetName) {
   const packet = await packets.findOne({ name: packetName });
-  if (!packet?.costInCents) {
-    return 0;
-  }
+  if (!packet?.costInCents) { return 0; }
 
   const setPayment = await getSetPayment(packetName);
   return setPayment?.costInCents ?? packet.costInCents;
