@@ -17,7 +17,8 @@ const TOOL_GROUPS = [
     color: 'success',
     tools: [
       ['Protests', '/play/geoword/admin/protests'],
-      ['Manage Payments', '/play/geoword/admin/manage-payments']
+      ['Payments', '/play/geoword/admin/manage-payments'],
+      ['Users', '/play/geoword/admin/users']
     ]
   },
   {
