@@ -1,4 +1,5 @@
 import { titleCase } from '../../../../shared/string-utils.js';
+import { attachTableEventListeners } from '../../../scripts/utilities/tables.js';
 
 const packetName = new URLSearchParams(window.location.search).get('packetName');
 
@@ -27,7 +28,7 @@ const { users } = await fetch('/api/geoword/admin/users?' + new URLSearchParams(
 
 document.getElementById('user-table-body').replaceChildren(...users.map(({ username, email, registeredAt }) => {
   const row = document.createElement('tr');
-  for (const text of [username, email ?? '', new Date(registeredAt).toLocaleString()]) {
+  for (const text of [username, email ?? '', new Date(registeredAt).toLocaleString('sv-SE')]) {
     const cell = document.createElement('td');
     cell.textContent = text;
     row.appendChild(cell);
@@ -43,3 +44,10 @@ document.getElementById('user-table').classList.toggle('d-none', users.length ==
 const exportButton = document.getElementById('export-csv');
 exportButton.disabled = users.length === 0;
 exportButton.addEventListener('click', () => exportCsv(users));
+
+attachTableEventListeners({
+  tableId: 'user-table-body',
+  isNumericColumn: [false, false, false],
+  headers: 0,
+  footers: 0
+});

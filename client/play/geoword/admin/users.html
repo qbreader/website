@@ -24,7 +24,11 @@
         <p class="text-muted d-none" id="empty">No registered users yet.</p>
         <table class="table table-sm d-none" id="user-table">
             <thead>
-                <tr><th>Username</th><th>Email</th><th>Registered</th></tr>
+                <tr>
+                    <th scope="col" class="clickable" aria-sort="none">Username <span class="sort-indicator"></span></th>
+                    <th scope="col" class="clickable" aria-sort="none">Email <span class="sort-indicator"></span></th>
+                    <th scope="col" class="clickable" aria-sort="none">Registered <span class="sort-indicator"></span></th>
+                </tr>
             </thead>
             <tbody id="user-table-body"></tbody>
         </table>
