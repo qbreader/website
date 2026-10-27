@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
       // Then define and call a function to handle the event payment_intent.succeeded
       let { user_id: userId, packetName } = paymentIntentSucceeded.metadata;
       try { userId = new ObjectId(userId); } catch (e) { return res.status(400).send('Invalid user ID'); }
-      recordPayment(packetName, userId);
+      recordPayment(packetName, userId, { amountInCents: paymentIntentSucceeded.amount_received });
       break;
     }
 
