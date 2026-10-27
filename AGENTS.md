@@ -130,7 +130,7 @@ Lint must pass (`npm run lint` — it auto-fixes most issues). Then actually exe
 - **Don't touch money or auth casually.** `routes/api/webhook.js` (Stripe, uses raw body parsing mounted *before* `express.json()` — order matters), `server/authentication.js`, and `database/geoword/` payment code should only change when the task explicitly requires it.
 - **Rate limiting and moderation exist for a reason** (`server/RateLimit.js`, `server/moderation/`). Don't loosen limits, ban logic, or the 10 KB WebSocket max payload as a side effect.
 - **Deprecated API routes** (`routes/api/deprecated/`) are kept for external consumers. Don't delete or change their behavior.
-- **The answer checker is a separate package** ([qb-answer-checker](https://github.com/qbreader/qb-answer-checker)). Answer-judging bugs are usually fixed there, not here.
+- **The answer checker is a separate package** ([qb-answer-checker](https://github.com/qbreader/qb-answer-checker)). Answer-judging bugs are usually fixed there, not here. 
 - **`docs/` is not documentation** — it's static assets for GitHub Pages. Real contributor docs are `README.md` and `.github/CONTRIBUTING.md`.
 - The MongoDB data itself is shared infrastructure. Tools in `tools/` mutate the live database — never run them speculatively.
 
