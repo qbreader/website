@@ -1,3 +1,4 @@
+import escapeCSVField from '../../shared/escape-csv-field.js';
 import { stringifyBonus, stringifyTossup } from './stringify.js';
 
 /**
@@ -46,17 +47,11 @@ function convertQuestionsToCSV (header, questions) {
     return value;
   }
 
-  function escapeCSVString (string) {
-    if (string === undefined || string === null) { return ''; }
-    if (typeof string !== 'string') { string = string.toString(); }
-    return `"${string.replace(/"/g, '""').replace(/\n/g, '\\n')}"`;
-  }
-
   let csvdata = header.join(',') + '\n';
   for (const question of questions) {
     csvdata += header
       .map(key => extractEmbeddedField(question, key))
-      .map(escapeCSVString)
+      .map(value => escapeCSVField(value))
       .join(',') + '\n';
   }
   return csvdata;

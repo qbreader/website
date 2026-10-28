@@ -1,20 +1,12 @@
+import escapeCSVField from '../../../../shared/escape-csv-field.js';
 import { titleCase } from '../../../../shared/string-utils.js';
 import { attachTableEventListeners } from '../../../scripts/utilities/tables.js';
 
 const packetName = new URLSearchParams(window.location.search).get('packetName');
 
-/**
- * @param {string} value
- * @returns {string} the value quoted for CSV, with formula-leading characters neutralized.
- */
-function csvField (value) {
-  const text = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
-  return `"${text.replaceAll('"', '""')}"`;
-}
-
 function exportCsv (users) {
   const lines = [['username', 'email', 'registered_at', 'team'], ...users.map(({ username, email, registeredAt, teamName }) => [username, email ?? '', registeredAt, teamName ?? ''])];
-  const blob = new window.Blob([lines.map(line => line.map(csvField).join(',')).join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
+  const blob = new window.Blob([lines.map(line => line.map(value => escapeCSVField(value, { neutralizeFormulas: true })).join(',')).join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `${packetName}-users.csv`;
