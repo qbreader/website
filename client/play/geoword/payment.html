@@ -18,7 +18,10 @@
             The cost to play the packet <b id="packet-name"></b> is <b>$<span id="cost">2.50</span></b>.
             If you would like to pay with <b>Venmo</b>, please send the payment to <code>Geoffrey-Wu-1</code> with your qbreader
             username and the name of the packet in the description.
-            Please enter payment information below:
+            <span id="stripe-prompt">Please enter payment information below:</span>
+            <span id="manual-only-note" class="d-none">
+                Card payments are not available for this set. Your access will be added manually after payment is received.
+            </span>
         </p>
         <form id="payment-form">
             <div id="link-authentication-element">

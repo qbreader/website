@@ -65,6 +65,6 @@
  * @property {ObjectId} _id
  * @property {string} name
  * @property {{ enabled?: boolean, maxSize?: number }} [teams]
- * @property {{ perSet?: boolean, costInCents?: number }} [payment]
+ * @property {{ perSet?: boolean, costInCents?: number, manualOnly?: boolean }} [payment]
  * @property {ObjectId[]} [specialUsers]
  */

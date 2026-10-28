@@ -1,5 +1,6 @@
 import getUserId from '../../../database/account-info/get-user-id.js';
 import getCost from '../../../database/geoword/get-cost.js';
+import isManualPaymentOnly from '../../../database/geoword/is-manual-payment-only.js';
 import { checkToken } from '../../../server/authentication.js';
 
 import { Router } from 'express';
@@ -18,6 +19,10 @@ router.post('/', async (req, res) => {
 
   const userId = await getUserId(username);
   const packetName = req.body.packetName;
+  if (await isManualPaymentOnly(packetName)) {
+    return res.status(403).send('This set only accepts manual payments');
+  }
+
   const cost = await getCost(packetName);
 
   // Create a PaymentIntent with the order amount and currency

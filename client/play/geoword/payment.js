@@ -19,11 +19,18 @@ let elements;
 fetch('/api/geoword/cost?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
-    const { cost } = data;
+    const { cost, manualOnly } = data;
     document.getElementById('cost').textContent = (cost / 100).toFixed(2);
+
+    if (manualOnly) {
+      document.getElementById('stripe-prompt').classList.add('d-none');
+      document.getElementById('payment-form').classList.add('d-none');
+      document.getElementById('manual-only-note').classList.remove('d-none');
+    } else {
+      initialize();
+    }
   });
 
-initialize();
 checkStatus();
 
 document.querySelector('#payment-form').addEventListener('submit', handleSubmit);
