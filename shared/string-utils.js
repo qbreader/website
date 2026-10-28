@@ -19,7 +19,7 @@ export function escapeRegExp (string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Quotes a value as one CSV field; neutralizeFormulas prefixes `'` to values a spreadsheet would run as formulas.
+// neutralizeFormulas prefixes `'` to values starting with = + - @ so spreadsheets don't run them as formulas (CSV injection).
 export function escapeCSVField (value, { neutralizeFormulas = false } = {}) {
   if (value === undefined || value === null) { return ''; }
   let text = String(value);
