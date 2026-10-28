@@ -10,7 +10,6 @@ export function getCluesHTML (tossup, buzzpoints) {
   const label = `aria-label="Clues for question ${tossup.questionNumber}"`;
 
   if (hasClueTimes(tossup)) {
-    // One count per clue, then one for buzzes after the audio ended
     const counts = [...tossup.clues, 'End'].map(() => ({ correct: 0, total: 0 }));
     if (tossup.duration) {
       for (const buzz of buzzpoints) {
@@ -23,8 +22,6 @@ export function getCluesHTML (tossup, buzzpoints) {
     counts.forEach(({ correct, total }, index) => {
       const isEnd = index === tossup.clues.length;
       if (isEnd && total === 0) { return; }
-      // The End row starts where the audio ends, rounded down, since the audio keeps its
-      // position to the microsecond and would land just short of it
       const start = isEnd ? Math.floor(tossup.duration * 1000) / 1000 : tossup.clipBoundaries[index];
       const count = total === 0
         ? ''
