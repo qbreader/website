@@ -1,4 +1,4 @@
-import escapeCSVField from '../../shared/escape-csv-field.js';
+import { escapeCSVField } from '../../shared/string-utils.js';
 import { stringifyBonus, stringifyTossup } from './stringify.js';
 
 /**

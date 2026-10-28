@@ -1,5 +1,4 @@
-import escapeCSVField from '../../../../shared/escape-csv-field.js';
-import { titleCase } from '../../../../shared/string-utils.js';
+import { escapeCSVField, titleCase } from '../../../../shared/string-utils.js';
 import { attachTableEventListeners } from '../../../scripts/utilities/tables.js';
 
 const packetName = new URLSearchParams(window.location.search).get('packetName');

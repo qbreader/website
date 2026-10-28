@@ -13,3 +13,15 @@ export function removeParentheses (string) {
 export function titleCase (name) {
   return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
+
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+export function escapeRegExp (string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function escapeCSVField (value, { neutralizeFormulas = false } = {}) {
+  if (value === undefined || value === null) { return ''; }
+  let text = String(value);
+  if (neutralizeFormulas && /^[=+\-@\t\r]/.test(text)) { text = `'${text}`; }
+  return `"${text.replace(/"/g, '""').replace(/\r\n|\r|\n/g, '\\n')}"`;
+}

@@ -1,6 +1,6 @@
 import { bonuses, tossups } from './collections.js';
 
-import escapeRegExp from '../../shared/escape-reg-exp.js';
+import { escapeRegExp } from '../../shared/string-utils.js';
 
 /**
  * Look up pronunciation guides for a given word or phrase.

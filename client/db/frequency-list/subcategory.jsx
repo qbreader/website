@@ -4,8 +4,7 @@ import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js
 import filterParams from '../../scripts/utilities/filter-params.js';
 import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../shared/constants.js';
 import { SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../../../shared/categories.js';
-import escapeCSVField from '../../../shared/escape-csv-field.js';
-import { titleCase } from '../../../shared/string-utils.js';
+import { escapeCSVField, titleCase } from '../../../shared/string-utils.js';
 import { setYear, addSliderEventListeners } from '../../play/year-slider.js';
 
 let difficulties = DIFFICULTIES;
