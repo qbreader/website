@@ -1,11 +1,6 @@
 import { bonuses, tossups } from './collections.js';
 
-/**
- * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
- */
-function escapeRegExp (string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
+import { escapeRegExp } from '../../shared/string-utils.js';
 
 /**
  * Look up pronunciation guides for a given word or phrase.

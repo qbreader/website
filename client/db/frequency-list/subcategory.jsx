@@ -4,6 +4,7 @@ import { getDropdownValues } from '../../scripts/utilities/dropdown-checklist.js
 import filterParams from '../../scripts/utilities/filter-params.js';
 import { DIFFICULTIES, DEFAULT_MIN_YEAR, DEFAULT_MAX_YEAR } from '../../../shared/constants.js';
 import { SUBCATEGORY_TO_CATEGORY, ALTERNATE_SUBCATEGORY_TO_CATEGORY } from '../../../shared/categories.js';
+import { escapeCSVField, titleCase } from '../../../shared/string-utils.js';
 import { setYear, addSliderEventListeners } from '../../play/year-slider.js';
 
 let difficulties = DIFFICULTIES;
@@ -24,10 +25,6 @@ function difficultyDropdownListener () {
   updateFrequencyListDisplay(difficulties, limit, minYear, maxYear, questionType);
 }
 
-function titleCase (name) {
-  return name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-}
-
 function getExportFilename (extension) {
   return `${subcategoryQuery}-${questionType}-frequency-list.${extension}`;
 }
@@ -43,8 +40,7 @@ function formatFrequencyListAsText () {
 function formatFrequencyListAsCSV () {
   let csv = 'rank,answer,frequency\n';
   for (const [index, { answer, count }] of currentFrequencyList.entries()) {
-    const escapedAnswer = `"${String(answer).replace(/"/g, '""').replace(/\r\n|\r|\n/g, '\\n')}"`;
-    csv += `${index + 1},${escapedAnswer},${count}\n`;
+    csv += `${index + 1},${escapeCSVField(answer)},${count}\n`;
   }
   return csv;
 }

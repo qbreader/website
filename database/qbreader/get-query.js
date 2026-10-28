@@ -1,17 +1,11 @@
 import { bonuses, tossups } from './collections.js';
 
 import { OKCYAN, ENDC, OKGREEN } from '../../server/bcolors.js';
+import { escapeRegExp } from '../../shared/string-utils.js';
 import unformatString from '../../shared/unformat-string.js';
 import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../shared/constants.js';
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
-
-/**
- * Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
- */
-function escapeRegExp (string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-}
 
 function getQuerySummary (options) {
   const { queryString, difficulties, maxReturnLength, questionType, randomize, regex, searchType, setName } = options;
