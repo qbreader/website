@@ -1,7 +1,6 @@
 import { closeConnection } from '../../database/databases.js';
 import { bonuses, tossups } from '../../database/qbreader/collections.js';
-import removeHTML from '../../shared/remove-html.js';
-import unformatString from '../../shared/unformat-string.js';
+import { removeHTML, unformatString } from '../../shared/string-utils.js';
 
 import yargs from 'yargs/yargs';
 

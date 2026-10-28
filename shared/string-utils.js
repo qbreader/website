@@ -26,3 +26,27 @@ export function escapeCSVField (value, { neutralizeFormulas = false } = {}) {
   if (neutralizeFormulas && /^[=+\-@\t\r]/.test(text)) { text = `'${text}`; }
   return `"${text.replace(/"/g, '""').replace(/\r\n|\r|\n/g, '\\n')}"`;
 }
+
+/**
+ * Removes specific HTML tags (<b>, <u>, <i>, <em>) from the given string.
+ *
+ * @param {string} string - The input string potentially containing HTML tags.
+ * @returns {string} The string with specified HTML tags removed.
+ */
+export function removeHTML (string) {
+  return string.replace(/<\/?(b|u|i|em)>/g, '');
+}
+
+export function unformatString (string) {
+  return string
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\u2010-\u2015]/g, '-')
+    .replace(/[\u2018-\u201B]/g, '\'')
+    .replace(/[\u201C-\u201F]/g, '"')
+    .replace(/[\u2026]/g, '...')
+    .replace(/[\u2032-\u2037]/g, '\'')
+    .replace(/[\u00B7\u22C5\u2027]/g, '') // interpuncts
+    .replace(/\u0142/g, 'l') // ł -> l
+    .replace(/\u00F8/g, 'o'); // ø -> o
+}
