@@ -1,4 +1,4 @@
-import { formatTime, getBuzzTime, getClueAt, hasClueTimes } from './time.js';
+import { formatTime, getBuzzClue, getBuzzTime, hasClueTimes } from './time.js';
 import { escapeHTML } from '../../../../../shared/string-utils.js';
 
 /**
@@ -10,27 +10,26 @@ export function getCluesHTML (tossup, buzzpoints) {
   const label = `aria-label="Clues for question ${tossup.questionNumber}"`;
 
   if (hasClueTimes(tossup)) {
-    const counts = tossup.clues.map(() => ({ correct: 0, total: 0 }));
+    const counts = [...tossup.clues, 'End'].map(() => ({ correct: 0, total: 0 }));
     if (tossup.duration) {
       for (const buzz of buzzpoints) {
-        const time = getBuzzTime(buzz, tossup.duration);
-        if (time === null) { continue; }
-        const count = counts[getClueAt(tossup.clipBoundaries, time)];
+        const count = counts[getBuzzClue(buzz, tossup)];
         count.total++;
         if (buzz.points > 0) { count.correct++; }
       }
     }
     let html = `<div class="list-group buzzpoints-clues" role="group" ${label}>`;
-    tossup.clues.forEach((clue, index) => {
-      const start = tossup.clipBoundaries[index];
-      const { correct, total } = counts[index];
+    counts.forEach(({ correct, total }, index) => {
+      const isEnd = index === tossup.clues.length;
+      if (isEnd && total === 0) { return; }
+      const start = isEnd ? Math.floor(tossup.duration * 1000) / 1000 : tossup.clipBoundaries[index];
       const count = total === 0
         ? ''
         : `<span title="${correct} of ${total} buzzes correct" aria-label="${correct} of ${total} buzzes correct">${correct}/${total}</span>`;
       html += `
-        <button type="button" class="list-group-item list-group-item-action d-flex align-items-baseline gap-3" data-start="${start}">
-          <span class="font-monospace opacity-75">${formatTime(start)}</span>
-          <span>${escapeHTML(clue)}</span>
+        <button type="button" class="list-group-item list-group-item-action d-flex align-items-baseline gap-3" data-start="${start}" ${isEnd ? 'data-end title="After the audio ended"' : ''}>
+          <span class="font-monospace opacity-75">${isEnd ? '-:--' : formatTime(start)}</span>
+          <span ${isEnd ? 'style="font-variant-caps: all-small-caps"' : ''}>${isEnd ? 'End' : escapeHTML(tossup.clues[index])}</span>
           <span class="ms-auto small text-nowrap opacity-75">${count}</span>
         </button>`;
     });
@@ -61,7 +60,7 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
       const time = getBuzzTime(buzz, tossup.duration);
       data = `data-buzz-time="${time ?? tossup.duration}" tabindex="0"`;
       if (time !== null) { data += ` data-correct="${buzz.points > 0}"`; }
-      if (time !== null && hasClueTimes(tossup)) { data += ` data-clue="${getClueAt(tossup.clipBoundaries, time)}"`; }
+      if (hasClueTimes(tossup)) { data += ` data-clue="${getBuzzClue(buzz, tossup)}"`; }
     }
     const who = buzz.isYou ? 'you' : buzz.isTeammate ? 'teammate' : '';
     const pointsClass = buzz.points > 0 ? 'text-success' : buzz.points < 0 ? 'text-danger' : 'text-body-secondary';
