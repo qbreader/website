@@ -51,7 +51,7 @@ function convertQuestionsToCSV (header, questions) {
   for (const question of questions) {
     csvdata += header
       .map(key => extractEmbeddedField(question, key))
-      .map(escapeCSVField)
+      .map(value => escapeCSVField(value))
       .join(',') + '\n';
   }
   return csvdata;
