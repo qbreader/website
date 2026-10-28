@@ -1,5 +1,5 @@
 import { bonuses, tossups, packets, sets, perBonusData, perTossupData } from '../../database/qbreader/collections.js';
-import unformatString from '../../shared/unformat-string.js';
+import { unformatString } from '../../shared/string-utils.js';
 
 import * as fs from 'fs';
 import { ObjectId } from 'mongodb';

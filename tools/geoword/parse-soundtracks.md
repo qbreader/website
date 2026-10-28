@@ -99,7 +99,7 @@ All fields are strings unless noted.
 - Build them in a small throwaway script (in the scratchpad, not the repo) that imports the helpers and applies them to the HTML versions:
   - `answer_sanitized = unformatString(removeHTML(answer))`
   - `question_sanitized = unformatString(removeHTML(question))`
-- `removeHTML` is `shared/remove-html.js`; `unformatString` is `shared/unformat-string.js`. Both are default exports.
+- `removeHTML` and `unformatString` are both named exports of `shared/string-utils.js`.
 
 # Final checks
 

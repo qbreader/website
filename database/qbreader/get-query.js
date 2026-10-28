@@ -1,8 +1,7 @@
 import { bonuses, tossups } from './collections.js';
 
 import { OKCYAN, ENDC, OKGREEN } from '../../server/bcolors.js';
-import { escapeRegExp } from '../../shared/string-utils.js';
-import unformatString from '../../shared/unformat-string.js';
+import { escapeRegExp, unformatString } from '../../shared/string-utils.js';
 import { DEFAULT_QUERY_RETURN_LENGTH, MAX_QUERY_RETURN_LENGTH } from '../../shared/constants.js';
 // eslint-disable-next-line no-unused-vars
 import * as types from '../../types.js';
