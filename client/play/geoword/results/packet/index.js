@@ -17,6 +17,12 @@ const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
+// Only the active division's toolbar has a size; hidden ones measure 0
+const toolbarResizeObserver = new window.ResizeObserver(entries => {
+  for (const { target } of entries) {
+    if (target.offsetHeight > 0) { document.documentElement.style.setProperty('--buzz-toolbar-height', `${target.offsetHeight}px`); }
+  }
+});
 
 function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
@@ -57,7 +63,7 @@ function getTossupHTML (tossup, division, id) {
   const buzzpoints = getShownBuzzpoints(division, tossup.questionNumber);
 
   return `
-    <section class="mb-5" style="scroll-margin-top: 1rem" id="${id}" aria-labelledby="${id}-heading">
+    <section class="mb-5 buzzpoints-section" id="${id}" aria-labelledby="${id}-heading">
       <h2 class="h5" id="${id}-heading">Question ${tossup.questionNumber}</h2>
       <div class="buzzpoints-layout ${buzzpoints.length > 0 ? 'has-buzzpoints' : ''}">
         <div class="buzzpoints-head">
@@ -413,6 +419,7 @@ Promise.all([
       for (const tossup of packets[division]) {
         drawTossupGraph(document.getElementById(getId(tossup)), tossup, getShownBuzzpoints(division, tossup.questionNumber));
       }
+      toolbarResizeObserver.observe(divs[division].querySelector('.buzz-toolbar'));
     }
 
     // Drop any team in the URL that isn't in this packet

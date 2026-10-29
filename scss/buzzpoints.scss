@@ -206,7 +206,27 @@
 }
 
 .buzz-toolbar {
+    background-color: var(--bs-body-bg);
     border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.buzzpoints-section {
+    scroll-margin-top: 1rem;
+}
+
+// Filter and question links, kept in reach while scrolling a packet. Not on phones,
+// where the toolbar wraps onto several lines and would cover too much of the screen.
+@include media-breakpoint-up(md) {
+    .buzz-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: $zindex-sticky;
+    }
+
+    // So jumping to a question doesn't hide its heading under the toolbar
+    .buzzpoints-section {
+        scroll-margin-top: calc(var(--buzz-toolbar-height, 0px) + 1rem);
+    }
 }
 
 .buzz-filter-chip {
