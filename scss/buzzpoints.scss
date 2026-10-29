@@ -205,6 +205,31 @@
     text-overflow: ellipsis;
 }
 
+// The title centered, with the back link on its right; stacked on phones
+.packet-title-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 0.25rem;
+    text-align: center;
+}
+
+@include media-breakpoint-up(md) {
+    .packet-title-row {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: baseline;
+        gap: 1rem;
+
+        h1 {
+            grid-column: 2;
+        }
+
+        a {
+            justify-self: end;
+        }
+    }
+}
+
 .buzz-toolbar {
     background-color: var(--bs-body-bg);
     border-bottom: var(--bs-border-width) solid var(--bs-border-color);
