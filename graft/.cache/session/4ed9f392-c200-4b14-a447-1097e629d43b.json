@@ -1,0 +1,17 @@
+{
+  "lastQuery": "continue but keep it simple for now",
+  "perAgentQuery": {},
+  "graftReads": 0,
+  "sourceReads": 2,
+  "savedTokens": 0,
+  "injectedPointers": [
+    "database/geoword/get-packet-status.js:L8-L15",
+    "client/clients/QuestionClient.js:L68-L70",
+    "app"
+  ],
+  "nudges": 2,
+  "inputCostMicros": 758165,
+  "inputTokensBilled": 2483662,
+  "lastBillingUuid": "6464e175-5b55-48b8-8e79-ec726f2b1b05",
+  "host": "claude-code"
+}

@@ -1,0 +1,13 @@
+{
+  "lastQuery": "<ide_selection>The user selected the lines 14 to 14 from /Users/lawrencetong/Projects/qbreader-fork/client/play/solo-full/index.jsx:\nconst TEAM_ID = USER_ID;\n\nThis may or may not be related to the current task.</ide_selection>\nwhy is this line here",
+  "perAgentQuery": {},
+  "graftReads": 0,
+  "sourceReads": 2,
+  "savedTokens": 0,
+  "injectedPointers": [],
+  "nudges": 1,
+  "host": "claude-code",
+  "inputCostMicros": 145537,
+  "inputTokensBilled": 248155,
+  "lastBillingUuid": "a336fbfe-7637-44cc-a93f-fa542ab8051e"
+}

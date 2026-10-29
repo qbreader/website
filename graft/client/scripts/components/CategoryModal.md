@@ -1,0 +1,15 @@
+# client/scripts/components/CategoryModal.jsx
+
+- CategoryModal · function · L71-L238 — function CategoryModal ({ categoryManager, disablePercentView = false, onClose = () => {} })
+- ToggleAllButton · function · L77-L95 — function ToggleAllButton ()
+- handleClick · function · L78-L91 — function handleClick ()
+- TogglePercentView · function · L97-L105 — function TogglePercentView ()
+- handleClick · function · L98-L101 — function handleClick ()
+- PercentButtonRow · function · L107-L140 — function PercentButtonRow ({ category, index })
+- adjustPercent · function · L108-L113 — function adjustPercent (amount)
+- CategoryButton · function · L142-L154 — function CategoryButton ({ category, color })
+- handleClick · function · L143-L146 — function handleClick ()
+- SubcategoryButton · function · L156-L168 — function SubcategoryButton ({ subcategory, color, hidden = false })
+- handleClick · function · L157-L160 — function handleClick ()
+- AlternateSubcategoryButton · function · L170-L182 — function AlternateSubcategoryButton ({ subcategory, color, hidden = false })
+- handleClick · function · L171-L174 — function handleClick ()

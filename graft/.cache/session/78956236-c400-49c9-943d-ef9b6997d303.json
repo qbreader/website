@@ -1,0 +1,13 @@
+{
+  "lastQuery": "The maintainer says it might be useful to have the user be able to trace to the exact line the error was caused by for these error paths. How should I add it without spitting out the full error?",
+  "perAgentQuery": {},
+  "graftReads": 0,
+  "sourceReads": 0,
+  "savedTokens": 0,
+  "injectedPointers": [],
+  "nudges": 2,
+  "inputCostMicros": 127241,
+  "inputTokensBilled": 230169,
+  "lastBillingUuid": "40abf7e4-535a-4b47-9d4a-e2e8eb5a36cd",
+  "summarized": true
+}

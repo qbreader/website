@@ -1,0 +1,22 @@
+{
+  "lastQuery": "<ide_opened_file>The user opened the file /Users/lawrencetong/Projects/qbreader-fork/server.js in the IDE. This may or may not be related to the current task.</ide_opened_file>\nremove anything that was pushed other than server.js changes",
+  "perAgentQuery": {},
+  "graftReads": 2,
+  "sourceReads": 8,
+  "savedTokens": 15856,
+  "injectedPointers": [
+    "tools/batch-fix/packet-number.js:L7-L22",
+    "tools/batch-fix/html-in-sanitized.js:L17-L47",
+    "tools/batch-fix/bracket-spacing.js:L14-L48"
+  ],
+  "nudges": 2,
+  "host": "claude-code",
+  "inputCostMicros": 843840,
+  "inputTokensBilled": 3318603,
+  "lastBillingUuid": "9c34b42d-3882-46ab-bd0e-2e104279ea7f",
+  "turnUsedGraft": false,
+  "graftTurns": 1,
+  "reportedTurns": 1,
+  "lastTallyUuid": "ae6ec298-0ce1-4414-bba3-d4f7565dc3f1",
+  "summarized": true
+}

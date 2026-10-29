@@ -1,0 +1,23 @@
+# client/clients/SoloBonusClient.js
+
+- SoloBonusClient · class · L9-L146 — class SoloBonusClient extends BonusClient
+- onmessage · method · L10-L16 — onmessage (message)
+- clearStats · method · L18-L20 — clearStats ({ teamId })
+- endCurrentBonus · method · L22-L28 — endCurrentBonus ({ bonus, lastPartRevealed, pointsPerPart, starred, stats })
+- revealNextPart · method · L30-L38 — revealNextPart ({ bonusEligibleTeamId, currentPartNumber, part, value })
+- setCategories · method · L40-L43 — setCategories ({ alternateSubcategories, categories, subcategories, percentView, categoryPercents })
+- setDifficulties · method · L45-L47 — setDifficulties ({ difficulties })
+- setMaxYear · method · L49-L52 — setMaxYear ({ maxYear })
+- setMinYear · method · L54-L57 — setMinYear ({ minYear })
+- setMode · method · L59-L84 — setMode ({ mode })
+- setPacketNumbers · method · L86-L89 — setPacketNumbers ({ packetNumbers })
+- setSetName · method · L91-L94 — async setSetName ({ setName, setLength })
+- setStrictness · method · L96-L99 — setStrictness ({ strictness })
+- startNextBonus · method · L101-L104 — startNextBonus ({ bonus, packetLength })
+- toggleStandardOnly · method · L106-L109 — toggleStandardOnly ({ standardOnly })
+- toggleThreePartBonuses · method · L111-L114 — toggleThreePartBonuses ({ threePartBonuses })
+- toggleTimer · method · L116-L119 — toggleTimer ({ timer })
+- toggleReadBonusesLikeTossups · method · L121-L124 — toggleReadBonusesLikeTossups ({ readBonusLikeATossup })
+- setReadingSpeed · method · L126-L129 — setReadingSpeed ({ readingSpeed })
+- toggleTypeToAnswer · method · L131-L134 — toggleTypeToAnswer ({ typeToAnswer })
+- updateStatDisplay · method · L139-L145 — updateStatDisplay (stats)

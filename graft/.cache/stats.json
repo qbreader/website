@@ -1,0 +1,15 @@
+{
+  "nodeCount": 1175,
+  "edgeCount": 2505,
+  "languages": [
+    "javascript",
+    "jsx"
+  ],
+  "totalCount": 1175,
+  "readyCount": 0,
+  "staleCount": 0,
+  "dirty": false,
+  "syncing": false,
+  "syncedAt": "2026-10-19T17:12:01.573Z",
+  "lastFile": "README.md"
+}
