@@ -34,8 +34,9 @@ form.addEventListener('submit', (event) => {
     })
   }).then(async function (response) {
     if (response.status === 200) {
-      const { expires } = await response.json();
-      account.setUsername(username, expires);
+      // the typed username may have been an email, so store the one the server resolved
+      const { expires, username: resolvedUsername } = await response.json();
+      account.setUsername(resolvedUsername, expires);
       if (window.location.search.length > 1) {
         window.location.href = decodeURIComponent(window.location.search.slice(1));
       } else {
