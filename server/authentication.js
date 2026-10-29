@@ -64,17 +64,10 @@ export function generateToken (username, verifiedEmail = false) {
 }
 
 /**
- * Turns what a user typed into a login box into the username of an account.
- * The identifier is either a username, or the verified email of exactly one account.
- *
- * The email is only a lookup key: the returned value is always a username,
- * so the email never needs to leave the server.
- *
- * Email is tried before username so that nobody can shadow a victim's email login
- * by registering the victim's email address as their username.
+ * Resolves a login identifier, which is either a username or the verified email of an account, to a username.
+ * An email is tried first so a username equal to someone else's email cannot shadow their email login.
  * @param {string} identifier
- * @returns {Promise<string>} The username to authenticate as.
- *  It is not guaranteed to exist, so callers must still check the password.
+ * @returns {Promise<string>} The username to authenticate as. It may not exist, so the password must still be checked.
  */
 export async function resolveLoginIdentifier (identifier) {
   const email = identifier.trim();
@@ -187,19 +180,19 @@ export function validateUsername (username) {
     return false;
   }
 
-  // emails are accepted at login, so a username must never be able to look like one
+  // emails are accepted at login, so a username must not look like one
   if (username.includes('@')) {
     return false;
   }
 
-  //more validation needed here in the future
+  // TODO: put more validation here
 
   return true;
 }
 
-export async function verifyEmailLink (userId, token) {
+export function verifyEmailLink (userId, token) {
   const expirationTime = 1000 * 60 * 15; // 15 minutes
-  const linkUserId = verify(token, secret, (err, decoded) => {
+  return verify(token, secret, (err, decoded) => {
     if (err) {
       return false;
     }
@@ -223,16 +216,11 @@ export async function verifyEmailLink (userId, token) {
       return false;
     }
 
-    try { return new ObjectId(userId); } catch (e) { return false; }
+    try { userId = new ObjectId(userId); } catch (e) { return false; }
+
+    verifyEmail(userId);
+    return true;
   });
-
-  if (!linkUserId) {
-    return false;
-  }
-
-  // fails if another account already has this email verified
-  const { matchedCount } = await verifyEmail(linkUserId);
-  return matchedCount > 0;
 }
 
 export function verifyResetPasswordLink (userId, token) {

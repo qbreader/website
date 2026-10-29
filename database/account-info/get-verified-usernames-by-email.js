@@ -1,6 +1,10 @@
 import { emailCollation, users } from './collections.js';
 
-// find accounts with verified email that matches param email
+/**
+ * Case-insensitively find the accounts whose verified email matches `email`.
+ * @param {string} email
+ * @returns {Promise<string[]>} At most two usernames, which is enough to tell whether the match is unique.
+ */
 export default async function getVerifiedUsernamesByEmail (email) {
   const matches = await users.find(
     { email, verifiedEmail: true },
