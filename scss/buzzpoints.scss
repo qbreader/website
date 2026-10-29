@@ -210,6 +210,12 @@
     border-bottom: var(--bs-border-width) solid var(--bs-border-color);
 }
 
+// Every question link as wide as a two-digit one
+.buzz-toolbar .page-link {
+    min-width: calc(2ch + 2 * var(--bs-pagination-padding-x) + 2 * var(--bs-pagination-border-width));
+    text-align: center;
+}
+
 .buzzpoints-section {
     scroll-margin-top: 1rem;
 }
