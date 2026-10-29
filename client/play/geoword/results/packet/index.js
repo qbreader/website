@@ -23,6 +23,7 @@ const toolbarResizeObserver = new window.ResizeObserver(entries => {
     if (target.offsetHeight > 0) { document.documentElement.style.setProperty('--buzz-toolbar-height', `${target.offsetHeight}px`); }
   }
 });
+let currentQuestionFrame = null;
 
 function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
@@ -155,6 +156,30 @@ function getNavHTML (tossups, getId) {
     html += `<li class="page-item"><a class="page-link" href="#${getId(tossup)}" aria-label="Jump to question ${tossup.questionNumber}">${tossup.questionNumber}</a></li>`;
   }
   return html + '</ul></nav>';
+}
+
+/**
+ * Marks the question being read in the active division's question links.
+ */
+function showCurrentQuestion () {
+  currentQuestionFrame = null;
+  const pane = tabContent.querySelector('.tab-pane.active');
+  const toolbar = pane?.querySelector('.buzz-toolbar');
+  if (!toolbar) { return; }
+
+  // The last question whose heading has reached the bottom of the toolbar, or the top of
+  // the screen once the toolbar has scrolled away on phones
+  const line = Math.max(0, toolbar.getBoundingClientRect().bottom) + 24;
+  const current = [...pane.querySelectorAll('section')].findLast(section => section.getBoundingClientRect().top <= line);
+  for (const link of toolbar.querySelectorAll('.page-link')) {
+    const active = current !== undefined && link.hash === `#${current.id}`;
+    link.parentElement.classList.toggle('active', active);
+    if (active) {
+      link.setAttribute('aria-current', 'location');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  }
 }
 
 /**
@@ -348,6 +373,14 @@ tabContent.addEventListener('hidden.bs.dropdown', event => {
   searchFilterMenu(bar, '');
 });
 
+window.addEventListener('scroll', () => {
+  if (currentQuestionFrame === null) {
+    currentQuestionFrame = window.requestAnimationFrame(showCurrentQuestion);
+  }
+}, { passive: true });
+
+document.getElementById('tabs').addEventListener('shown.bs.tab', showCurrentQuestion);
+
 // Media events don't bubble, so these listen in the capture phase.
 tabContent.addEventListener('play', event => {
   // Only one tossup plays at a time
@@ -421,6 +454,7 @@ Promise.all([
       }
       toolbarResizeObserver.observe(divs[division].querySelector('.buzz-toolbar'));
     }
+    showCurrentQuestion();
 
     // Drop any team in the URL that isn't in this packet
     writeFilters(filters);
