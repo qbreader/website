@@ -14,7 +14,8 @@ form.addEventListener('submit', async (event) => {
 
   document.getElementById('submission').textContent = 'Submitting...';
 
-  const username = document.getElementById('username').value;
-  await fetch('/auth/send-password-reset-email?' + new URLSearchParams({ username }));
+  // either a username or a verified email
+  const identifier = document.getElementById('username').value;
+  await fetch('/auth/send-password-reset-email?' + new URLSearchParams({ username: identifier }));
   window.location.href = '/';
 }, false);

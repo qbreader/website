@@ -6,7 +6,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const { user_id: userId, token } = req.query;
-  const verified = verifyEmailLink(userId, token);
+  const verified = await verifyEmailLink(userId, token);
 
   if (verified) {
     req.session = null;

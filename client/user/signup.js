@@ -37,7 +37,7 @@ form.addEventListener('submit', (event) => {
     } else if (response.status === 400) {
       document.getElementById('submission').textContent = 'Submit';
       document.getElementById('password').value = '';
-      window.alert('Username is invalid.');
+      window.alert('Username or email is invalid. Usernames cannot contain "@".');
     } else if (response.status === 409) {
       document.getElementById('submission').textContent = 'Submit';
       document.getElementById('password').value = '';

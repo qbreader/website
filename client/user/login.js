@@ -24,17 +24,19 @@ form.addEventListener('submit', (event) => {
 
   document.getElementById('submission').textContent = 'Logging in...';
 
-  const username = document.getElementById('username').value;
+  // either a username or a verified email
+  const identifier = document.getElementById('username').value;
   fetch('/auth/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      username,
+      username: identifier,
       password: document.getElementById('password').value
     })
   }).then(async function (response) {
     if (response.status === 200) {
-      const { expires } = await response.json();
+      // use the username from the server, since the identifier may have been an email
+      const { expires, username } = await response.json();
       account.setUsername(username, expires);
       if (window.location.search.length > 1) {
         window.location.href = decodeURIComponent(window.location.search.slice(1));
@@ -44,7 +46,7 @@ form.addEventListener('submit', (event) => {
     } else {
       document.getElementById('submission').textContent = 'Login';
       document.getElementById('password').value = '';
-      window.alert('Invalid username or password.');
+      window.alert('Invalid username, email, or password.');
     }
   });
 }, false);
