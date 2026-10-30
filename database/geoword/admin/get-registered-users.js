@@ -18,10 +18,12 @@ export default async function getRegisteredUsers (packetName) {
 
   const set = await getPacketSet(packetName);
   const teamList = set ? await teams.find({ 'set._id': set._id }, { projection: { teamName: 1, members: 1 } }).toArray() : [];
-  const teamNames = new Map(teamList.flatMap(({ teamName, members }) => members.map(member => [member.toString(), teamName])));
+  const teamNameByUserId = new Map(teamList.flatMap(({ teamName, members }) => members.map(member => [member.toString(), teamName])));
+
+  const userIds = [...new Set([...registeredAt.keys(), ...teamNameByUserId.keys()])].map(id => new ObjectId(id));
 
   const result = await users.find(
-    { _id: { $in: [...new Set([...registeredAt.keys(), ...teamNames.keys()])].map(id => new ObjectId(id)) } },
+    { _id: { $in: userIds } },
     { projection: { username: 1, email: 1 }, sort: { username: 1 }, collation: { locale: 'en' } }
   ).toArray();
 
@@ -29,7 +31,7 @@ export default async function getRegisteredUsers (packetName) {
     username,
     email,
     registeredAt: registeredAt.get(_id.toString()) ?? null,
-    teamName: teamNames.get(_id.toString()) ?? null
+    teamName: teamNameByUserId.get(_id.toString()) ?? null
   }));
 
   // Array.prototype.sort is stable, so each group stays sorted by username
