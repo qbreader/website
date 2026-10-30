@@ -4,7 +4,7 @@ import { attachTableEventListeners } from '../../../scripts/utilities/tables.js'
 const packetName = new URLSearchParams(window.location.search).get('packetName');
 
 function exportCsv (users) {
-  const lines = [['username', 'email', 'registered_at', 'team'], ...users.map(({ username, email, registeredAt, teamName }) => [username, email ?? '', registeredAt, teamName ?? ''])];
+  const lines = [['username', 'email', 'registered_at', 'team'], ...users.map(({ username, email, registeredAt, teamName }) => [username, email ?? '', registeredAt ?? '', teamName ?? ''])];
   const blob = new window.Blob([lines.map(line => line.map(value => escapeCSVField(value, { neutralizeFormulas: true })).join(',')).join('\r\n') + '\r\n'], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -19,7 +19,7 @@ const { users } = await fetch('/api/geoword/admin/users?' + new URLSearchParams(
 
 document.getElementById('user-table-body').replaceChildren(...users.map(({ username, email, registeredAt, teamName }) => {
   const row = document.createElement('tr');
-  for (const text of [username, email ?? '', new Date(registeredAt).toLocaleString('sv-SE')]) {
+  for (const text of [username, email ?? '', registeredAt ? new Date(registeredAt).toLocaleString('sv-SE') : '']) {
     const cell = document.createElement('td');
     cell.textContent = text;
     row.appendChild(cell);
