@@ -16,7 +16,7 @@ async function areTeamsEnabled ({ packetName, setName }) {
   if (!name) { return false; }
 
   const set = await getSet(name);
-  return Boolean(set?.teams?.enabled);
+  return !!set?.teams?.enabled;
 }
 
 export default areTeamsEnabled;
