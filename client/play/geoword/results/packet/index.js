@@ -1,5 +1,6 @@
 import { getBuzzGraphData, getBuzzGraphHTML, getBuzzTableHTML, getCluesHTML } from './html.js';
 import { countBuzzGraphBuzzes, drawBuzzGraph, getBuzzGraphTime, setBuzzGraphDot, setBuzzGraphPlayhead } from './buzz-graph.js';
+import { getFilterChipsHTML, getFilterHTML, getFilterSummary, isFiltered, matchesFilter, readFiltersFromURL, searchFilterMenu, writeFiltersToURL } from './filter.js';
 import { formatTime, hasClueTimes } from './time.js';
 import createTabs from '../../../../../scripts/utilities/create-tabs.js';
 import { escapeHTML, kebabCase, titleCase } from '../../../../../shared/string-utils.js';
@@ -10,6 +11,8 @@ const packetTitle = titleCase(packetName);
 
 const tabContent = document.getElementById('tab-content');
 const buzzpointsByQuestion = new Map();
+let packets = {};
+let filters = new Map();
 const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
@@ -17,6 +20,11 @@ const graphResizeObserver = new window.ResizeObserver(entries => {
 
 function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
+}
+
+function getShownBuzzpoints (division, questionNumber) {
+  const filter = filters.get(division);
+  return getBuzzpoints(division, questionNumber).filter(buzz => !filter || matchesFilter(filter, buzz));
 }
 
 function getTossupElementId (division, tossup) {
@@ -46,7 +54,7 @@ function setLegendTime (graph, time) {
 function getTossupHTML (tossup, division, id) {
   const category = escapeHTML(tossup.category) + (tossup.subcategory ? ` / ${escapeHTML(tossup.subcategory)}` : '');
   const audioSrc = '/api/geoword/paid/results/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber });
-  const buzzpoints = getBuzzpoints(division, tossup.questionNumber);
+  const buzzpoints = getShownBuzzpoints(division, tossup.questionNumber);
 
   return `
     <section class="mb-5" style="scroll-margin-top: 1rem" id="${id}" aria-labelledby="${id}-heading">
@@ -76,6 +84,40 @@ function drawTossupGraph (section, tossup, buzzpoints) {
   if (!graph) { return; }
   drawBuzzGraph(graph, getBuzzGraphData(tossup, buzzpoints));
   graphResizeObserver.observe(graph);
+}
+
+function renderBuzzpoints (division, tossup) {
+  const section = document.getElementById(getTossupElementId(division, tossup));
+  const buzzpoints = getShownBuzzpoints(division, tossup.questionNumber);
+
+  const graph = section.querySelector('.buzz-graph');
+  if (graph) {
+    graphResizeObserver.unobserve(graph);
+    graph.remove();
+  }
+  section.querySelector('.buzz-table-slot')?.remove();
+
+  section.querySelector('.buzzpoints-clues').outerHTML = getCluesHTML(tossup, buzzpoints);
+  section.querySelector('.buzzpoints-layout').classList.toggle('has-buzzpoints', buzzpoints.length > 0);
+  section.querySelector('.buzzpoints-answer').insertAdjacentHTML('afterend', getBuzzpointsHTML(tossup, buzzpoints));
+  drawTossupGraph(section, tossup, buzzpoints);
+  showPosition(section);
+}
+
+function applyFilter (division) {
+  const filter = filters.get(division);
+  const bar = document.getElementById(`${kebabCase(division)}-content`).querySelector('[data-buzz-filter]');
+  bar.querySelector('[data-filter-chips]').innerHTML = getFilterChipsHTML(filter);
+  bar.querySelector('[data-filter-summary]').textContent = getFilterSummary(filter);
+  bar.querySelector('[data-filter-clear]').hidden = !isFiltered(filter);
+  for (const checkbox of bar.querySelectorAll('input[type="checkbox"]')) {
+    checkbox.checked = filter.teams.has(checkbox.value);
+  }
+
+  for (const tossup of packets[division]) {
+    renderBuzzpoints(division, tossup);
+  }
+  writeFiltersToURL(filters);
 }
 
 /**
@@ -237,6 +279,50 @@ tabContent.addEventListener('keydown', event => {
   seekToBuzz(row);
 });
 
+tabContent.addEventListener('change', event => {
+  const checkbox = event.target.closest('[data-buzz-filter] input[type="checkbox"]');
+  if (!checkbox) { return; }
+  const division = checkbox.closest('.tab-pane').dataset.division;
+  const { teams } = filters.get(division);
+  if (checkbox.checked) {
+    teams.add(checkbox.value);
+  } else {
+    teams.delete(checkbox.value);
+  }
+  applyFilter(division);
+});
+
+tabContent.addEventListener('click', event => {
+  const button = event.target.closest('[data-filter-clear], [data-filter-remove]');
+  if (!button) { return; }
+  const bar = button.closest('[data-buzz-filter]');
+  const division = button.closest('.tab-pane').dataset.division;
+  const { teams } = filters.get(division);
+  if ('filterRemove' in button.dataset) {
+    teams.delete(button.dataset.filterRemove);
+  } else {
+    teams.clear();
+  }
+  applyFilter(division);
+  bar.querySelector('[data-bs-toggle="dropdown"]').focus();
+});
+
+tabContent.addEventListener('input', event => {
+  if (!event.target.matches('[data-filter-search]')) { return; }
+  searchFilterMenu(event.target.closest('[data-buzz-filter]'), event.target.value);
+});
+
+tabContent.addEventListener('shown.bs.dropdown', event => {
+  event.target.closest('[data-buzz-filter]')?.querySelector('[data-filter-search]').focus();
+});
+
+tabContent.addEventListener('hidden.bs.dropdown', event => {
+  const bar = event.target.closest('[data-buzz-filter]');
+  if (!bar) { return; }
+  bar.querySelector('[data-filter-search]').value = '';
+  searchFilterMenu(bar, '');
+});
+
 // Media events don't bubble, so these listen in the capture phase.
 tabContent.addEventListener('play', event => {
   // Only one tossup plays at a time
@@ -263,13 +349,20 @@ Promise.all([
   fetch('/api/geoword/paid/results/buzzpoints?' + new URLSearchParams({ packetName })).then(response => response.json())
 ])
   .then(([data, { buzzpoints }]) => {
-    const { packets } = data;
+    packets = data.packets;
 
     for (const buzz of buzzpoints) {
       const key = `${buzz.division}/${buzz.questionNumber}`;
       buzzpointsByQuestion.set(key, [...getBuzzpoints(buzz.division, buzz.questionNumber), buzz]);
     }
     const divisions = Object.keys(packets);
+
+    const viewerTeamName = buzzpoints.find(buzz => buzz.isYou)?.teamName ?? null;
+    const teamsByDivision = new Map(divisions.map(division => {
+      const teamNames = new Set(buzzpoints.filter(buzz => buzz.division === division && buzz.teamName !== null).map(buzz => buzz.teamName));
+      return [division, [...teamNames].sort((a, b) => (b === viewerTeamName) - (a === viewerTeamName) || a.localeCompare(b))];
+    }));
+    filters = readFiltersFromURL(search, teamsByDivision);
     const tossups = Object.values(packets).flat();
 
     // Tabs only help when there is more than one division to choose between
@@ -285,14 +378,19 @@ Promise.all([
 
     for (const division of divisions) {
       const getId = tossup => getTossupElementId(division, tossup);
-      let innerHTML = getNavHTML(packets[division], getId);
+      const teamNames = teamsByDivision.get(division);
+      let innerHTML = teamNames.length > 0 ? `<div class="mb-3">${getFilterHTML(teamNames, filters.get(division), viewerTeamName)}</div>` : '';
+      innerHTML += getNavHTML(packets[division], getId);
       for (const tossup of packets[division]) {
         innerHTML += getTossupHTML(tossup, division, getId(tossup));
       }
+      divs[division].dataset.division = division;
       divs[division].innerHTML += innerHTML;
 
       for (const tossup of packets[division]) {
-        drawTossupGraph(document.getElementById(getId(tossup)), tossup, getBuzzpoints(division, tossup.questionNumber));
+        drawTossupGraph(document.getElementById(getId(tossup)), tossup, getShownBuzzpoints(division, tossup.questionNumber));
       }
     }
+
+    writeFiltersToURL(filters);
   });
