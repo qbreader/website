@@ -11,11 +11,13 @@
     <!--#include virtual="/ssi/nav.html" -->
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <h1 class="text-center lead mb-3"><span id="packet-name"></span> Tossups:</h1>
+        <div class="packet-title-row mb-3">
+            <h1 class="lead mb-0"><span id="packet-name"></span> Tossups</h1>
+            <a id="back-link">Back to stats page</a>
+        </div>
         <p class="text-center text-muted">
             Press play to hear a tossup again.<span class="d-none" id="clue-hint"> Choose a clue to jump straight to it, or a buzz to hear where it came.</span>
         </p>
-        <p class="d-flex justify-content-end"><a id="back-link">Back to stats page</a></p>
         <nav aria-label="Divisions">
             <div class="nav nav-tabs" id="tabs" role="tablist"></div>
         </nav>
