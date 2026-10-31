@@ -63,7 +63,6 @@ export function getFilterHTML (teamNames, filter, viewerTeamName) {
   return `
     <div class="d-flex flex-wrap align-items-center gap-2" data-buzz-filter>
       <span class="small text-body-secondary">Showing</span>
-      <span class="d-flex flex-wrap align-items-center gap-1" data-filter-chips>${getFilterChipsHTML(filter)}</span>
       <div class="dropdown">
         <button type="button" class="btn btn-link buzz-filter-add" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Add a team" title="Add a team">
           <i class="bi bi-plus-circle" aria-hidden="true"></i>
@@ -76,6 +75,7 @@ export function getFilterHTML (teamNames, filter, viewerTeamName) {
           <p class="dropdown-item-text small text-body-secondary mb-0" data-filter-empty hidden>No teams match.</p>
         </div>
       </div>
+      <span class="d-flex flex-wrap align-items-center gap-1" data-filter-chips>${getFilterChipsHTML(filter)}</span>
       <button type="button" class="btn btn-sm btn-link px-1" data-filter-clear ${isFiltered(filter) ? '' : 'hidden'}>Clear</button>
       <span class="visually-hidden" data-filter-summary aria-live="polite">${escapeHTML(getFilterSummary(filter))}</span>
     </div>`;
