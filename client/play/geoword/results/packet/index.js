@@ -19,6 +19,10 @@ function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
 }
 
+function getTossupElementId (division, tossup) {
+  return `${kebabCase(division)}-question-${tossup.questionNumber}`;
+}
+
 /**
  * @param {HTMLElement} graph
  * @param {number | null} time
@@ -57,10 +61,21 @@ function getTossupHTML (tossup, division, id) {
           <div><b>ANSWER:</b> ${tossup.answer}</div>
           <div>&lt;${category}&gt;</div>
         </div>
-        ${buzzpoints.length > 0 && tossup.duration ? getBuzzGraphHTML(tossup, buzzpoints) : ''}
-        ${buzzpoints.length > 0 ? getBuzzTableHTML(tossup, buzzpoints) : ''}
+        ${getBuzzpointsHTML(tossup, buzzpoints)}
       </div>
     </section>`;
+}
+
+function getBuzzpointsHTML (tossup, buzzpoints) {
+  if (buzzpoints.length === 0) { return ''; }
+  return (tossup.duration ? getBuzzGraphHTML(tossup, buzzpoints) : '') + getBuzzTableHTML(tossup, buzzpoints);
+}
+
+function drawTossupGraph (section, tossup, buzzpoints) {
+  const graph = section.querySelector('.buzz-graph');
+  if (!graph) { return; }
+  drawBuzzGraph(graph, getBuzzGraphData(tossup, buzzpoints));
+  graphResizeObserver.observe(graph);
 }
 
 /**
@@ -269,7 +284,7 @@ Promise.all([
     const divs = createTabs({ tabNames: divisions });
 
     for (const division of divisions) {
-      const getId = tossup => `${kebabCase(division)}-question-${tossup.questionNumber}`;
+      const getId = tossup => getTossupElementId(division, tossup);
       let innerHTML = getNavHTML(packets[division], getId);
       for (const tossup of packets[division]) {
         innerHTML += getTossupHTML(tossup, division, getId(tossup));
@@ -277,10 +292,7 @@ Promise.all([
       divs[division].innerHTML += innerHTML;
 
       for (const tossup of packets[division]) {
-        const graph = document.getElementById(getId(tossup)).querySelector('.buzz-graph');
-        if (!graph) { continue; }
-        drawBuzzGraph(graph, getBuzzGraphData(tossup, getBuzzpoints(division, tossup.questionNumber)));
-        graphResizeObserver.observe(graph);
+        drawTossupGraph(document.getElementById(getId(tossup)), tossup, getBuzzpoints(division, tossup.questionNumber));
       }
     }
   });
