@@ -16,9 +16,24 @@
         <p class="text-muted small">
             Teammates play separately, so their buzzes are merged afterwards: on each
             tossup only the earliest buzz counts, and it locks out the rest of the team
-            whether or not it was correct. Tossups heard counts every tossup at least
-            one teammate has played, so a team's average is provisional until all of its
-            members finish the packet.
+            whether or not it was correct. Teammates who both answered after the audio
+            ended buzzed at the same time, so a correct answer from either counts.
+        </p>
+        <p class="text-muted small">
+            Every pair of teams in a division plays one simulated match. On each tossup
+            the team that buzzed earlier answers first: a correct answer scores and locks
+            out the other team, while a wrong one takes its penalty, if any, and leaves the
+            tossup to the other team's answer. If both teams answered after the audio
+            ended, they buzzed at the same time, and two correct answers split the points. The
+            team with more points wins the match. Only members who have finished the
+            packet count, so a team plays once one of its members finishes, and its
+            results stay put while the rest of the division plays. Teams are ranked by
+            the share of matches won (Pct, with a tie as half a win), then by Points.
+        </p>
+        <p class="text-muted small">
+            Points, Correct and Tossups heard count every member, finished or not.
+            Tossups heard counts every tossup at least one teammate has played, so a
+            team's average is provisional until all of its members finish the packet.
         </p>
         <nav class="mb-3">
             <div class="nav nav-tabs" id="tabs" role="tablist"></div>
