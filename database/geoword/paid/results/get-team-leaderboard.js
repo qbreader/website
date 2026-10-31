@@ -1,5 +1,7 @@
 import { buzzes, packets, teams } from '../../collections.js';
+import getQuestionCount from '../../get-question-count.js';
 import mergeBuzzes from '../../merge-buzzes.js';
+import simulateMatch from '../../simulate-match.js';
 
 /**
  * Standings for one team, after its members' buzzes are merged question by question.
@@ -29,7 +31,41 @@ function scoreTeam (team, teamBuzzes) {
 }
 
 /**
- * Team standings for a packet, by division.
+ * Every pair of teams in a division plays one simulated match. A team plays once at least
+ * one of its members has finished the division.
+ * @param {Array<{ team: Object, finishedBuzzes: Object[] }>} teamList - one division's teams,
+ * with the buzzes of their members who have finished
+ * @returns {Array<{ wins: number, losses: number, ties: number }>} each team's record, in the same order
+ */
+function playRoundRobin (teamList) {
+  const merged = teamList.map(({ finishedBuzzes }) => mergeBuzzes(finishedBuzzes));
+  const records = teamList.map(() => ({ wins: 0, losses: 0, ties: 0 }));
+
+  for (let i = 0; i < teamList.length; i++) {
+    for (let j = i + 1; j < teamList.length; j++) {
+      if (merged[i].length === 0 || merged[j].length === 0) { continue; }
+      const { winner } = simulateMatch(merged[i], merged[j]);
+      for (const [side, own] of [[0, i], [1, j]]) {
+        records[own][winner === null ? 'ties' : winner === side ? 'wins' : 'losses']++;
+      }
+    }
+  }
+
+  return records;
+}
+
+/**
+ * @param {{ wins: number, losses: number, ties: number }} record
+ * @returns {number | null} the share of matches won, with a tie as half a win, or null before any match
+ */
+function getWinPercentage ({ wins, losses, ties }) {
+  const played = wins + losses + ties;
+  return played === 0 ? null : (wins + ties / 2) / played;
+}
+
+/**
+ * Team standings for a packet, by division, ranked by win percentage in the simulated
+ * matches and then by points.
  *
  * Individual buzzes are never modified: a team's score is derived at read time, so
  * changing the merge rule re-scores the tournament without touching stored data.
@@ -52,13 +88,12 @@ export default async function getTeamLeaderboard ({ packetName, includeInactive 
   const standings = await Promise.all(divisions.map(async division => {
     if (teamList.length === 0) { return []; }
 
-    // One query per division rather than one per team.
-    const buzzList = await buzzes.find({
-      'packet.name': packetName,
-      division,
-      user_id: { $in: members },
-      ...(!includeInactive && { active: true })
-    }).toArray();
+    // One query per division rather than one per team. Inactive buzzes still count
+    // towards finishing the division, so they are filtered out afterwards.
+    const [buzzList, questionCount] = await Promise.all([
+      buzzes.find({ 'packet.name': packetName, division, user_id: { $in: members } }).toArray(),
+      getQuestionCount(packetName, division)
+    ]);
 
     const buzzesByUser = new Map();
     for (const buzz of buzzList) {
@@ -67,10 +102,28 @@ export default async function getTeamLeaderboard ({ packetName, includeInactive 
       buzzesByUser.set(String(buzz.user_id), userBuzzes);
     }
 
-    return teamList
-      .map(team => scoreTeam(team, team.members.flatMap(member => buzzesByUser.get(String(member)) ?? [])))
+    const counted = userBuzzes => includeInactive ? userBuzzes : userBuzzes.filter(buzz => buzz.active);
+    const teamBuzzes = teamList.map(team => {
+      const memberBuzzes = team.members.map(member => buzzesByUser.get(String(member)) ?? []);
+      return {
+        team,
+        countedBuzzes: memberBuzzes.flatMap(counted),
+        // Matches count only members who have finished, so results don't change while
+        // the rest of the division plays
+        finishedBuzzes: memberBuzzes.filter(userBuzzes => userBuzzes.length >= questionCount).flatMap(counted)
+      };
+    });
+    const records = playRoundRobin(teamBuzzes);
+
+    return teamBuzzes
+      .map(({ team, countedBuzzes }, index) => ({
+        ...scoreTeam(team, countedBuzzes),
+        ...records[index],
+        winPercentage: getWinPercentage(records[index])
+      }))
       .filter(row => row.tossupsHeard > 0)
-      .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity);
+      // Teams yet to play a match go last
+      .sort((a, b) => (b.winPercentage ?? -1) - (a.winPercentage ?? -1) || b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity);
   }));
 
   return Object.fromEntries(divisions.map((division, index) => [division, standings[index]]));
