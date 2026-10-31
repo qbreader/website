@@ -3,6 +3,7 @@ import { sendEmail } from './email.js';
 
 import getUserField from '../database/account-info/get-user-field.js';
 import getUserId from '../database/account-info/get-user-id.js';
+import getVerifiedUsernamesByEmail from '../database/account-info/get-verified-usernames-by-email.js';
 import updateUser from '../database/account-info/update-user.js';
 import verifyEmail from '../database/account-info/verify-email.js';
 
@@ -60,6 +61,25 @@ export function checkToken (username, token, checkEmailVerification = false) {
  */
 export function generateToken (username, verifiedEmail = false) {
   return sign({ username, verifiedEmail }, secret, { expiresIn: '7d' });
+}
+
+/**
+ * Resolves a login identifier, which is either a username or the verified email of an account, to a username.
+ * An email is tried first so a username equal to someone else's email cannot shadow their email login.
+ * @param {string} identifier
+ * @returns {Promise<string>} The username to authenticate as. It may not exist, so the password must still be checked.
+ */
+export async function resolveLoginIdentifier (identifier) {
+  const email = identifier.trim();
+  if (validateEmail(email)) {
+    const usernames = await getVerifiedUsernamesByEmail(email);
+    // more than one match is ambiguous, so the email cannot be used to log in
+    if (usernames.length === 1) {
+      return usernames[0];
+    }
+  }
+
+  return identifier;
 }
 
 /**
@@ -157,6 +177,11 @@ export function validateUsername (username) {
   }
 
   if (username.length < 1 || username.length > 20) {
+    return false;
+  }
+
+  // emails are accepted at login, so a username must not look like one
+  if (username.includes('@')) {
     return false;
   }
 
