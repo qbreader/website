@@ -20,7 +20,8 @@
  */
 
 /**
- * Live quizbowl lockout: the earliest buzz counts, right or wrong.
+ * Live quizbowl lockout: the earliest buzz counts, right or wrong. Teammates who
+ * buzzed at the same moment count the correct one.
  * @param {Buzz[]} buzzes - every teammate's buzz on one question; never empty
  * @returns {Buzz}
  */
@@ -29,8 +30,13 @@ export function earliestBuzz (buzzes) {
     if (buzz.celerity !== earliest.celerity) {
       return buzz.celerity > earliest.celerity ? buzz : earliest;
     }
-    // Exact ties are unlikely on a float, but break them deterministically so that
-    // standings don't depend on the order documents come back from the database.
+    // Teammates who both answered after the audio ended tie at celerity 0: they buzzed
+    // at the same time, so the team gives the correct answer if either has it.
+    if ((buzz.points > 0) !== (earliest.points > 0)) {
+      return buzz.points > 0 ? buzz : earliest;
+    }
+    // Otherwise break the tie deterministically so that standings don't depend on the
+    // order documents come back from the database.
     return String(buzz.user_id) < String(earliest.user_id) ? buzz : earliest;
   });
 }
