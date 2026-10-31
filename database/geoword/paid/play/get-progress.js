@@ -1,4 +1,5 @@
 import { buzzes, packets } from '../../collections.js';
+import areTeamsEnabled from '../../are-teams-enabled.js';
 import getDivisionChoice from '../../get-division-choice.js';
 
 async function getProgress (packetName, userId) {
@@ -18,6 +19,7 @@ async function getProgress (packetName, userId) {
   result[0] = result[0] || {};
   result[0].division = await getDivisionChoice(packetName, userId);
   result[0].scoring = (await packets.findOne({ name: packetName }, { projection: { scoring: 1 } }))?.scoring;
+  result[0].teamsEnabled = await areTeamsEnabled({ packetName });
   return result[0];
 }
 
