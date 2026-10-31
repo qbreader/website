@@ -8,9 +8,15 @@ import getSet from './get-set.js';
  * @returns {Promise<boolean>} whether the set has teams enabled; false if it doesn't exist
  */
 async function areTeamsEnabled ({ packetName, setName }) {
-  setName ??= (await getPacketSet(packetName))?.name;
-  if (!setName) { return false; }
-  return Boolean((await getSet(setName))?.teams?.enabled);
+  let name = setName;
+  if (!name) {
+    const packetSet = await getPacketSet(packetName);
+    name = packetSet?.name;
+  }
+  if (!name) { return false; }
+
+  const set = await getSet(name);
+  return Boolean(set?.teams?.enabled);
 }
 
 export default areTeamsEnabled;
