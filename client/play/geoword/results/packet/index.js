@@ -17,7 +17,6 @@ const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
-// Only the active division's toolbar has a size; hidden ones measure 0
 const toolbarResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) {
     if (target.offsetHeight > 0) { document.documentElement.style.setProperty('--buzz-toolbar-height', `${target.offsetHeight}px`); }
@@ -81,21 +80,11 @@ function getTossupHTML (tossup, division, id) {
     </section>`;
 }
 
-/**
- * @param {object} tossup
- * @param {object[]} buzzpoints
- * @returns {string} HTML for the tossup's buzz graph and table, if it has buzzes to show
- */
 function getBuzzpointsHTML (tossup, buzzpoints) {
   if (buzzpoints.length === 0) { return ''; }
   return (tossup.duration ? getBuzzGraphHTML(tossup, buzzpoints) : '') + getBuzzTableHTML(tossup, buzzpoints);
 }
 
-/**
- * @param {HTMLElement} section
- * @param {object} tossup
- * @param {object[]} buzzpoints
- */
 function drawTossupGraph (section, tossup, buzzpoints) {
   const graph = section.querySelector('.buzz-graph');
   if (!graph) { return; }
@@ -103,11 +92,6 @@ function drawTossupGraph (section, tossup, buzzpoints) {
   graphResizeObserver.observe(graph);
 }
 
-/**
- * Redraws everything in a tossup that depends on which buzzes are shown, leaving its audio playing.
- * @param {string} division
- * @param {object} tossup
- */
 function renderBuzzpoints (division, tossup) {
   const section = document.getElementById(getTossupId(division, tossup));
   const buzzpoints = getShownBuzzpoints(division, tossup.questionNumber);
@@ -126,9 +110,6 @@ function renderBuzzpoints (division, tossup) {
   showPosition(section);
 }
 
-/**
- * @param {string} division
- */
 function applyFilter (division) {
   const filter = filters.get(division);
   const bar = document.getElementById(`${kebabCase(division)}-content`).querySelector('[data-buzz-filter]');
@@ -158,17 +139,12 @@ function getNavHTML (tossups, getId) {
   return html + '</ul></nav>';
 }
 
-/**
- * Marks the question being read in the active division's question links.
- */
 function showCurrentQuestion () {
   currentQuestionFrame = null;
   const pane = tabContent.querySelector('.tab-pane.active');
   const toolbar = pane?.querySelector('.buzz-toolbar');
   if (!toolbar) { return; }
 
-  // The last question whose heading has reached the bottom of the toolbar, or the top of
-  // the screen once the toolbar has scrolled away on phones
   const line = Math.max(0, toolbar.getBoundingClientRect().bottom) + 24;
   const current = [...pane.querySelectorAll('section')].findLast(section => section.getBoundingClientRect().top <= line);
   for (const link of toolbar.querySelectorAll('.page-link')) {
@@ -353,7 +329,6 @@ tabContent.addEventListener('click', event => {
     teams.clear();
   }
   applyFilter(division);
-  // The button that had focus is gone
   bar.querySelector('[data-bs-toggle="dropdown"]').focus();
 });
 
@@ -415,7 +390,6 @@ Promise.all([
     }
     const divisions = Object.keys(packets);
 
-    // Your team first, then alphabetical
     const viewerTeamName = buzzpoints.find(buzz => buzz.isYou)?.teamName ?? null;
     const teamsByDivision = new Map(divisions.map(division => {
       const teamNames = new Set(buzzpoints.filter(buzz => buzz.division === division && buzz.teamName !== null).map(buzz => buzz.teamName));
@@ -456,6 +430,5 @@ Promise.all([
     }
     showCurrentQuestion();
 
-    // Drop any team in the URL that isn't in this packet
     writeFilters(filters);
   });

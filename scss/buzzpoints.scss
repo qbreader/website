@@ -205,7 +205,6 @@
     text-overflow: ellipsis;
 }
 
-// The title centered, with the back link on its right; stacked on phones
 .packet-title-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -235,7 +234,6 @@
     border-bottom: var(--bs-border-width) solid var(--bs-border-color);
 }
 
-// Every question link as wide as a two-digit one
 .buzz-toolbar .page-link {
     min-width: calc(2ch + 2 * var(--bs-pagination-padding-x) + 2 * var(--bs-pagination-border-width));
     text-align: center;
@@ -245,8 +243,6 @@
     scroll-margin-top: 1rem;
 }
 
-// Filter and question links, kept in reach while scrolling a packet. Not on phones,
-// where the toolbar wraps onto several lines and would cover too much of the screen.
 @include media-breakpoint-up(md) {
     .buzz-toolbar {
         position: sticky;
@@ -254,7 +250,6 @@
         z-index: $zindex-sticky;
     }
 
-    // So jumping to a question doesn't hide its heading under the toolbar
     .buzzpoints-section {
         scroll-margin-top: calc(var(--buzz-toolbar-height, 0px) + 1rem);
     }
