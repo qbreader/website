@@ -5,6 +5,7 @@ import sortTable from '../../../../scripts/utilities/tables.js';
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
+const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
 /**
  * @param {object[]} standings - one division's standings, best first
@@ -43,12 +44,14 @@ function showMatches (standings, index, tbody) {
 
 /**
  * A dropdown of a division's teams and a list of the chosen team's matches, each result
- * linking to the match on the Packet page. The viewer's team is chosen to begin with.
+ * linking to the match on the Packet page. The viewer's team is chosen to begin with, and
+ * choosing a row of the standings chooses its team.
  * @param {object[]} standings - one division's standings, best first
  * @param {string} id - a unique id for the dropdown
+ * @param {HTMLTableElement} standingsTable - its rows' `data-team` is their place in `standings`
  * @returns {HTMLDivElement}
  */
-function getMatchList (standings, id) {
+function getMatchList (standings, id, standingsTable) {
   const container = document.createElement('div');
   container.className = 'mt-4';
 
@@ -79,8 +82,51 @@ function getMatchList (standings, id) {
     headRow.appendChild(cell);
   }
   const tbody = table.createTBody();
-  select.addEventListener('change', () => showMatches(standings, Number(select.value), tbody));
-  showMatches(standings, Number(select.value), tbody);
+
+  /**
+   * @param {number} index - the team's place in the standings
+   */
+  function chooseTeam (index) {
+    select.value = index;
+    showMatches(standings, index, tbody);
+    for (const row of standingsTable.tBodies[0].rows) {
+      const selected = Number(row.dataset.team) === index;
+      row.classList.toggle('team-standings-selected', selected);
+      if (selected) {
+        row.setAttribute('aria-current', 'true');
+      } else {
+        row.removeAttribute('aria-current');
+      }
+    }
+  }
+
+  /**
+   * @param {HTMLTableRowElement} row - a row of the standings
+   */
+  function chooseRow (row) {
+    chooseTeam(Number(row.dataset.team));
+    // With many teams the matches can be far below the row
+    const { top, bottom } = picker.getBoundingClientRect();
+    if (top < 0 || bottom > window.innerHeight) {
+      container.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+    }
+  }
+
+  for (const row of standingsTable.tBodies[0].rows) {
+    row.tabIndex = 0;
+  }
+  standingsTable.tBodies[0].addEventListener('click', event => {
+    const row = event.target.closest('tr');
+    if (row) { chooseRow(row); }
+  });
+  standingsTable.tBodies[0].addEventListener('keydown', event => {
+    const row = event.target.closest('tr');
+    if (!row || (event.key !== 'Enter' && event.key !== ' ')) { return; }
+    event.preventDefault();
+    chooseRow(row);
+  });
+  select.addEventListener('change', () => chooseTeam(Number(select.value)));
+  chooseTeam(Number(select.value));
 
   const wrapper = document.createElement('div');
   wrapper.className = 'table-responsive';
@@ -122,6 +168,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
         const { teamName, memberCount, wins, losses, ties, winPercentage, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity, isYourTeam } = teamLeaderboard[division][index];
 
         const row = tbody.insertRow();
+        row.dataset.team = index;
         if (isYourTeam) { row.classList.add('team-standings-you'); }
         row.insertCell().textContent = parseInt(index) + 1;
         const name = row.insertCell();
@@ -150,7 +197,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
       divs[division].appendChild(wrapper);
 
       if (teamLeaderboard[division].some(({ matches }) => matches.length > 0)) {
-        divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`));
+        divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table));
       }
     }
   });

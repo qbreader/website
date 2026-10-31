@@ -1,6 +1,14 @@
-// Geoword team standings. The bar matches the Packet page's buzz table.
+// Geoword team standings. The bar and highlight match the Packet page's buzz table.
 .team-standings {
+    tbody tr[tabindex] {
+        cursor: pointer;
+    }
+
     tbody tr.team-standings-you > :first-child {
         box-shadow: inset 3px 0 0 rgb(var(--bs-primary-rgb)), inset 0 0 0 9999px var(--bs-table-bg-state, var(--bs-table-bg-type, var(--bs-table-accent-bg)));
+    }
+
+    tbody tr.team-standings-selected > * {
+        --bs-table-bg-state: rgba(var(--bs-primary-rgb), 0.3);
     }
 }
