@@ -1,7 +1,6 @@
 import { buzzes, packets } from '../../collections.js';
+import areTeamsEnabled from '../../are-teams-enabled.js';
 import getDivisionChoice from '../../get-division-choice.js';
-import getPacketSet from '../../get-packet-set.js';
-import getSet from '../../get-set.js';
 
 async function getProgress (packetName, userId) {
   const result = await buzzes.aggregate([
@@ -20,8 +19,7 @@ async function getProgress (packetName, userId) {
   result[0] = result[0] || {};
   result[0].division = await getDivisionChoice(packetName, userId);
   result[0].scoring = (await packets.findOne({ name: packetName }, { projection: { scoring: 1 } }))?.scoring;
-  const packetSet = await getPacketSet(packetName);
-  result[0].teamsEnabled = packetSet ? Boolean((await getSet(packetSet.name))?.teams?.enabled) : false;
+  result[0].teamsEnabled = await areTeamsEnabled({ packetName });
   return result[0];
 }
 
