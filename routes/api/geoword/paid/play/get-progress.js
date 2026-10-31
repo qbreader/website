@@ -9,8 +9,8 @@ router.get('/', async (req, res) => {
   const { username } = req.session;
   const packetName = req.query.packetName;
   const userId = await getUserId(username);
-  const { division, numberCorrect, points, scoring, totalCorrectCelerity, tossupsHeard } = await getProgress(packetName, userId);
-  res.json({ division, numberCorrect, points, scoring, totalCorrectCelerity, tossupsHeard });
+  const { division, numberCorrect, points, scoring, teamsEnabled, totalCorrectCelerity, tossupsHeard } = await getProgress(packetName, userId);
+  res.json({ division, numberCorrect, points, scoring, teamsEnabled, totalCorrectCelerity, tossupsHeard });
 });
 
 export default router;

@@ -19,6 +19,7 @@ let numberCorrect = 0;
 let points = 0;
 let prompts = [];
 let scoring;
+let teamsEnabled;
 let totalCorrectCelerity = 0;
 let tossupsHeard = 0;
 
@@ -27,8 +28,9 @@ document.getElementById('geoword-stats').href = '../results/?packetName=' + pack
 fetch('/api/geoword/paid/play/get-progress?' + new URLSearchParams({ packetName }))
   .then(response => response.json())
   .then(data => {
-    ({ division, numberCorrect, points, scoring, totalCorrectCelerity, tossupsHeard } = data);
+    ({ division, numberCorrect, points, scoring, teamsEnabled, totalCorrectCelerity, tossupsHeard } = data);
 
+    document.getElementById('team-notice').classList.toggle('d-none', !teamsEnabled);
     document.getElementById('packet-name').textContent = `${packetTitle} (${division})`;
 
     if (tossupsHeard > 0) {
