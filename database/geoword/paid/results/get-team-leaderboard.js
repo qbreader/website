@@ -1,5 +1,5 @@
 import { buzzes, packets, teams } from '../../collections.js';
-import mergeBuzzes from '../../merge-buzzes.js';
+import mergeBuzzes from '../../../../server/geoword/merge-buzzes.js';
 
 /**
  * Standings for one team, after its members' buzzes are merged question by question.
