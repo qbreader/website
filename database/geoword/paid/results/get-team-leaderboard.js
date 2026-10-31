@@ -77,10 +77,11 @@ function getWinPercentage ({ wins, losses, ties }) {
  *
  * @param {Object} options
  * @param {String} options.packetName
+ * @param {ObjectId} [options.viewerId] - marks the viewer's team with `isYourTeam`
  * @param {Boolean} [options.includeInactive] - count buzzes excluded from rankings
  * @returns {Promise<Object<string, Object[]>>} division name -> standings, best first
  */
-export default async function getTeamLeaderboard ({ packetName, includeInactive = false }) {
+export default async function getTeamLeaderboard ({ packetName, viewerId, includeInactive = false }) {
   const packet = await packets.findOne({ name: packetName });
   const divisions = packet?.divisions;
   if (!divisions || divisions.length === 0) {
@@ -124,7 +125,8 @@ export default async function getTeamLeaderboard ({ packetName, includeInactive 
       .map(({ team, countedBuzzes }, index) => ({
         ...scoreTeam(team, countedBuzzes),
         ...records[index],
-        winPercentage: getWinPercentage(records[index])
+        winPercentage: getWinPercentage(records[index]),
+        isYourTeam: Boolean(viewerId) && team.members.some(member => member.equals(viewerId))
       }))
       .filter(row => row.tossupsHeard > 0)
       // Teams yet to play a match go last
