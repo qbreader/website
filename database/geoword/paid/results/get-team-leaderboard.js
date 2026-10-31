@@ -1,5 +1,5 @@
-import { buzzes, packets, teams } from '../../collections.js';
 import mergeBuzzes from '../../merge-buzzes.js';
+import getDivisionTeams from './get-division-teams.js';
 
 /**
  * Standings for one team, after its members' buzzes are merged question by question.
@@ -40,38 +40,12 @@ function scoreTeam (team, teamBuzzes) {
  * @returns {Promise<Object<string, Object[]>>} division name -> standings, best first
  */
 export default async function getTeamLeaderboard ({ packetName, includeInactive = false }) {
-  const packet = await packets.findOne({ name: packetName });
-  const divisions = packet?.divisions;
-  if (!divisions || divisions.length === 0) {
-    return {};
-  }
+  const divisionTeams = await getDivisionTeams({ packetName, includeInactive });
 
-  const teamList = await teams.find({ 'set._id': packet.set._id }).toArray();
-  const members = teamList.flatMap(team => team.members);
-
-  const standings = await Promise.all(divisions.map(async division => {
-    if (teamList.length === 0) { return []; }
-
-    // One query per division rather than one per team.
-    const buzzList = await buzzes.find({
-      'packet.name': packetName,
-      division,
-      user_id: { $in: members },
-      ...(!includeInactive && { active: true })
-    }).toArray();
-
-    const buzzesByUser = new Map();
-    for (const buzz of buzzList) {
-      const userBuzzes = buzzesByUser.get(String(buzz.user_id)) ?? [];
-      userBuzzes.push(buzz);
-      buzzesByUser.set(String(buzz.user_id), userBuzzes);
-    }
-
-    return teamList
-      .map(team => scoreTeam(team, team.members.flatMap(member => buzzesByUser.get(String(member)) ?? [])))
-      .filter(row => row.tossupsHeard > 0)
-      .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity);
-  }));
-
-  return Object.fromEntries(divisions.map((division, index) => [division, standings[index]]));
+  return Object.fromEntries(Object.entries(divisionTeams).map(([division, teamList]) => [
+    division,
+    teamList
+      .map(({ team, buzzes }) => scoreTeam(team, buzzes))
+      .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity)
+  ]));
 }
