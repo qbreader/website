@@ -17,6 +17,12 @@ const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
+const toolbarResizeObserver = new window.ResizeObserver(entries => {
+  for (const { target } of entries) {
+    if (target.offsetHeight > 0) { document.documentElement.style.setProperty('--buzz-toolbar-height', `${target.offsetHeight}px`); }
+  }
+});
+let currentQuestionFrame = null;
 
 function getBuzzpoints (division, questionNumber) {
   return buzzpointsByQuestion.get(`${division}/${questionNumber}`) ?? [];
@@ -57,7 +63,7 @@ function getTossupHTML (tossup, division, id) {
   const buzzpoints = getShownBuzzpoints(division, tossup.questionNumber);
 
   return `
-    <section class="mb-5" style="scroll-margin-top: 1rem" id="${id}" aria-labelledby="${id}-heading">
+    <section class="mb-5 buzzpoints-section" id="${id}" aria-labelledby="${id}-heading">
       <h2 class="h5" id="${id}-heading">Question ${tossup.questionNumber}</h2>
       <div class="buzzpoints-layout ${buzzpoints.length > 0 ? 'has-buzzpoints' : ''}">
         <div class="buzzpoints-head">
@@ -126,11 +132,31 @@ function applyFilter (division) {
  * @returns {string} HTML for a row of links that jump to each question
  */
 function getNavHTML (tossups, getId) {
-  let html = '<nav aria-label="Questions"><ul class="pagination flex-wrap justify-content-center mb-4">';
+  let html = '<nav class="ms-auto" aria-label="Questions"><ul class="pagination pagination-sm flex-wrap mb-0">';
   for (const tossup of tossups) {
     html += `<li class="page-item"><a class="page-link" href="#${getId(tossup)}" aria-label="Jump to question ${tossup.questionNumber}">${tossup.questionNumber}</a></li>`;
   }
   return html + '</ul></nav>';
+}
+
+function showCurrentQuestion () {
+  currentQuestionFrame = null;
+  const pane = tabContent.querySelector('.tab-pane.active');
+  const toolbar = pane?.querySelector('.buzz-toolbar');
+  if (!toolbar) { return; }
+
+  const visibleTop = Math.max(0, toolbar.getBoundingClientRect().bottom);
+  const line = visibleTop + 0.3 * (window.innerHeight - visibleTop);
+  const current = [...pane.querySelectorAll('section')].findLast(section => section.getBoundingClientRect().top <= line);
+  for (const link of toolbar.querySelectorAll('.page-link')) {
+    const active = current !== undefined && link.hash === `#${current.id}`;
+    link.parentElement.classList.toggle('active', active);
+    if (active) {
+      link.setAttribute('aria-current', 'location');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  }
 }
 
 /**
@@ -323,6 +349,14 @@ tabContent.addEventListener('hidden.bs.dropdown', event => {
   searchFilterMenu(bar, '');
 });
 
+window.addEventListener('scroll', () => {
+  if (currentQuestionFrame === null) {
+    currentQuestionFrame = window.requestAnimationFrame(showCurrentQuestion);
+  }
+}, { passive: true });
+
+document.getElementById('tabs').addEventListener('shown.bs.tab', showCurrentQuestion);
+
 // Media events don't bubble, so these listen in the capture phase.
 tabContent.addEventListener('play', event => {
   // Only one tossup plays at a time
@@ -379,8 +413,11 @@ Promise.all([
     for (const division of divisions) {
       const getId = tossup => getTossupElementId(division, tossup);
       const teamNames = teamsByDivision.get(division);
-      let innerHTML = teamNames.length > 0 ? `<div class="mb-3">${getFilterHTML(teamNames, filters.get(division), viewerTeamName)}</div>` : '';
-      innerHTML += getNavHTML(packets[division], getId);
+      let innerHTML = `
+        <div class="buzz-toolbar sticky-md-top d-flex flex-wrap align-items-center gap-2 py-2 mb-4">
+          ${teamNames.length > 0 ? getFilterHTML(teamNames, filters.get(division), viewerTeamName) : ''}
+          ${getNavHTML(packets[division], getId)}
+        </div>`;
       for (const tossup of packets[division]) {
         innerHTML += getTossupHTML(tossup, division, getId(tossup));
       }
@@ -390,7 +427,9 @@ Promise.all([
       for (const tossup of packets[division]) {
         drawTossupGraph(document.getElementById(getId(tossup)), tossup, getShownBuzzpoints(division, tossup.questionNumber));
       }
+      toolbarResizeObserver.observe(divs[division].querySelector('.buzz-toolbar'));
     }
+    showCurrentQuestion();
 
     writeFiltersToURL(filters);
   });
