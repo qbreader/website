@@ -1,6 +1,7 @@
 import { getBuzzGraphData, getBuzzGraphHTML, getBuzzTableHTML, getCluesHTML } from './html.js';
 import { countBuzzGraphBuzzes, drawBuzzGraph, getBuzzGraphTime, setBuzzGraphDot, setBuzzGraphPlayhead } from './buzz-graph.js';
 import { getFilterChipsHTML, getFilterHTML, getFilterSummary, isFiltered, matchesFilter, readFilters, searchFilterMenu, writeFilters } from './filter.js';
+import { fetchMatch, getMatchQuestionHTML, getMatchSummaryHTML, getMatchToggleHTML, readShowMatch, writeShowMatch } from './match.js';
 import { formatTime, hasClueTimes } from './time.js';
 import createTabs from '../../../../../scripts/utilities/create-tabs.js';
 import { escapeHTML, kebabCase, titleCase } from '../../../../../shared/string-utils.js';
@@ -13,6 +14,9 @@ const tabContent = document.getElementById('tab-content');
 const buzzpointsByQuestion = new Map();
 let packets = {};
 let filters = new Map();
+let showMatch = readShowMatch(search);
+// Promises for the matches already asked for, by division and teams
+const matches = new Map();
 const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
@@ -66,6 +70,7 @@ function getTossupHTML (tossup, division, id) {
   return `
     <section class="mb-5 buzzpoints-section" id="${id}" aria-labelledby="${id}-heading">
       <h2 class="h5" id="${id}-heading">Question ${tossup.questionNumber}</h2>
+      <p class="small mb-2" data-match-question="${tossup.questionNumber}" hidden></p>
       <div class="buzzpoints-layout ${buzzpoints.length > 0 ? 'has-buzzpoints' : ''}">
         <div class="buzzpoints-head">
           ${tossup.instructions ? `<div class="alert alert-info small-alert mb-0"><b>Prompt:</b> ${tossup.instructions}</div>` : ''}
@@ -143,6 +148,72 @@ function applyFilter (division) {
     renderBuzzpoints(division, tossup);
   }
   writeFilters(filters);
+  renderMatch(division);
+}
+
+/**
+ * @param {string} division
+ * @returns {[string, string] | null} the two teams the division's filter shows, if it shows exactly two
+ */
+function getMatchTeams (division) {
+  const { teams } = filters.get(division);
+  return teams.size === 2 ? [...teams] : null;
+}
+
+/**
+ * Shows or hides the simulated match between the two teams the division's filter shows.
+ * @param {string} division
+ */
+async function renderMatch (division) {
+  const pane = document.getElementById(`${kebabCase(division)}-content`);
+  const toggle = pane.querySelector('[data-match-toggle]');
+  if (!toggle) { return; }
+
+  const teamNames = getMatchTeams(division);
+  toggle.disabled = teamNames === null;
+  toggle.checked = showMatch && teamNames !== null;
+  pane.querySelector('[data-match-hint]').hidden = teamNames !== null;
+
+  const summary = pane.querySelector('[data-match-summary]');
+  const slots = pane.querySelectorAll('[data-match-question]');
+  const clear = () => {
+    summary.hidden = true;
+    summary.replaceChildren();
+    for (const slot of slots) {
+      slot.hidden = true;
+      slot.replaceChildren();
+    }
+  };
+  if (!toggle.checked) {
+    clear();
+    return;
+  }
+
+  const key = JSON.stringify([division, ...teamNames]);
+  if (!matches.has(key)) {
+    matches.set(key, fetchMatch(packetName, division, teamNames));
+  }
+
+  let match;
+  try {
+    match = await matches.get(key);
+  } catch (error) {
+    console.error(error);
+    matches.delete(key);
+    summary.textContent = 'The match could not be loaded.';
+    summary.hidden = false;
+    return;
+  }
+  // The filter or the switch may have changed while the match loaded
+  if (!showMatch || JSON.stringify(getMatchTeams(division)) !== JSON.stringify(teamNames)) { return; }
+
+  clear();
+  summary.innerHTML = getMatchSummaryHTML(match, `../team-leaderboard?${new URLSearchParams({ packetName })}`);
+  summary.hidden = false;
+  for (const slot of slots) {
+    slot.innerHTML = getMatchQuestionHTML(match, Number(slot.dataset.matchQuestion));
+    slot.hidden = slot.innerHTML === '';
+  }
 }
 
 /**
@@ -329,6 +400,13 @@ tabContent.addEventListener('keydown', event => {
 });
 
 tabContent.addEventListener('change', event => {
+  if (!event.target.matches('[data-match-toggle]')) { return; }
+  showMatch = event.target.checked;
+  writeShowMatch(showMatch);
+  for (const division of Object.keys(packets)) { renderMatch(division); }
+});
+
+tabContent.addEventListener('change', event => {
   const checkbox = event.target.closest('[data-buzz-filter] input[type="checkbox"]');
   if (!checkbox) { return; }
   const division = checkbox.closest('.tab-pane').dataset.division;
@@ -441,8 +519,10 @@ Promise.all([
       let innerHTML = `
         <div class="buzz-toolbar d-flex flex-wrap align-items-center gap-2 py-2 mb-4">
           ${teamNames.length > 0 ? getFilterHTML(teamNames, filters.get(division), viewerTeamName) : ''}
+          ${teamNames.length > 1 ? getMatchToggleHTML(`${kebabCase(division)}-match`) : ''}
           ${getNavHTML(packets[division], getId)}
-        </div>`;
+        </div>
+        <div class="mb-4" data-match-summary aria-live="polite" hidden></div>`;
       for (const tossup of packets[division]) {
         innerHTML += getTossupHTML(tossup, division, getId(tossup));
       }
@@ -458,4 +538,5 @@ Promise.all([
 
     // Drop any team in the URL that isn't in this packet
     writeFilters(filters);
+    for (const division of divisions) { renderMatch(division); }
   });
