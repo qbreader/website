@@ -204,3 +204,37 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.buzz-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.375rem 0.25rem 0.75rem;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--bs-tertiary-bg);
+    font-size: 0.875rem;
+    line-height: 1.25;
+
+    .btn-close {
+        font-size: 0.625rem;
+    }
+}
+
+.buzz-filter-add {
+    padding: 0.125rem;
+    line-height: 1;
+    color: var(--bs-secondary-color);
+
+    &:hover,
+    &:focus-visible,
+    &[aria-expanded="true"] {
+        color: var(--bs-link-color);
+    }
+}
+
+.buzz-filter-menu {
+    width: 16rem;
+    max-height: 50vh;
+    overflow-y: auto;
+}
