@@ -204,3 +204,92 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+// The title centered, with the back link on its right; stacked on phones
+.packet-title-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 0.25rem;
+    text-align: center;
+}
+
+@include media-breakpoint-up(md) {
+    .packet-title-row {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: baseline;
+        gap: 1rem;
+
+        h1 {
+            grid-column: 2;
+        }
+
+        a {
+            justify-self: end;
+        }
+    }
+}
+
+.buzz-toolbar {
+    background-color: var(--bs-body-bg);
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+// Every question link as wide as a two-digit one
+.buzz-toolbar .page-link {
+    min-width: calc(2ch + 2 * var(--bs-pagination-padding-x) + 2 * var(--bs-pagination-border-width));
+    text-align: center;
+}
+
+.buzzpoints-section {
+    scroll-margin-top: 1rem;
+}
+
+// Filter and question links, kept in reach while scrolling a packet. Not on phones,
+// where the toolbar wraps onto several lines and would cover too much of the screen.
+@include media-breakpoint-up(md) {
+    .buzz-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: $zindex-sticky;
+    }
+
+    // So jumping to a question doesn't hide its heading under the toolbar
+    .buzzpoints-section {
+        scroll-margin-top: calc(var(--buzz-toolbar-height, 0px) + 1rem);
+    }
+}
+
+.buzz-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.375rem 0.25rem 0.75rem;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--bs-tertiary-bg);
+    font-size: 0.875rem;
+    line-height: 1.25;
+
+    .btn-close {
+        font-size: 0.625rem;
+    }
+}
+
+.buzz-filter-add {
+    padding: 0.125rem;
+    line-height: 1;
+    color: var(--bs-secondary-color);
+
+    &:hover,
+    &:focus-visible,
+    &[aria-expanded="true"] {
+        color: var(--bs-link-color);
+    }
+}
+
+.buzz-filter-menu {
+    width: 16rem;
+    max-height: 50vh;
+    overflow-y: auto;
+}
