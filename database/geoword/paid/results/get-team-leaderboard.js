@@ -34,22 +34,23 @@ function scoreTeam (team, teamBuzzes) {
  * at least one of its members has finished the packet, and only finished members'
  * buzzes count, so a result doesn't change as the rest of the division plays.
  * @param {import('./get-division-teams.js').DivisionTeam[]} teamList - one division's teams
- * @returns {Array<{ wins: number, losses: number, ties: number }>} each team's record, in the same order
+ * @returns {Array<{ wins: number, losses: number, ties: number, matches: Array<{ opponent: string, points: [number, number] }> }>}
+ * each team's record and matches, in the same order, with its own points first in each match
  */
 function playRoundRobin (teamList) {
   const merged = teamList.map(({ finishedBuzzes }) => mergeBuzzes(finishedBuzzes));
-  const records = teamList.map(() => ({ wins: 0, losses: 0, ties: 0 }));
+  const records = teamList.map(() => ({ wins: 0, losses: 0, ties: 0, matches: [] }));
 
   for (let i = 0; i < teamList.length; i++) {
     for (let j = i + 1; j < teamList.length; j++) {
       if (merged[i].length === 0 || merged[j].length === 0) { continue; }
-      const { winner } = simulateMatch(merged[i], merged[j]);
-      if (winner === null) {
-        records[i].ties++;
-        records[j].ties++;
-      } else {
-        records[winner === 0 ? i : j].wins++;
-        records[winner === 0 ? j : i].losses++;
+      const { points, winner } = simulateMatch(merged[i], merged[j]);
+      for (const [side, own, other] of [[0, i, j], [1, j, i]]) {
+        records[own][winner === null ? 'ties' : winner === side ? 'wins' : 'losses']++;
+        records[own].matches.push({
+          opponent: teamList[other].team.teamName,
+          points: side === 0 ? points : [points[1], points[0]]
+        });
       }
     }
   }
