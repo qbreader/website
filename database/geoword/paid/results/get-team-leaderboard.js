@@ -1,4 +1,5 @@
 import mergeBuzzes from '../../merge-buzzes.js';
+import simulateMatch from '../../simulate-match.js';
 import getDivisionTeams from './get-division-teams.js';
 
 /**
@@ -29,7 +30,45 @@ function scoreTeam (team, teamBuzzes) {
 }
 
 /**
- * Team standings for a packet, by division.
+ * Every pair of teams in a division plays one simulated match. A team plays only once
+ * at least one of its members has finished the packet, and only finished members'
+ * buzzes count, so a result doesn't change as the rest of the division plays.
+ * @param {import('./get-division-teams.js').DivisionTeam[]} teamList - one division's teams
+ * @returns {Array<{ wins: number, losses: number, ties: number }>} each team's record, in the same order
+ */
+function playRoundRobin (teamList) {
+  const merged = teamList.map(({ finishedBuzzes }) => mergeBuzzes(finishedBuzzes));
+  const records = teamList.map(() => ({ wins: 0, losses: 0, ties: 0 }));
+
+  for (let i = 0; i < teamList.length; i++) {
+    for (let j = i + 1; j < teamList.length; j++) {
+      if (merged[i].length === 0 || merged[j].length === 0) { continue; }
+      const { winner } = simulateMatch(merged[i], merged[j]);
+      if (winner === null) {
+        records[i].ties++;
+        records[j].ties++;
+      } else {
+        records[winner === 0 ? i : j].wins++;
+        records[winner === 0 ? j : i].losses++;
+      }
+    }
+  }
+
+  return records;
+}
+
+/**
+ * @param {{ wins: number, losses: number, ties: number }} record
+ * @returns {number | null} the share of matches won, with a tie as half a win, or null before any match
+ */
+function getWinPercentage ({ wins, losses, ties }) {
+  const played = wins + losses + ties;
+  return played === 0 ? null : (wins + ties / 2) / played;
+}
+
+/**
+ * Team standings for a packet, by division, ranked by win percentage in the simulated
+ * matches and then by points.
  *
  * Individual buzzes are never modified: a team's score is derived at read time, so
  * changing the merge rule re-scores the tournament without touching stored data.
@@ -44,8 +83,13 @@ export default async function getTeamLeaderboard ({ packetName, includeInactive 
 
   return Object.fromEntries(Object.entries(divisionTeams).map(([division, teamList]) => [
     division,
-    teamList
-      .map(({ team, buzzes }) => scoreTeam(team, buzzes))
-      .sort((a, b) => b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity)
+    playRoundRobin(teamList)
+      .map((record, index) => ({
+        ...scoreTeam(teamList[index].team, teamList[index].buzzes),
+        ...record,
+        winPercentage: getWinPercentage(record)
+      }))
+      // Teams yet to play a match go last
+      .sort((a, b) => (b.winPercentage ?? -1) - (a.winPercentage ?? -1) || b.points - a.points || b.numberCorrect - a.numberCorrect || b.averageCorrectCelerity - a.averageCorrectCelerity)
   ]));
 }
