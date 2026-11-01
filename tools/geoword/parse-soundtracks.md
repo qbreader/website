@@ -90,6 +90,8 @@ All fields are strings unless noted.
 **Only bold, underline, and italic survive; everything else becomes plain text.**
 
 - Keep bold, underline, and italic from the docx using only `<b>`, `<u>`, and `<i>`.
+- When text has more than one of these formats, always nest the tags in the order `<i>`, `<b>`, `<u>`: `<i>` outermost, then `<b>`, then `<u>` innermost, regardless of how the docx orders them. Example: bold-underlined text is `<b><u>text</u></b>`, and italic-bold-underlined text is `<i><b><u>text</u></b></i>`.
+- Tags must be properly nested, never overlapping. If formatting changes partway through a span, close and reopen tags in that same order. Example: text that is bold throughout but underlined only in the middle is `<b>aa </b><b><u>bb</u></b><b> cc</b>`.
 - Use no other HTML tags (no `<p>`, `<br>`, `<em>`, `<strong>`, `<span>`, etc.) and no non-text elements such as tables or images. Flatten them to plain text.
 
 ## Sanitized fields
@@ -110,7 +112,7 @@ Verify and state the results of:
 2. Every entry has all required fields, with no empty strings (`instructions` and `clipBoundaries` may be absent as described above).
 3. Each `subcategory` is the title-cased tag, and each `category` equals its `subcategory`.
 4. `clues.length === clipBoundaries.length` for every entry that has `clipBoundaries`, and each `clipBoundaries` starts at 0 and strictly increases.
-5. The only HTML tags present are `<b>`, `<u>`, `<i>`.
+5. The only HTML tags present are `<b>`, `<u>`, `<i>`, and wherever they nest, `<i>` is outside `<b>`, which is outside `<u>`.
 6. The `*_sanitized` fields contain no HTML tags.
 
 Then report anything you had to guess or could not fill in.
