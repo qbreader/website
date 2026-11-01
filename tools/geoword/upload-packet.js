@@ -11,7 +11,7 @@ import { users } from '../../database/account-info/collections.js';
 import { geoword, mongoClient } from '../../database/databases.js';
 import { saltAndHashPassword } from '../../server/authentication.js';
 import getRandomName from '../../shared/get-random-name.js';
-import { DEFAULT_SCORING_SCHEME, SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
+import { SCORING_SCHEMES } from '../../shared/geoword-scoring.js';
 import getMp3Duration from './get-mp3-duration.js';
 
 import { readdir, readFile } from 'fs/promises';
@@ -96,9 +96,8 @@ const argv = yargs(hideBin(process.argv))
     type: 'boolean'
   })
   .option('scoring', {
-    description: 'how buzzes are scored: celerity is 10-20 points for a correct answer, neg5 is +10 / -5 (0 once the audio has ended)',
-    choices: Object.keys(SCORING_SCHEMES),
-    default: DEFAULT_SCORING_SCHEME
+    description: 'how buzzes are scored: celerity is 10-20 points for a correct answer, neg5 is +10 / -5 (0 once the audio has ended). Required whenever a packet is created or replaced; --upsert, --publish and --sample-only leave an existing packet\'s scoring alone',
+    choices: Object.keys(SCORING_SCHEMES)
   })
   .option('replace', {
     description: "prod mode only: delete the packet's tossups and audio first; refused once anyone has played or paid",
@@ -142,13 +141,13 @@ const argv = yargs(hideBin(process.argv))
   └── ...              every .mp3 needs an answers.json entry, and each file must be under 16 MB
 
 Examples:
-  node tools/geoword/upload-packet.js --mode test -n soundtracks --set september
+  node tools/geoword/upload-packet.js --mode test -n soundtracks --set september --scoring celerity
       Seed a local demo: free, public, with test users and teams
-  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september --teams -c 500
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september --teams -c 500 --scoring celerity
       Upload a real round for $5.00, hidden from players, and open team registration for its set
   node tools/geoword/upload-packet.js --mode prod -n soundtracks --publish
       Make the uploaded real round public
-  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september -c 500 --replace
+  node tools/geoword/upload-packet.js --mode prod -n soundtracks --set september -c 500 --scoring celerity --replace
       Re-upload a real round nobody has played or paid for yet
   node tools/geoword/upload-packet.js --mode prod -n soundtracks -c 500 --upsert
       Apply answers.json edits (answers, categories, ...) to a real round, even one players have used
@@ -377,6 +376,11 @@ if (costInCents === undefined) {
 }
 if (!Number.isInteger(costInCents) || costInCents < 0) {
   throw new Error(PROD ? '--cost is required in prod mode when creating a packet: a whole number of cents, 0 or more.' : '--cost must be a whole number of cents, 0 or more.');
+}
+
+// Scoring is only written when a packet is created, so every other path may omit it.
+if (argv.scoring === undefined && !(argv.upsert && existing)) {
+  throw new Error(`--scoring is required when creating or replacing a packet: one of ${Object.keys(SCORING_SCHEMES).join(', ')}.`);
 }
 
 /**
