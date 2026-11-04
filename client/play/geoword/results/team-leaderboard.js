@@ -69,7 +69,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
       divs[division].appendChild(wrapper);
 
       if (teamLeaderboard[division].some(({ matches }) => matches.length > 0)) {
-        divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table, packetName));
+        divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table.tBodies[0], packetName));
       }
     }
   });
