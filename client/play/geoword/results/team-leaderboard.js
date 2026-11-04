@@ -91,7 +91,7 @@ function getMatchList (standings, id, standingsTable) {
     showMatches(standings, index, tbody);
     for (const row of standingsTable.tBodies[0].rows) {
       const selected = Number(row.dataset.team) === index;
-      row.classList.toggle('team-standings-selected', selected);
+      row.classList.toggle('table-primary', selected);
       if (selected) {
         row.setAttribute('aria-current', 'true');
       } else {
