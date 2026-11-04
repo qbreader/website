@@ -1,3 +1,4 @@
+import getMatchList from './team-matches.js';
 import createTabs from '../../../../scripts/utilities/create-tabs.js';
 import { kebabCase, titleCase } from '../../../../shared/string-utils.js';
 import sortTable from '../../../../scripts/utilities/tables.js';
@@ -19,7 +20,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
     for (const division of Object.keys(teamLeaderboard)) {
       const kebabed = kebabCase(division);
       const table = document.createElement('table');
-      table.className = 'table table-hover';
+      table.className = 'table table-hover team-standings';
       table.id = `${kebabed}-table`;
       const thead = table.createTHead();
       const theadRow = thead.insertRow();
@@ -36,11 +37,20 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
       }
       const tbody = table.createTBody();
       for (const index in teamLeaderboard[division]) {
-        const { teamName, memberCount, wins, losses, ties, winPercentage, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity } = teamLeaderboard[division][index];
+        const { teamName, memberCount, wins, losses, ties, winPercentage, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity, isYourTeam } = teamLeaderboard[division][index];
 
         const row = tbody.insertRow();
+        row.dataset.team = index;
+        if (isYourTeam) { row.classList.add('team-standings-you'); }
         row.insertCell().textContent = parseInt(index) + 1;
-        row.insertCell().textContent = teamName;
+        const name = row.insertCell();
+        name.textContent = teamName;
+        if (isYourTeam) {
+          const label = document.createElement('span');
+          label.className = 'visually-hidden';
+          label.textContent = ' (your team)';
+          name.appendChild(label);
+        }
         row.insertCell().textContent = memberCount;
         const record = row.insertCell();
         record.className = 'text-nowrap';
@@ -57,5 +67,9 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
       wrapper.className = 'table-responsive';
       wrapper.appendChild(table);
       divs[division].appendChild(wrapper);
+
+      if (teamLeaderboard[division].some(({ matches }) => matches.length > 0)) {
+        divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table.tBodies[0], packetName));
+      }
     }
   });
