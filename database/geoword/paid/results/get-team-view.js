@@ -1,6 +1,7 @@
 import getUsername from '../../../account-info/get-username.js';
 import getQuestionCount from '../../get-question-count.js';
 import getTeamBuzzes from './get-team-buzzes.js';
+import hasFinished from '../../../../server/geoword/has-finished.js';
 
 /**
  * @param {Object} options
@@ -19,7 +20,7 @@ async function getTeamView ({ packetName, division, team, viewerId }) {
   const members = await Promise.all(team.members.map(async member => ({
     username: await getUsername(member),
     isYou: member.equals(viewerId),
-    finished: teamBuzzes.filter(question => question.buzzes.some(buzz => buzz.user_id.equals(member))).length >= questionCount
+    finished: hasFinished(teamBuzzes.filter(question => question.buzzes.some(buzz => buzz.user_id.equals(member))).length, questionCount)
   })));
 
   const questions = await Promise.all(teamBuzzes.map(async question => ({
