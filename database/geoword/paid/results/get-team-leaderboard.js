@@ -1,5 +1,6 @@
 import { buzzes, packets, teams } from '../../collections.js';
 import getQuestionCount from '../../get-question-count.js';
+import hasFinished from '../../../../server/geoword/has-finished.js';
 import { getPointsPerGame, getWinPercentage, playRoundRobin } from '../../../../server/geoword/play-round-robin.js';
 import { compareStandings, scoreTeam } from '../../../../server/geoword/team-standings.js';
 
@@ -63,7 +64,7 @@ export default async function getTeamLeaderboard ({ packetName, viewerId, includ
         countedBuzzes: memberBuzzes.flat(),
         // Matches count only members who have finished, so results don't change while
         // the rest of the division plays
-        finishedBuzzes: memberBuzzes.filter(userBuzzes => userBuzzes.length >= questionCount).flat()
+        finishedBuzzes: memberBuzzes.filter(userBuzzes => hasFinished(userBuzzes.length, questionCount)).flat()
       };
     });
     const records = playRoundRobin(teamEntries);
