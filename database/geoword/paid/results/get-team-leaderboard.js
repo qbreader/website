@@ -1,10 +1,21 @@
 import { buzzes, packets, teams } from '../../collections.js';
 import getQuestionCount from '../../get-question-count.js';
-import compareStandings from '../../../../server/geoword/compare-standings.js';
-import getWinPercentage from '../../../../server/geoword/get-win-percentage.js';
-import groupBuzzesByUser from '../../../../server/geoword/group-buzzes-by-user.js';
-import playRoundRobin from '../../../../server/geoword/play-round-robin.js';
-import scoreTeam from '../../../../server/geoword/score-team.js';
+import { getWinPercentage, playRoundRobin } from '../../../../server/geoword/play-round-robin.js';
+import { compareStandings, scoreTeam } from '../../../../server/geoword/team-standings.js';
+
+/**
+ * @param {Object[]} buzzList - buzzes with a `user_id`
+ * @returns {Map<string, Object[]>} each user's buzzes, keyed by the string form of their id
+ */
+function groupBuzzesByUser (buzzList) {
+  const buzzesByUser = new Map();
+  for (const buzz of buzzList) {
+    const userBuzzes = buzzesByUser.get(String(buzz.user_id)) ?? [];
+    userBuzzes.push(buzz);
+    buzzesByUser.set(String(buzz.user_id), userBuzzes);
+  }
+  return buzzesByUser;
+}
 
 /**
  * Team standings for a packet, by division, ranked by win percentage in the simulated

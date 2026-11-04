@@ -6,7 +6,7 @@ import mergeBuzzes from './merge-buzzes.js';
  * @param {Object[]} teamBuzzes - every buzz by every member of that team
  * @returns {Object} the team's row in the standings
  */
-export default function scoreTeam (team, teamBuzzes) {
+export function scoreTeam (team, teamBuzzes) {
   const merged = mergeBuzzes(teamBuzzes);
   const correct = merged.filter(buzz => buzz.points > 0);
   const points = merged.reduce((total, buzz) => total + buzz.points, 0);
@@ -25,4 +25,18 @@ export default function scoreTeam (team, teamBuzzes) {
       ? 0
       : correct.reduce((total, buzz) => total + buzz.celerity, 0) / correct.length
   };
+}
+
+/**
+ * Orders the standings best first: win percentage, then points, then correct answers, then
+ * average celerity. Teams yet to play a match (null win percentage) go last.
+ * @param {{ winPercentage: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} a
+ * @param {{ winPercentage: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} b
+ * @returns {number} negative if `a` ranks above `b`
+ */
+export function compareStandings (a, b) {
+  return (b.winPercentage ?? -1) - (a.winPercentage ?? -1) ||
+    b.points - a.points ||
+    b.numberCorrect - a.numberCorrect ||
+    b.averageCorrectCelerity - a.averageCorrectCelerity;
 }

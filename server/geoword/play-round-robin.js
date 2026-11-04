@@ -19,7 +19,7 @@ function getOutcome (winner, side) {
  * @returns {Array<{ wins: number, losses: number, ties: number, matches: Array<{ opponent: string, points: [number, number] }> }>}
  * each team's record and matches, in the same order, with its own points first in each match
  */
-export default function playRoundRobin (teamList) {
+export function playRoundRobin (teamList) {
   const merged = teamList.map(({ finishedBuzzes }) => mergeBuzzes(finishedBuzzes));
   const records = teamList.map(() => ({ wins: 0, losses: 0, ties: 0, matches: [] }));
 
@@ -36,4 +36,13 @@ export default function playRoundRobin (teamList) {
   }
 
   return records;
+}
+
+/**
+ * @param {{ wins: number, losses: number, ties: number }} record
+ * @returns {number | null} the share of matches won, with a tie as half a win, or null before any match
+ */
+export function getWinPercentage ({ wins, losses, ties }) {
+  const played = wins + losses + ties;
+  return played === 0 ? null : (wins + ties / 2) / played;
 }
