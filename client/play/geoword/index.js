@@ -44,7 +44,7 @@ function createSetCard (setName, packetList, hasRegistration, onTeam) {
   buttons.className = 'd-flex flex-wrap gap-2';
   for (const packet of packetList) {
     const a = document.createElement('a');
-    a.className = 'btn btn-primary';
+    a.className = 'btn btn-sm btn-primary';
     a.href = './' + (packet.costInCents ? 'payment' : 'division/') + '?packetName=' + packet.name;
     a.textContent = titleCase(packet.name);
     buttons.appendChild(a);
