@@ -70,7 +70,8 @@ async function checkGeowordAnswer (givenAnswer, questionNumber, celerity, prompt
 }
 
 async function giveAnswer (givenAnswer) {
-  const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
+  // The browser's MP3 duration is an estimate, so audio can end short of it; trust `ended` instead.
+  const celerity = currentAudio.ended ? 0 : Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
   const { actualAnswer, directive, directedPrompt, saved } = await checkGeowordAnswer(givenAnswer, questionNumber, celerity, prompts);
 
   switch (directive) {
