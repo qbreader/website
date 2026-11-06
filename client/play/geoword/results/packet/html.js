@@ -67,9 +67,9 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
 
     rows += `
       <tr ${data} ${who ? `class="buzz-table-${who}"` : ''}>
-        <td>
-          <span class="${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
-          ${buzz.teamName ? `<small class="d-block opacity-75">${escapeHTML(buzz.teamName)}</small>` : ''}
+        <td class="buzz-table-player">
+          <span class="d-block ${buzz.isYou ? 'fw-bold' : ''}" title="${escapeHTML(buzz.username)}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
+          ${buzz.teamName ? `<small class="d-block opacity-75" title="${escapeHTML(buzz.teamName)}">${escapeHTML(buzz.teamName)}</small>` : ''}
         </td>
         <td class="text-end">${(buzz.celerity ?? 0).toFixed(3)}</td>
         <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>

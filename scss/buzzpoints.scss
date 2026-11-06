@@ -198,8 +198,18 @@
     }
 }
 
+.buzz-table-player {
+    width: 50%;
+    max-width: 0;
+
+    > * {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
 .buzz-table-answer {
-    width: 40%;
+    width: 50%;
     max-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
