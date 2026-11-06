@@ -1,4 +1,5 @@
 import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../format-celerity.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -77,13 +78,13 @@ document.getElementById('form').addEventListener('submit', event => {
                 <div class="row mb-3">
                     <div class="col-6">
                         <div><b>#${myBuzz.questionNumber}</b></div>
-                        <div><b>Celerity:</b> ${(myBuzz.celerity ?? 0.0).toFixed(3)}</div>
+                        <div><b>Celerity:</b> ${formatCelerity(myBuzz.celerity ?? 0)}</div>
                         <div><b>Points:</b> ${myBuzz.points}</div>
                         <div><b>Given answer:</b> ${escapeHTML(myBuzz.givenAnswer)}</div>
                     </div>
                     <div class="col-6">
                         <div><b>Answer:</b> ${removeParentheses(myBuzz.answer)}</div>
-                        <div><b>Celerity:</b> ${(opponentBuzz.celerity ?? 0.0).toFixed(3)}</div>
+                        <div><b>Celerity:</b> ${formatCelerity(opponentBuzz.celerity ?? 0)}</div>
                         <div><b>Points:</b> ${opponentBuzz.points}</div>
                         <div><b>Given answer:</b> ${escapeHTML(opponentBuzz.givenAnswer)}</div>
                     </div>
