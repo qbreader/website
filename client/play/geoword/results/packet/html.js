@@ -1,5 +1,6 @@
 import { formatTime, getBuzzClue, getBuzzTime, hasClueTimes } from './time.js';
 import { escapeHTML } from '../../../../../shared/string-utils.js';
+import formatCelerity from '../../format-celerity.js';
 
 /**
  * @param {object} tossup
@@ -71,7 +72,7 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
           <span class="${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
           ${buzz.teamName ? `<small class="d-block opacity-75">${escapeHTML(buzz.teamName)}</small>` : ''}
         </td>
-        <td class="text-end">${(buzz.celerity ?? 0).toFixed(3)}</td>
+        <td class="text-end">${formatCelerity(buzz.celerity ?? 0)}</td>
         <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
         <td class="buzz-table-answer" title="${escapeHTML(buzz.givenAnswer)}">${escapeHTML(buzz.givenAnswer)}</td>
       </tr>`;
