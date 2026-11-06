@@ -32,19 +32,26 @@ function scoreQuestion (a, b) {
 /**
  * @param {Buzz[]} a - the first team's merged buzzes, one per question
  * @param {Buzz[]} b - the second team's merged buzzes, one per question
- * @returns {{ points: [number, number], winner: 0 | 1 | null }} each team's total, and the
- * index of the team with the higher total, or null on a tie
+ * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>] }}
+ * each team's total, the index of the team with the higher total (null on a tie), and each
+ * team's points by the player whose buzz scored them
  */
 export default function simulateMatch (a, b) {
   const aByQuestion = new Map(a.map(buzz => [buzz.questionNumber, buzz]));
   const bByQuestion = new Map(b.map(buzz => [buzz.questionNumber, buzz]));
 
   const points = [0, 0];
+  const playerPoints = [{}, {}];
   for (const questionNumber of new Set([...aByQuestion.keys(), ...bByQuestion.keys()])) {
-    const [x, y] = scoreQuestion(aByQuestion.get(questionNumber), bByQuestion.get(questionNumber));
-    points[0] += x;
-    points[1] += y;
+    const buzzes = [aByQuestion.get(questionNumber), bByQuestion.get(questionNumber)];
+    scoreQuestion(...buzzes).forEach((questionPoints, side) => {
+      points[side] += questionPoints;
+      if (buzzes[side]) {
+        const player = String(buzzes[side].user_id);
+        playerPoints[side][player] = (playerPoints[side][player] ?? 0) + questionPoints;
+      }
+    });
   }
 
-  return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1 };
+  return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1, playerPoints };
 }
