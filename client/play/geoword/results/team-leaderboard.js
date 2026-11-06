@@ -24,8 +24,8 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
       table.id = `${kebabed}-table`;
       const thead = table.createTHead();
       const theadRow = thead.insertRow();
-      const labels = ['#', 'Team', 'Players', 'W-L-T', 'Pct', 'Celerity', 'Correct', 'TUH', 'Points', 'PPTU'];
-      const numeric = [true, false, true, false, true, true, true, true, true, true];
+      const labels = ['#', 'Team', 'Players', 'W-L-T', 'Pct', 'Celerity', 'Correct', 'TUH', 'Points', 'PPTU', 'PPG'];
+      const numeric = [true, false, true, false, true, true, true, true, true, true, true];
       for (const index in labels) {
         const label = labels[index];
         const cell = document.createElement('th');
@@ -37,7 +37,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
       }
       const tbody = table.createTBody();
       for (const index in teamLeaderboard[division]) {
-        const { teamName, memberCount, wins, losses, ties, winPercentage, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity, isYourTeam } = teamLeaderboard[division][index];
+        const { teamName, memberCount, wins, losses, ties, winPercentage, pointsPerGame, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity, isYourTeam } = teamLeaderboard[division][index];
 
         const row = tbody.insertRow();
         row.dataset.team = index;
@@ -62,6 +62,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
         row.insertCell().textContent = tossupsHeard;
         row.insertCell().textContent = points;
         row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
+        row.insertCell().textContent = pointsPerGame === null ? '–' : pointsPerGame.toFixed(2);
       }
       const wrapper = document.createElement('div');
       wrapper.className = 'table-responsive';

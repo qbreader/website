@@ -46,3 +46,12 @@ export function getWinPercentage ({ wins, losses, ties }) {
   const played = wins + losses + ties;
   return played === 0 ? null : (wins + ties / 2) / played;
 }
+
+/**
+ * @param {{ matches: Array<{ points: [number, number] }> }} record
+ * @returns {number | null} the team's average points across its simulated matches, or null before any match
+ */
+export function getPointsPerGame ({ matches }) {
+  if (matches.length === 0) { return null; }
+  return matches.reduce((total, { points }) => total + points[0], 0) / matches.length;
+}
