@@ -1,6 +1,7 @@
 import { buzzes } from '../../collections.js';
 
 import getDivisions from '../../get-divisions.js';
+import getTeamLeaderboard from './get-team-leaderboard.js';
 import getUsername from '../../../account-info/get-username.js';
 
 function getAggregation ({ division, includeInactive, packetName, limit }) {
@@ -37,11 +38,20 @@ export default async function getLeaderboard ({ packetName, includeInactive = fa
     return buzzes.aggregate(aggregation).toArray();
   });
 
-  const results = await Promise.all(queries);
-  for (const result of results) {
+  const [results, teamLeaderboard] = await Promise.all([
+    Promise.all(queries),
+    getTeamLeaderboard({ packetName, includeInactive })
+  ]);
+  for (const [divisionIndex, result] of results.entries()) {
+    // A player's points in their team's simulated matches, averaged over those matches
+    const pointsPerGame = new Map((teamLeaderboard[divisions[divisionIndex]] ?? [])
+      .filter(({ matches }) => matches.length > 0)
+      .flatMap(({ matches, playerPoints }) => Object.entries(playerPoints)
+        .map(([player, points]) => [player, points / matches.length])));
     for (const index in result) {
       const userId = result[index]._id;
       result[index].username = await getUsername(userId);
+      result[index].pointsPerGame = pointsPerGame.get(String(userId)) ?? null;
     }
   }
 
