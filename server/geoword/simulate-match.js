@@ -25,7 +25,7 @@ function scoreQuestion (a, b) {
 
   const aFirst = a.celerity > b.celerity;
   const [first, second] = aFirst ? [a, b] : [b, a];
-  const points = [first.points, first.points > 0 ? 0 : second.points];
+  const points = [first.points, first.points > 0 ? 0 : Math.max(0, second.points)];
   return aFirst ? points : [points[1], points[0]];
 }
 
