@@ -59,8 +59,7 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
     let data = '';
     if (tossup.duration) {
       const time = getBuzzTime(buzz, tossup.duration);
-      data = `data-buzz-time="${time ?? tossup.duration}" tabindex="0"`;
-      if (time !== null) { data += ` data-correct="${buzz.points > 0}"`; }
+      data = `data-buzz-time="${time ?? tossup.duration}" data-correct="${buzz.points > 0}" tabindex="0"`;
       if (hasClueTimes(tossup)) { data += ` data-clue="${getBuzzClue(buzz, tossup)}"`; }
     }
     const who = buzz.isYou ? 'you' : buzz.isTeammate ? 'teammate' : '';
@@ -100,9 +99,12 @@ export function getBuzzGraphData (tossup, buzzpoints) {
   const correct = [];
   const wrong = [];
   for (const buzz of buzzpoints) {
-    const time = getBuzzTime(buzz, tossup.duration);
-    if (time !== null) { (buzz.points > 0 ? correct : wrong).push(time); }
+    // Buzzes after the audio ended have no time within it, so they pile up at the very end
+    const time = getBuzzTime(buzz, tossup.duration) ?? tossup.duration;
+    (buzz.points > 0 ? correct : wrong).push(time);
   }
+  correct.sort((a, b) => a - b);
+  wrong.sort((a, b) => a - b);
   return { duration: tossup.duration, starts: hasClueTimes(tossup) ? tossup.clipBoundaries : [], correct, wrong };
 }
 
