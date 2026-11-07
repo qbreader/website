@@ -50,7 +50,12 @@
             <div class="card-body">
                 <div class="fw-bold">Visibility</div>
                 <div class="text-body-secondary mb-2">Hidden packets can only be reached by admins and the set's special users.</div>
-                <div class="d-flex align-items-center gap-2" id="visibility-control"></div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge text-bg-secondary d-none" id="hidden-badge">Hidden</span>
+                    <span class="badge text-bg-success d-none" id="published-badge">Published</span>
+                    <button type="button" class="btn btn-sm btn-success d-none" id="publish-button">Publish</button>
+                    <button type="button" class="btn btn-sm btn-warning d-none" id="unpublish-button">Unpublish</button>
+                </div>
             </div>
         </div>
     </div>

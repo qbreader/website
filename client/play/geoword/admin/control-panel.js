@@ -5,38 +5,11 @@ const packetName = search.get('packetName');
 
 document.getElementById('packet-name').textContent = titleCase(packetName);
 
-/**
- * @param {boolean} hidden - whether the packet is currently hidden from players
- */
-function renderVisibility (hidden) {
-  const status = document.createElement('span');
-  status.className = `badge ${hidden ? 'text-bg-secondary' : 'text-bg-success'}`;
-  status.textContent = hidden ? 'Hidden' : 'Published';
-
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = `btn btn-sm ${hidden ? 'btn-success' : 'btn-warning'}`;
-  button.textContent = hidden ? 'Publish' : 'Unpublish';
-
-  button.addEventListener('click', async () => {
-    if (!hidden && !window.confirm(`Hide ${titleCase(packetName)} from players?`)) { return; }
-
-    button.disabled = true;
-    const response = await fetch('/api/geoword/admin/published?' + new URLSearchParams({ packetName, published: hidden }), { method: 'PUT' });
-    if (response.ok) {
-      renderVisibility(!hidden);
-    } else {
-      button.disabled = false;
-      window.alert('Something went wrong. Please try again.');
-    }
-  });
-
-  document.getElementById('visibility-control').replaceChildren(status, button);
-}
-
 const response = await fetch('/api/geoword/admin/packet-info?' + new URLSearchParams({ packetName }));
 
-if (response.ok) {
+if (!response.ok) {
+  document.getElementById('packet-info').replaceChildren('Could not load this packet.');
+} else {
   const { packetInfo } = await response.json();
   const { divisions, questionCount, costInCents, hidden, set } = packetInfo;
 
@@ -50,7 +23,41 @@ if (response.ok) {
     document.getElementById('info-teams').textContent = set.teamsEnabled ? 'Enabled' : 'Disabled';
   }
 
-  renderVisibility(hidden);
-} else {
-  document.getElementById('packet-info').replaceChildren('Could not load this packet.');
+  const hiddenBadge = document.getElementById('hidden-badge');
+  const publishedBadge = document.getElementById('published-badge');
+  const publishButton = document.getElementById('publish-button');
+  const unpublishButton = document.getElementById('unpublish-button');
+
+  /**
+   * @param {boolean} hidden - whether the packet is currently hidden from players
+   */
+  function showVisibility (hidden) {
+    hiddenBadge.classList.toggle('d-none', !hidden);
+    publishButton.classList.toggle('d-none', !hidden);
+    publishedBadge.classList.toggle('d-none', hidden);
+    unpublishButton.classList.toggle('d-none', hidden);
+  }
+
+  /**
+   * @param {boolean} published - the visibility to set
+   * @param {HTMLButtonElement} button - the button that was clicked
+   */
+  async function setPublished (published, button) {
+    button.disabled = true;
+    const response = await fetch('/api/geoword/admin/published?' + new URLSearchParams({ packetName, published }), { method: 'PUT' });
+    button.disabled = false;
+
+    if (response.ok) {
+      showVisibility(!published);
+    } else {
+      window.alert('Something went wrong. Please try again.');
+    }
+  }
+
+  publishButton.addEventListener('click', () => setPublished(true, publishButton));
+  unpublishButton.addEventListener('click', () => {
+    if (window.confirm(`Hide ${titleCase(packetName)} from players?`)) { setPublished(false, unpublishButton); }
+  });
+
+  showVisibility(hidden);
 }

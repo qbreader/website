@@ -9,9 +9,7 @@ router.get('/', async (req, res) => {
   const { packetName } = validate(req.query, { packetName: rules.string() });
   const packetInfo = await getPacketInfo(packetName);
 
-  if (!packetInfo) {
-    return res.sendStatus(404);
-  }
+  if (!packetInfo) { return res.sendStatus(404); }
 
   res.json({ packetInfo });
 });
