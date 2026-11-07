@@ -1,5 +1,7 @@
 const PADDING = { left: 26, right: 10, top: 8, bottom: 6 };
 const CLUE_LABEL_MIN_HEIGHT = 90;
+// Extra room after the end of the audio, as a fraction of its duration, so the final heights of the lines stay distinguishable
+const END_SPACE = 0.01;
 
 const graphs = new WeakMap();
 
@@ -22,7 +24,7 @@ function createSvgElement (name, attributes) {
 
 /**
  * @param {HTMLElement} graph
- * @returns {{ x: (time: number) => number, y: (count: number) => number, width: number, height: number, plotHeight: number }}
+ * @returns {{ x: (time: number) => number, span: number, y: (count: number) => number, width: number, height: number, plotHeight: number }}
  */
 function getScales (graph) {
   const { duration, correct, wrong } = graphs.get(graph);
@@ -32,9 +34,11 @@ function getScales (graph) {
   const bottom = height - PADDING.bottom - (height >= CLUE_LABEL_MIN_HEIGHT ? 12 : 0);
   const plotHeight = Math.max(1, bottom - PADDING.top);
   const max = Math.max(1, correct.length, wrong.length);
+  const span = duration * (1 + END_SPACE);
 
   return {
-    x: time => PADDING.left + (clamp(time, 0, duration) / duration) * plotWidth,
+    x: time => PADDING.left + (clamp(time, 0, span) / span) * plotWidth,
+    span,
     y: count => bottom - (count / max) * plotHeight,
     width,
     height,
@@ -46,13 +50,13 @@ function getScales (graph) {
  * @param {number[]} times
  * @param {(time: number) => number} x
  * @param {(count: number) => number} y
- * @param {number} duration
+ * @param {number} span - the time at the right edge of the plot
  * @returns {string}
  */
-function getStepPath (times, x, y, duration) {
+function getStepPath (times, x, y, span) {
   let d = `M${x(0)},${y(0)}`;
   times.forEach((time, index) => { d += ` H${x(time)} V${y(index + 1)}`; });
-  return d + ` H${x(duration)}`;
+  return d + ` H${x(span)}`;
 }
 
 /**
@@ -69,7 +73,7 @@ export function drawBuzzGraph (graph, data) {
   if (graph.clientWidth === 0) { return; }
 
   const { duration, starts, correct, wrong } = state;
-  const { x, y, width, height } = getScales(graph);
+  const { x, span, y, width, height } = getScales(graph);
   const svg = createSvgElement('svg', { width, height, viewBox: `0 0 ${width} ${height}`, 'aria-hidden': 'true' });
   const max = Math.max(1, correct.length, wrong.length);
 
@@ -81,16 +85,17 @@ export function drawBuzzGraph (graph, data) {
       svg.append(label);
     }
   });
-  svg.append(createSvgElement('line', { x1: x(0), x2: x(duration), y1: y(max), y2: y(max), class: 'buzz-graph-grid' }));
-  svg.append(createSvgElement('line', { x1: x(0), x2: x(duration), y1: y(0), y2: y(0), class: 'buzz-graph-axis' }));
+  svg.append(createSvgElement('line', { x1: x(0), x2: x(span), y1: y(max), y2: y(max), class: 'buzz-graph-grid' }));
+  svg.append(createSvgElement('line', { x1: x(0), x2: x(span), y1: y(0), y2: y(0), class: 'buzz-graph-axis' }));
+  svg.append(createSvgElement('line', { x1: x(duration), x2: x(duration), y1: y(max), y2: y(0), class: 'buzz-graph-axis' }));
   for (const count of [0, max]) {
     const label = createSvgElement('text', { x: PADDING.left - 5, y: y(count), 'text-anchor': 'end', 'dominant-baseline': 'middle', class: 'buzz-graph-label' });
     label.textContent = count;
     svg.append(label);
   }
 
-  svg.append(createSvgElement('path', { d: getStepPath(correct, x, y, duration), class: 'buzz-graph-correct' }));
-  svg.append(createSvgElement('path', { d: getStepPath(wrong, x, y, duration), class: 'buzz-graph-wrong' }));
+  svg.append(createSvgElement('path', { d: getStepPath(correct, x, y, span), class: 'buzz-graph-correct' }));
+  svg.append(createSvgElement('path', { d: getStepPath(wrong, x, y, span), class: 'buzz-graph-wrong' }));
   svg.append(createSvgElement('line', { y1: y(max) - 4, y2: y(0), class: 'buzz-graph-playhead', visibility: 'hidden' }));
   svg.append(createSvgElement('circle', { r: 4, class: 'buzz-graph-dot', visibility: 'hidden' }));
 
@@ -107,7 +112,8 @@ export function drawBuzzGraph (graph, data) {
 export function getBuzzGraphTime (graph, clientX) {
   const { duration } = graphs.get(graph);
   const plotWidth = Math.max(1, graph.clientWidth - PADDING.left - PADDING.right);
-  return clamp((clientX - graph.getBoundingClientRect().left - PADDING.left) / plotWidth, 0, 1) * duration;
+  const fraction = clamp((clientX - graph.getBoundingClientRect().left - PADDING.left) / plotWidth, 0, 1);
+  return Math.min(duration, fraction * duration * (1 + END_SPACE));
 }
 
 /**
