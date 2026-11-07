@@ -28,8 +28,8 @@ export function scoreTeam (team, teamBuzzes) {
 }
 
 /**
- * Orders the standings best first: wins > win percentage > points per game > points > correct
- * answers > average celerity. Teams yet to play a match (null win percentage or points per game)
+ * Orders the standings best first: wins > win percentage > PPG > points > correct
+ * answers > average celerity. Teams yet to play a match (null win percentage or PPG)
  * go last.
  * @param {{ wins: number, winPercentage: number | null, pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} a
  * @param {{ wins: number, winPercentage: number | null, pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} b

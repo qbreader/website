@@ -25,7 +25,7 @@ function getAggregation ({ division, includeInactive, packetName }) {
         averageCorrectCelerity: { $avg: { $cond: [{ $gt: ['$points', 0] }, '$celerity', undefined] } }
       }
     }
-    // Sorted and limited in getLeaderboard, since points per game comes from the team standings
+    // Sorted and limited in getLeaderboard, since PPG comes from the team standings
   ];
 }
 
