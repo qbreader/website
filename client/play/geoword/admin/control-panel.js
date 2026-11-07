@@ -60,4 +60,42 @@ if (!response.ok) {
   });
 
   showVisibility(hidden);
+
+  const activeBadge = document.getElementById('active-badge');
+  const inactiveBadge = document.getElementById('inactive-badge');
+  const activateButton = document.getElementById('activate-button');
+  const deactivateButton = document.getElementById('deactivate-button');
+
+  /**
+   * @param {boolean} active - whether new buzzes on the packet currently count toward standings
+   */
+  function showActive (active) {
+    activeBadge.classList.toggle('d-none', !active);
+    deactivateButton.classList.toggle('d-none', !active);
+    inactiveBadge.classList.toggle('d-none', active);
+    activateButton.classList.toggle('d-none', active);
+  }
+
+  /**
+   * @param {boolean} active - the activity to set
+   * @param {HTMLButtonElement} button - the button that was clicked
+   */
+  async function setActive (active, button) {
+    button.disabled = true;
+    const response = await fetch('/api/geoword/admin/active?' + new URLSearchParams({ packetName, active }), { method: 'PUT' });
+    button.disabled = false;
+
+    if (response.ok) {
+      showActive(active);
+    } else {
+      window.alert('Something went wrong. Please try again.');
+    }
+  }
+
+  activateButton.addEventListener('click', () => setActive(true, activateButton));
+  deactivateButton.addEventListener('click', () => {
+    if (window.confirm(`Stop new buzzes on ${titleCase(packetName)} from counting toward standings?`)) { setActive(false, deactivateButton); }
+  });
+
+  showActive(packetInfo.active);
 }

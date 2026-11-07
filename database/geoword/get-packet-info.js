@@ -7,6 +7,7 @@ import getQuestionCount from './get-question-count.js';
  * @returns {Promise<{
  *   name: string,
  *   hidden: boolean,
+ *   active: boolean,
  *   divisions: string[],
  *   questionCount: number,
  *   costInCents: number,
@@ -25,6 +26,7 @@ async function getPacketInfo (packetName) {
   return {
     name: packet.name,
     hidden: packet.test === true,
+    active: packet.active === true,
     divisions: packet.divisions ?? [],
     questionCount,
     costInCents: packet.costInCents ?? 0,
