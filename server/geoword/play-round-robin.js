@@ -68,3 +68,19 @@ export function getPointsPerGame ({ matches }) {
   if (matches.length === 0) { return null; }
   return matches.reduce((total, { points }) => total + points[0], 0) / matches.length;
 }
+
+/**
+ * @param {Array<{ matches: Object[], playerPoints: Object<string, number> }>} records - one division's team records
+ * @returns {Map<string, number>} each player's points averaged over their team's simulated matches,
+ * keyed by user id; players on a team with no matches are left out
+ */
+export function getPlayerPointsPerGame (records) {
+  const pointsPerGame = new Map();
+  for (const { matches, playerPoints } of records) {
+    if (matches.length === 0) { continue; }
+    for (const [player, points] of Object.entries(playerPoints)) {
+      pointsPerGame.set(player, points / matches.length);
+    }
+  }
+  return pointsPerGame;
+}
