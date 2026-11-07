@@ -2,10 +2,11 @@ import { buzzes } from '../../collections.js';
 
 import getDivisions from '../../get-divisions.js';
 import getTeamLeaderboard from './get-team-leaderboard.js';
+import { comparePlayers } from '../../../../server/geoword/player-standings.js';
 import { getPlayerPointsPerGame } from '../../../../server/geoword/play-round-robin.js';
 import getUsername from '../../../account-info/get-username.js';
 
-function getAggregation ({ division, includeInactive, packetName, limit }) {
+function getAggregation ({ division, includeInactive, packetName }) {
   return [
     {
       $match: {
@@ -23,9 +24,8 @@ function getAggregation ({ division, includeInactive, packetName, limit }) {
         pointsPerTossup: { $avg: '$points' },
         averageCorrectCelerity: { $avg: { $cond: [{ $gt: ['$points', 0] }, '$celerity', undefined] } }
       }
-    },
-    { $sort: { points: -1, numberCorrect: -1, averageCorrectCelerity: -1 } },
-    { $limit: limit }
+    }
+    // Sorted and limited in getLeaderboard, since PPG comes from the team standings
   ];
 }
 
@@ -35,7 +35,7 @@ export default async function getLeaderboard ({ packetName, includeInactive = fa
     return {};
   }
   const queries = divisions.map(division => {
-    const aggregation = getAggregation({ division, includeInactive, packetName, limit });
+    const aggregation = getAggregation({ division, includeInactive, packetName });
     return buzzes.aggregate(aggregation).toArray();
   });
 
@@ -53,6 +53,6 @@ export default async function getLeaderboard ({ packetName, includeInactive = fa
   }
 
   return Object.fromEntries(
-    divisions.map((division, index) => [division, results[index]])
+    divisions.map((division, index) => [division, results[index].sort(comparePlayers).slice(0, limit)])
   );
 }
