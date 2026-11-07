@@ -32,12 +32,14 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
         pendingString = '(pending review)';
       } else if (buzzArray[i].pendingProtest === false) {
         pendingString = `(protest resolution: ${buzzArray[i].decision}) ${getProtestReasonString(buzzArray[i])}`;
+      } else if (buzzArray[i].points <= 0) {
+        pendingString = getProtestLinkString(buzzArray[i]);
       }
 
       innerHTML += `
             <div class="row mb-3">
                 <div class="col-6">
-                    <div><b>#${buzzArray[i].questionNumber}</b> ${pendingString}</div>
+                    <div><b>#${buzzArray[i].questionNumber}</b> <span id="protest-status-${buzzArray[i].questionNumber}">${pendingString}</span></div>
                     <div><b>Your rank:</b> ${leaderboard[i].rank}</div>
                     <div><b>Celerity:</b> ${formatCelerity(buzzArray[i].celerity ?? 0)}</div>
                     <div><b>Points:</b> ${buzzArray[i].points}</div>
@@ -56,6 +58,28 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
     }
     document.getElementById('stats').innerHTML = innerHTML;
   });
+
+document.getElementById('stats').addEventListener('click', async event => {
+  const link = event.target.closest('.record-protest');
+  if (!link) {
+    return;
+  }
+
+  event.preventDefault();
+  const { questionNumber } = link.dataset;
+  const status = document.getElementById(`protest-status-${questionNumber}`);
+  status.textContent = '(submitting protest...)';
+
+  const response = await fetch('/api/geoword/paid/play/record-protest?' + new URLSearchParams({ packetName, questionNumber }), {
+    method: 'PUT'
+  }).catch(() => null);
+
+  if (response?.ok) {
+    status.textContent = '(pending review)';
+  } else {
+    status.innerHTML = `(your protest could not be recorded) ${getProtestLinkString({ questionNumber })}`;
+  }
+});
 
 document.getElementById('leaderboard-link').href = `./leaderboard?packetName=${packetName}`;
 document.getElementById('team-leaderboard-link').href = `./team-leaderboard?packetName=${packetName}`;
@@ -77,6 +101,10 @@ function getPromptString (buzz) {
   string = string.slice(0, -2);
   string = string + ')';
   return string;
+}
+
+function getProtestLinkString (buzz) {
+  return `<a href="#" class="record-protest" data-question-number="${Number(buzz.questionNumber)}">I was right</a>`;
 }
 
 function getProtestReasonString (buzz) {
