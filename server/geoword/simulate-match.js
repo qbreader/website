@@ -40,18 +40,17 @@ export default function simulateMatch (a, b) {
   const aByQuestion = new Map(a.map(buzz => [buzz.questionNumber, buzz]));
   const bByQuestion = new Map(b.map(buzz => [buzz.questionNumber, buzz]));
 
-  const points = [0, 0];
   const playerPoints = [{}, {}];
   for (const questionNumber of new Set([...aByQuestion.keys(), ...bByQuestion.keys()])) {
     const buzzes = [aByQuestion.get(questionNumber), bByQuestion.get(questionNumber)];
     scoreQuestion(...buzzes).forEach((questionPoints, side) => {
-      points[side] += questionPoints;
-      if (buzzes[side]) {
-        const player = String(buzzes[side].user_id);
-        playerPoints[side][player] = (playerPoints[side][player] ?? 0) + questionPoints;
-      }
+      if (!buzzes[side]) { return; }
+      const player = String(buzzes[side].user_id);
+      playerPoints[side][player] = (playerPoints[side][player] ?? 0) + questionPoints;
     });
   }
+
+  const points = playerPoints.map(team => Object.values(team).reduce((sum, p) => sum + p, 0));
 
   return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1, playerPoints };
 }
