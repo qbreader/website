@@ -6,31 +6,6 @@ const packetName = search.get('packetName');
 document.getElementById('packet-name').textContent = titleCase(packetName);
 
 /**
- * Replaces the contents of a container with the given label/value pairs, each shown as a bold label with its value underneath.
- * @param {string} id - the id of the container element
- * @param {[string, string][]} rows
- */
-function renderRows (id, rows) {
-  const container = document.getElementById(id);
-  container.replaceChildren();
-
-  for (const [label, value] of rows) {
-    const term = document.createElement('div');
-    term.className = 'fw-bold';
-    term.textContent = label;
-
-    const description = document.createElement('div');
-    description.textContent = value;
-
-    const item = document.createElement('div');
-    item.className = 'col mb-2';
-    item.append(term, description);
-
-    container.append(item);
-  }
-}
-
-/**
  * @param {boolean} hidden - whether the packet is currently hidden from players
  */
 function renderVisibility (hidden) {
@@ -65,16 +40,17 @@ if (response.ok) {
   const { packetInfo } = await response.json();
   const { divisions, questionCount, costInCents, hidden, set } = packetInfo;
 
-  renderRows('packet-info', [
-    ['Packet', titleCase(packetInfo.name)],
-    ['Set', set ? set.name : 'None'],
-    ['Questions', questionCount],
-    ['Cost', `$${(costInCents / 100).toFixed(2)}`],
-    ['Divisions', divisions.join(', ')],
-    ...(set ? [['Teams', set.teamsEnabled ? 'Enabled' : 'Disabled']] : [])
-  ]);
+  document.getElementById('info-packet').textContent = titleCase(packetInfo.name);
+  document.getElementById('info-set').textContent = set ? set.name : 'None';
+  document.getElementById('info-questions').textContent = questionCount;
+  document.getElementById('info-cost').textContent = `$${(costInCents / 100).toFixed(2)}`;
+  document.getElementById('info-divisions').textContent = divisions.join(', ');
+  document.getElementById('info-teams-item').hidden = !set;
+  if (set) {
+    document.getElementById('info-teams').textContent = set.teamsEnabled ? 'Enabled' : 'Disabled';
+  }
 
   renderVisibility(hidden);
 } else {
-  document.getElementById('packet-info').textContent = 'Could not load this packet.';
+  document.getElementById('packet-info').replaceChildren('Could not load this packet.');
 }
