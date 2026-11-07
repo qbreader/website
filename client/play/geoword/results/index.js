@@ -1,4 +1,5 @@
 import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../format-celerity.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -38,7 +39,7 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
                 <div class="col-6">
                     <div><b>#${buzzArray[i].questionNumber}</b> ${pendingString}</div>
                     <div><b>Your rank:</b> ${leaderboard[i].rank}</div>
-                    <div><b>Celerity:</b> ${(buzzArray[i].celerity ?? 0.0).toFixed(3)}</div>
+                    <div><b>Celerity:</b> ${formatCelerity(buzzArray[i].celerity ?? 0)}</div>
                     <div><b>Points:</b> ${buzzArray[i].points}</div>
                     <div><b>Given answer:</b> ${escapeHTML(buzzArray[i].givenAnswer)} ${getPromptString(buzzArray[i])}</div>
                 </div>

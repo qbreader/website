@@ -2,6 +2,7 @@
 
 import { titleCase } from '../../../../shared/string-utils.js';
 import scoreBuzz from '../../../../shared/geoword-scoring.js';
+import formatCelerity from '../format-celerity.js';
 import audio from '../../audio.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -69,7 +70,8 @@ async function checkGeowordAnswer (givenAnswer, questionNumber, celerity, prompt
 }
 
 async function giveAnswer (givenAnswer) {
-  const celerity = Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
+  // The browser's MP3 duration is an estimate, so audio can end short of it; trust `ended` instead.
+  const celerity = currentAudio.ended ? 0 : Math.max(0, 1 - currentAudio.currentTime / currentAudio.duration);
   const { actualAnswer, directive, directedPrompt, saved } = await checkGeowordAnswer(givenAnswer, questionNumber, celerity, prompts);
 
   switch (directive) {
@@ -179,7 +181,7 @@ function updateScore (isCorrect, givenAnswer, actualAnswer, celerity, saved) {
   updateStatline(numberCorrect, points, tossupsHeard, totalCorrectCelerity);
 
   document.getElementById('current-actual-answer').innerHTML = actualAnswer;
-  document.getElementById('current-celerity').textContent = celerity.toFixed(3);
+  document.getElementById('current-celerity').textContent = formatCelerity(celerity);
   document.getElementById('current-given-answer').textContent = givenAnswer;
   document.getElementById('current-points').textContent = currentPoints;
   document.getElementById('current-question-number').textContent = questionNumber;

@@ -1,5 +1,6 @@
 import createTabs from '../../../scripts/utilities/create-tabs.js';
 import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../format-celerity.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -38,7 +39,7 @@ fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName }))
                 <b>${escapeHTML(protest.username + ': ' || '')}</b>
                 <span id="given-answer-${protest._id}">${protest.givenAnswer}</span>
                 ${getPromptString(protest)}
-                (celerity: ${protest.celerity.toFixed(3)}) - pending review
+                (celerity: ${formatCelerity(protest.celerity)}) - pending review
               </span>
               <a id="${protest._id}" question="${questionNumber}" href="#" data-bs-toggle="modal" data-bs-target="#resolve-protest-modal">Resolve protest</a>
             </li>
