@@ -26,7 +26,8 @@ router.get('/', async (req, res) => {
     packetName,
     division: divisions.includes(division) ? division : divisions[0],
     team,
-    viewerId: res.locals.userId
+    viewerId: res.locals.userId,
+    includeInactive: req.query.includeInactive === 'true'
   }));
 });
 

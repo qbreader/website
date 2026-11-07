@@ -1,6 +1,7 @@
 import getUsername from '../../../account-info/get-username.js';
 import getQuestionCount from '../../get-question-count.js';
 import getTeamBuzzes from './get-team-buzzes.js';
+import hasFinished from '../../../../server/geoword/has-finished.js';
 
 /**
  * @param {Object} options
@@ -8,18 +9,21 @@ import getTeamBuzzes from './get-team-buzzes.js';
  * @param {String} options.division
  * @param {Object} options.team
  * @param {ObjectId} options.viewerId
+ * @param {Boolean} [options.includeInactive] - count buzzes excluded from rankings
  * @returns {Promise<{ teamName: string, division: string, questionCount: number, members: Object[], questions: Object[] }>}
  */
-async function getTeamView ({ packetName, division, team, viewerId }) {
+async function getTeamView ({ packetName, division, team, viewerId, includeInactive = false }) {
   const [teamBuzzes, questionCount] = await Promise.all([
-    getTeamBuzzes({ packetName, division, team }),
+    getTeamBuzzes({ packetName, division, team, includeInactive }),
     getQuestionCount(packetName, division)
   ]);
+
+  const allBuzzes = teamBuzzes.flatMap(question => question.buzzes);
 
   const members = await Promise.all(team.members.map(async member => ({
     username: await getUsername(member),
     isYou: member.equals(viewerId),
-    finished: teamBuzzes.filter(question => question.buzzes.some(buzz => buzz.user_id.equals(member))).length >= questionCount
+    finished: hasFinished({ buzzes: allBuzzes.filter(buzz => buzz.user_id.equals(member)), questionCount })
   })));
 
   const questions = await Promise.all(teamBuzzes.map(async question => ({

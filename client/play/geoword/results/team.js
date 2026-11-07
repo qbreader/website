@@ -32,7 +32,7 @@ function createBuzzCell (buzz) {
 }
 
 const response = await fetch(teamName
-  ? '/api/geoword/admin/team?' + new URLSearchParams({ packetName, teamName, division: division ?? '' })
+  ? '/api/geoword/admin/team?' + new URLSearchParams({ packetName, teamName, division: division ?? '', includeInactive: true })
   : '/api/geoword/paid/results/team?' + new URLSearchParams({ packetName }));
 
 if (!response.ok) {

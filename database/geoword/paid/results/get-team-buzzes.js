@@ -5,11 +5,19 @@ import { buzzes } from '../../collections.js';
  * @param {String} options.packetName
  * @param {String} options.division
  * @param {Object} options.team
+ * @param {Boolean} [options.includeInactive] - count buzzes excluded from rankings
  * @returns {Promise<Array<{ questionNumber: number, answer_sanitized: string, buzzes: Array<{ user_id: ObjectId, givenAnswer: string, points: number, celerity: number }> }>>}
  */
-async function getTeamBuzzes ({ packetName, division, team }) {
+async function getTeamBuzzes ({ packetName, division, team, includeInactive = false }) {
   return await buzzes.aggregate([
-    { $match: { 'packet.name': packetName, division, user_id: { $in: team.members } } },
+    {
+      $match: {
+        'packet.name': packetName,
+        division,
+        user_id: { $in: team.members },
+        ...(!includeInactive && { active: true })
+      }
+    },
     { $sort: { questionNumber: 1, user_id: 1 } },
     {
       $lookup: {
