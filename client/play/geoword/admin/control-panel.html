@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Admin - Geoword - Control Panel</title>
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="text-center lead">
+            Control panel for <span id="packet-name"></span>:
+        </p>
+        <p class="d-flex justify-content-end">
+            <a href="./">Back to admin page</a>
+        </p>
+        <div class="row row-cols-1 row-cols-lg-2 g-3">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Packet</h5>
+                        <dl class="row mb-0" id="packet-info"></dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Set</h5>
+                        <dl class="row mb-0" id="set-info"></dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Visibility</h5>
+                        <p class="text-body-secondary">Hidden packets can only be reached by admins and the set's special users.</p>
+                        <div class="d-flex align-items-center gap-2" id="visibility-control"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./control-panel.js"></script>
+</body>
+
+</html>
