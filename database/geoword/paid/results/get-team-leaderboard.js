@@ -19,8 +19,8 @@ function groupBuzzesByUser (buzzList) {
 }
 
 /**
- * Team standings for a packet, by division, ranked by win percentage in the simulated
- * matches and then by points.
+ * Team standings for a packet, by division, ranked by wins in the simulated matches, then win
+ * percentage, points per game, points, correct answers and average celerity.
  *
  * Individual buzzes are never modified: a team's score is derived at read time, so
  * changing the merge rule re-scores the tournament without touching stored data.

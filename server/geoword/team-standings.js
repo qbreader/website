@@ -28,14 +28,17 @@ export function scoreTeam (team, teamBuzzes) {
 }
 
 /**
- * Orders the standings best first: win percentage, then points, then correct answers, then
- * average celerity. Teams yet to play a match (null win percentage) go last.
- * @param {{ winPercentage: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} a
- * @param {{ winPercentage: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} b
+ * Orders the standings best first: wins, then win percentage, then points per game, then points,
+ * then correct answers, then average celerity. Teams yet to play a match (null win percentage or
+ * points per game) go last.
+ * @param {{ wins: number, winPercentage: number | null, pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} a
+ * @param {{ wins: number, winPercentage: number | null, pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number }} b
  * @returns {number} negative if `a` ranks above `b`
  */
 export function compareStandings (a, b) {
-  return (b.winPercentage ?? -1) - (a.winPercentage ?? -1) ||
+  return b.wins - a.wins ||
+    (b.winPercentage ?? -1) - (a.winPercentage ?? -1) ||
+    (b.pointsPerGame ?? -1) - (a.pointsPerGame ?? -1) ||
     b.points - a.points ||
     b.numberCorrect - a.numberCorrect ||
     b.averageCorrectCelerity - a.averageCorrectCelerity;

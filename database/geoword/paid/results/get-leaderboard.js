@@ -5,7 +5,7 @@ import getTeamLeaderboard from './get-team-leaderboard.js';
 import { getPlayerPointsPerGame } from '../../../../server/geoword/play-round-robin.js';
 import getUsername from '../../../account-info/get-username.js';
 
-function getAggregation ({ division, includeInactive, packetName, limit }) {
+function getAggregation ({ division, includeInactive, packetName }) {
   return [
     {
       $match: {
@@ -23,10 +23,23 @@ function getAggregation ({ division, includeInactive, packetName, limit }) {
         pointsPerTossup: { $avg: '$points' },
         averageCorrectCelerity: { $avg: { $cond: [{ $gt: ['$points', 0] }, '$celerity', undefined] } }
       }
-    },
-    { $sort: { points: -1, numberCorrect: -1, averageCorrectCelerity: -1 } },
-    { $limit: limit }
+    }
+    // Sorted and limited in getLeaderboard, since points per game comes from the team standings
   ];
+}
+
+/**
+ * Orders players best first: points per game, then points, then correct answers, then average
+ * celerity. Players without a points per game (not on a team that has played a match) go last.
+ * @param {{ pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number | null }} a
+ * @param {{ pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number | null }} b
+ * @returns {number} negative if `a` ranks above `b`
+ */
+function comparePlayers (a, b) {
+  return (b.pointsPerGame ?? -1) - (a.pointsPerGame ?? -1) ||
+    b.points - a.points ||
+    b.numberCorrect - a.numberCorrect ||
+    (b.averageCorrectCelerity ?? -1) - (a.averageCorrectCelerity ?? -1);
 }
 
 export default async function getLeaderboard ({ packetName, includeInactive = false, limit = 100 }) {
@@ -35,7 +48,7 @@ export default async function getLeaderboard ({ packetName, includeInactive = fa
     return {};
   }
   const queries = divisions.map(division => {
-    const aggregation = getAggregation({ division, includeInactive, packetName, limit });
+    const aggregation = getAggregation({ division, includeInactive, packetName });
     return buzzes.aggregate(aggregation).toArray();
   });
 
@@ -53,6 +66,6 @@ export default async function getLeaderboard ({ packetName, includeInactive = fa
   }
 
   return Object.fromEntries(
-    divisions.map((division, index) => [division, results[index]])
+    divisions.map((division, index) => [division, results[index].sort(comparePlayers).slice(0, limit)])
   );
 }
