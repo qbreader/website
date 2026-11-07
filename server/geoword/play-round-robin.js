@@ -16,22 +16,35 @@ function getOutcome (winner, side) {
  * one of its members has finished the division.
  * @param {Array<{ team: Object, finishedBuzzes: Object[] }>} teamList - one division's teams,
  * with the buzzes of their members who have finished
- * @returns {Array<{ wins: number, losses: number, ties: number, matches: Array<{ opponent: string, points: [number, number] }> }>}
- * each team's record and matches, in the same order, with its own points first in each match
+ * @returns {Array<{ wins: number, losses: number, ties: number, matches: Array<{ opponent: string, points: [number, number] }>, playerPoints: Object<string, number> }>}
+ * each team's record and matches, in the same order, with its own points first in each match,
+ * and the points each finished member scored across all of the team's matches
  */
 export function playRoundRobin (teamList) {
   const merged = teamList.map(({ finishedBuzzes }) => mergeBuzzes(finishedBuzzes));
-  const records = teamList.map(() => ({ wins: 0, losses: 0, ties: 0, matches: [] }));
+  const records = teamList.map(({ finishedBuzzes }) => ({
+    wins: 0,
+    losses: 0,
+    ties: 0,
+    matches: [],
+    // Every finished member starts at 0, so one who never scored still has a PPG
+    playerPoints: Object.fromEntries(finishedBuzzes.map(buzz => [String(buzz.user_id), 0]))
+  }));
 
   for (let i = 0; i < teamList.length; i++) {
     for (let j = i + 1; j < teamList.length; j++) {
       if (merged[i].length === 0 || merged[j].length === 0) { continue; }
-      const { points, winner } = simulateMatch(merged[i], merged[j]);
+      const { points, winner, playerPoints } = simulateMatch(merged[i], merged[j]);
       const [pointsI, pointsJ] = points;
       records[i][getOutcome(winner, 0)]++;
       records[i].matches.push({ opponent: teamList[j].team.teamName, points: [pointsI, pointsJ] });
       records[j][getOutcome(winner, 1)]++;
       records[j].matches.push({ opponent: teamList[i].team.teamName, points: [pointsJ, pointsI] });
+      [i, j].forEach((team, side) => {
+        for (const [player, playerTotal] of Object.entries(playerPoints[side])) {
+          records[team].playerPoints[player] += playerTotal;
+        }
+      });
     }
   }
 
@@ -45,4 +58,29 @@ export function playRoundRobin (teamList) {
 export function getWinPercentage ({ wins, losses, ties }) {
   const played = wins + losses + ties;
   return played === 0 ? null : (wins + ties / 2) / played;
+}
+
+/**
+ * @param {{ matches: Array<{ points: [number, number] }> }} record
+ * @returns {number | null} the team's average points across its simulated matches, or null before any match
+ */
+export function getPointsPerGame ({ matches }) {
+  if (matches.length === 0) { return null; }
+  return matches.reduce((total, { points }) => total + points[0], 0) / matches.length;
+}
+
+/**
+ * @param {Array<{ matches: Object[], playerPoints: Object<string, number> }>} records - one division's team records
+ * @returns {Map<string, number>} each player's points averaged over their team's simulated matches,
+ * keyed by user id; players on a team with no matches are left out
+ */
+export function getPlayerPointsPerGame (records) {
+  const pointsPerGame = new Map();
+  for (const { matches, playerPoints } of records) {
+    if (matches.length === 0) { continue; }
+    for (const [player, points] of Object.entries(playerPoints)) {
+      pointsPerGame.set(player, points / matches.length);
+    }
+  }
+  return pointsPerGame;
 }

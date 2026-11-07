@@ -23,8 +23,8 @@ fetch('/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetNam
       table.id = `${kebabed}-table`;
       const thead = table.createTHead();
       const theadRow = thead.insertRow();
-      const labels = ['#', 'Username', 'Celerity', 'Correct', 'Points', 'PPTU'];
-      const numeric = [true, false, true, true, true, true];
+      const labels = ['#', 'Username', 'Celerity', 'Correct', 'Points', 'PPTU', 'PPG'];
+      const numeric = [true, false, true, true, true, true, true];
       for (const index in labels) {
         const label = labels[index];
         const cell = document.createElement('th');
@@ -35,7 +35,7 @@ fetch('/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetNam
       }
       const tbody = table.createTBody();
       for (const index in leaderboard[division]) {
-        const { username, numberCorrect, points, pointsPerTossup, averageCorrectCelerity } = leaderboard[division][index];
+        const { username, numberCorrect, points, pointsPerTossup, pointsPerGame, averageCorrectCelerity } = leaderboard[division][index];
 
         const row = tbody.insertRow();
         row.insertCell().textContent = parseInt(index) + 1;
@@ -44,6 +44,13 @@ fetch('/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetNam
         row.insertCell().textContent = numberCorrect;
         row.insertCell().textContent = points;
         row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
+        row.insertCell().textContent = pointsPerGame === null ? '–' : pointsPerGame.toFixed(2);
+      }
+      if (leaderboard[division].some(({ pointsPerGame }) => pointsPerGame !== null)) {
+        const note = document.createElement('p');
+        note.className = 'text-body-secondary small';
+        note.textContent = 'Points and PPTU are how an individual did on a packet. PPG is based on points scored in matches against other teams.';
+        divs[division].appendChild(note);
       }
       divs[division].appendChild(table);
     }

@@ -1,6 +1,6 @@
 import { buzzes, packets, teams } from '../../collections.js';
 import getQuestionCount from '../../get-question-count.js';
-import { getWinPercentage, playRoundRobin } from '../../../../server/geoword/play-round-robin.js';
+import { getPointsPerGame, getWinPercentage, playRoundRobin } from '../../../../server/geoword/play-round-robin.js';
 import { compareStandings, scoreTeam } from '../../../../server/geoword/team-standings.js';
 
 /**
@@ -73,6 +73,7 @@ export default async function getTeamLeaderboard ({ packetName, viewerId, includ
         ...scoreTeam(team, countedBuzzes),
         ...records[index],
         winPercentage: getWinPercentage(records[index]),
+        pointsPerGame: getPointsPerGame(records[index]),
         isYourTeam: Boolean(viewerId) && team.members.some(member => member.equals(viewerId))
       }))
       .filter(row => row.tossupsHeard > 0)

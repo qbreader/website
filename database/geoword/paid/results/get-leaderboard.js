@@ -1,6 +1,8 @@
 import { buzzes } from '../../collections.js';
 
 import getDivisions from '../../get-divisions.js';
+import getTeamLeaderboard from './get-team-leaderboard.js';
+import { getPlayerPointsPerGame } from '../../../../server/geoword/play-round-robin.js';
 import getUsername from '../../../account-info/get-username.js';
 
 function getAggregation ({ division, includeInactive, packetName, limit }) {
@@ -37,11 +39,16 @@ export default async function getLeaderboard ({ packetName, includeInactive = fa
     return buzzes.aggregate(aggregation).toArray();
   });
 
-  const results = await Promise.all(queries);
-  for (const result of results) {
+  const [results, teamLeaderboard] = await Promise.all([
+    Promise.all(queries),
+    getTeamLeaderboard({ packetName, includeInactive })
+  ]);
+  for (const [divisionIndex, result] of results.entries()) {
+    const pointsPerGame = getPlayerPointsPerGame(teamLeaderboard[divisions[divisionIndex]] ?? []);
     for (const index in result) {
       const userId = result[index]._id;
       result[index].username = await getUsername(userId);
+      result[index].pointsPerGame = pointsPerGame.get(String(userId)) ?? null;
     }
   }
 
