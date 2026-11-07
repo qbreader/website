@@ -6,7 +6,7 @@
  * @returns {number} negative if `a` ranks above `b`
  */
 export function comparePlayers (a, b) {
-  return (b.pointsPerGame ?? -1) - (a.pointsPerGame ?? -1) ||
+  return (b.pointsPerGame ?? Number.MIN_SAFE_INTEGER) - (a.pointsPerGame ?? Number.MIN_SAFE_INTEGER) ||
     b.points - a.points ||
     b.numberCorrect - a.numberCorrect ||
     (b.averageCorrectCelerity ?? -1) - (a.averageCorrectCelerity ?? -1);

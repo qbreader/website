@@ -38,7 +38,7 @@ export function scoreTeam (team, teamBuzzes) {
 export function compareStandings (a, b) {
   return b.wins - a.wins ||
     (b.winPercentage ?? -1) - (a.winPercentage ?? -1) ||
-    (b.pointsPerGame ?? -1) - (a.pointsPerGame ?? -1) ||
+    (b.pointsPerGame ?? Number.MIN_SAFE_INTEGER) - (a.pointsPerGame ?? Number.MIN_SAFE_INTEGER) ||
     b.points - a.points ||
     b.numberCorrect - a.numberCorrect ||
     b.averageCorrectCelerity - a.averageCorrectCelerity;
