@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Admin - Geoword - Control Panel</title>
+    <!--#include virtual="/ssi/head.html" -->
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-baseline mb-3">
+            <h4 class="mb-0">Control panel: <span id="packet-name"></span></h4>
+            <a href="./">&larr; Back to admin page</a>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header py-2 fw-semibold">Info</div>
+            <div class="card-body pb-1">
+                <div class="row row-cols-2 row-cols-md-3" id="packet-info">
+                    <div class="col mb-2">
+                        <div class="fw-bold">Packet</div>
+                        <div id="info-packet"></div>
+                    </div>
+                    <div class="col mb-2">
+                        <div class="fw-bold">Set</div>
+                        <div id="info-set"></div>
+                    </div>
+                    <div class="col mb-2">
+                        <div class="fw-bold">Questions</div>
+                        <div id="info-questions"></div>
+                    </div>
+                    <div class="col mb-2">
+                        <div class="fw-bold">Cost</div>
+                        <div id="info-cost"></div>
+                    </div>
+                    <div class="col mb-2">
+                        <div class="fw-bold">Divisions</div>
+                        <div id="info-divisions"></div>
+                    </div>
+                    <div class="col mb-2" id="info-teams-item" hidden>
+                        <div class="fw-bold">Teams</div>
+                        <div id="info-teams"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header py-2 fw-semibold">Controls</div>
+            <div class="card-body">
+                <div class="fw-bold">Visibility</div>
+                <div class="text-body-secondary mb-2">Hidden packets can only be reached by admins and the set's special users.</div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge text-bg-secondary d-none" id="hidden-badge">Hidden</span>
+                    <span class="badge text-bg-success d-none" id="published-badge">Published</span>
+                    <button type="button" class="btn btn-sm btn-success d-none" id="publish-button">Publish</button>
+                    <button type="button" class="btn btn-sm btn-warning d-none" id="unpublish-button">Unpublish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./control-panel.js"></script>
+</body>
+
+</html>

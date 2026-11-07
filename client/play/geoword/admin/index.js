@@ -18,7 +18,8 @@ const TOOL_GROUPS = [
     tools: [
       ['Protests', '/play/geoword/admin/protests'],
       ['Payments', '/play/geoword/admin/manage-payments'],
-      ['Users', '/play/geoword/admin/users']
+      ['Users', '/play/geoword/admin/users'],
+      ['Control Panel', '/play/geoword/admin/control-panel']
     ]
   },
   {
