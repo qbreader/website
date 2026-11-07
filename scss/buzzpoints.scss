@@ -149,10 +149,6 @@
     border: var(--bs-border-width) solid var(--bs-border-color);
     border-radius: var(--bs-border-radius);
 
-    table {
-        white-space: nowrap;
-    }
-
     tr > :first-child {
         padding-left: 1rem;
     }
@@ -198,11 +194,16 @@
     }
 }
 
-.buzz-table-answer {
-    width: 40%;
-    max-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.buzz-table-fixed {
+    table-layout: fixed;
+}
+
+.buzz-table-celerity {
+    width: 5.5rem;
+}
+
+.buzz-table-points {
+    width: 4rem;
 }
 
 .buzz-filter-chip {
