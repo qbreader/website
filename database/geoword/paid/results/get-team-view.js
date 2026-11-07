@@ -23,7 +23,7 @@ async function getTeamView ({ packetName, division, team, viewerId, includeInact
   const members = await Promise.all(team.members.map(async member => ({
     username: await getUsername(member),
     isYou: member.equals(viewerId),
-    finished: hasFinished(allBuzzes.filter(buzz => buzz.user_id.equals(member)).length, questionCount)
+    finished: hasFinished({ buzzes: allBuzzes.filter(buzz => buzz.user_id.equals(member)), questionCount })
   })));
 
   const questions = await Promise.all(teamBuzzes.map(async question => ({
