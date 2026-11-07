@@ -64,6 +64,12 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
         row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
         row.insertCell().textContent = pointsPerGame === null ? '–' : pointsPerGame.toFixed(2);
       }
+      if (teamLeaderboard[division].some(({ pointsPerGame }) => pointsPerGame !== null)) {
+        const note = document.createElement('p');
+        note.className = 'text-body-secondary small';
+        note.textContent = 'Points and PPTU are how a team did on a packet individually. PPG is based on points scored in matches against other teams.';
+        divs[division].appendChild(note);
+      }
       const wrapper = document.createElement('div');
       wrapper.className = 'table-responsive';
       wrapper.appendChild(table);
