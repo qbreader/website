@@ -10,37 +10,22 @@
     <!--#include virtual="/ssi/nav.html" -->
 
     <div class="container-xl mt-3 mb-5 pb-5">
-        <p class="text-center lead">
-            Control panel for <span id="packet-name"></span>:
-        </p>
-        <p class="d-flex justify-content-end">
-            <a href="./">Back to admin page</a>
-        </p>
-        <div class="row row-cols-1 row-cols-lg-2 g-3">
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Packet</h5>
-                        <dl class="row mb-0" id="packet-info"></dl>
-                    </div>
-                </div>
+        <div class="d-flex flex-wrap justify-content-between align-items-baseline mb-3">
+            <h4 class="mb-0">Control panel: <span id="packet-name"></span></h4>
+            <a href="./">&larr; Back to admin page</a>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header py-2 fw-semibold">Info</div>
+            <div class="card-body pb-1">
+                <div class="row row-cols-2 row-cols-md-3" id="packet-info"></div>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Set</h5>
-                        <dl class="row mb-0" id="set-info"></dl>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Visibility</h5>
-                        <p class="text-body-secondary">Hidden packets can only be reached by admins and the set's special users.</p>
-                        <div class="d-flex align-items-center gap-2" id="visibility-control"></div>
-                    </div>
-                </div>
+        </div>
+        <div class="card">
+            <div class="card-header py-2 fw-semibold">Controls</div>
+            <div class="card-body">
+                <div class="fw-bold">Visibility</div>
+                <div class="text-body-secondary mb-2">Hidden packets can only be reached by admins and the set's special users.</div>
+                <div class="d-flex align-items-center gap-2" id="visibility-control"></div>
             </div>
         </div>
     </div>

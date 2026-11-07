@@ -6,24 +6,27 @@ const packetName = search.get('packetName');
 document.getElementById('packet-name').textContent = titleCase(packetName);
 
 /**
- * Replaces the contents of a definition list with the given label/value pairs.
- * @param {string} id - the id of the `<dl>` element
+ * Replaces the contents of a container with the given label/value pairs, each shown as a bold label with its value underneath.
+ * @param {string} id - the id of the container element
  * @param {[string, string][]} rows
  */
 function renderRows (id, rows) {
-  const list = document.getElementById(id);
-  list.replaceChildren();
+  const container = document.getElementById(id);
+  container.replaceChildren();
 
   for (const [label, value] of rows) {
-    const term = document.createElement('dt');
-    term.className = 'col-sm-5';
+    const term = document.createElement('div');
+    term.className = 'fw-bold';
     term.textContent = label;
 
-    const description = document.createElement('dd');
-    description.className = 'col-sm-7';
+    const description = document.createElement('div');
     description.textContent = value;
 
-    list.append(term, description);
+    const item = document.createElement('div');
+    item.className = 'col mb-2';
+    item.append(term, description);
+
+    container.append(item);
   }
 }
 
@@ -63,18 +66,13 @@ if (response.ok) {
   const { divisions, questionCount, costInCents, hidden, set } = packetInfo;
 
   renderRows('packet-info', [
-    ['Name', titleCase(packetInfo.name)],
+    ['Packet', titleCase(packetInfo.name)],
+    ['Set', set ? set.name : 'None'],
+    ['Questions', questionCount],
+    ['Cost', `$${(costInCents / 100).toFixed(2)}`],
     ['Divisions', divisions.join(', ')],
-    ['Questions per division', questionCount],
-    ['Cost', `$${(costInCents / 100).toFixed(2)}`]
+    ...(set ? [['Teams', set.teamsEnabled ? 'Enabled' : 'Disabled']] : [])
   ]);
-
-  renderRows('set-info', set
-    ? [
-        ['Name', set.name],
-        ['Teams', set.teamsEnabled ? 'Enabled' : 'Disabled']
-      ]
-    : [['Name', 'This packet is not part of a set']]);
 
   renderVisibility(hidden);
 } else {
