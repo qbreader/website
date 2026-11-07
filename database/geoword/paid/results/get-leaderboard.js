@@ -2,6 +2,7 @@ import { buzzes } from '../../collections.js';
 
 import getDivisions from '../../get-divisions.js';
 import getTeamLeaderboard from './get-team-leaderboard.js';
+import { comparePlayers } from '../../../../server/geoword/player-standings.js';
 import { getPlayerPointsPerGame } from '../../../../server/geoword/play-round-robin.js';
 import getUsername from '../../../account-info/get-username.js';
 
@@ -26,20 +27,6 @@ function getAggregation ({ division, includeInactive, packetName }) {
     }
     // Sorted and limited in getLeaderboard, since points per game comes from the team standings
   ];
-}
-
-/**
- * Orders players best first: points per game, then points, then correct answers, then average
- * celerity. Players without a points per game (not on a team that has played a match) go last.
- * @param {{ pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number | null }} a
- * @param {{ pointsPerGame: number | null, points: number, numberCorrect: number, averageCorrectCelerity: number | null }} b
- * @returns {number} negative if `a` ranks above `b`
- */
-function comparePlayers (a, b) {
-  return (b.pointsPerGame ?? -1) - (a.pointsPerGame ?? -1) ||
-    b.points - a.points ||
-    b.numberCorrect - a.numberCorrect ||
-    (b.averageCorrectCelerity ?? -1) - (a.averageCorrectCelerity ?? -1);
 }
 
 export default async function getLeaderboard ({ packetName, includeInactive = false, limit = 100 }) {
