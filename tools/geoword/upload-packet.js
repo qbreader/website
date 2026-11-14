@@ -16,6 +16,7 @@ import getMp3Duration from './get-mp3-duration.js';
 
 import { readdir, readFile } from 'fs/promises';
 import path from 'path';
+import { createInterface } from 'readline/promises';
 import { isDeepStrictEqual } from 'util';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
@@ -177,6 +178,20 @@ const PACKET_NAME = argv.name;
 // A separate account for viewing the packet before it is published. It is NOT a site admin:
 // the packet's set lists it in `specialUsers`, which grants access to the packets in that set only.
 const ADMIN_USERNAME = PROD ? 'soundtracks-admin-prod' : 'soundtracks-admin';
+
+/**
+ * Asks a y/n question on the terminal. Anything but "y" or "yes" counts as no,
+ * including when stdin is not interactive.
+ * @param {string} question
+ * @returns {Promise<boolean>}
+ */
+async function confirm (question) {
+  if (!process.stdin.isTTY) { return false; }
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const answer = await rl.question(`${question} (y/n) `);
+  rl.close();
+  return ['y', 'yes'].includes(answer.trim().toLowerCase());
+}
 
 /**
  * Pairs each .mp3 with its question number, taken from the last number in the filename.
@@ -428,6 +443,17 @@ Upserted "${PACKET_NAME}" (${argv.division}). Audio and packet settings were lef
   process.exit(0);
 }
 
+// The "Test" button plays this. Without it the button is silently a no-op, since the
+// route returns an empty 200 rather than a 404. Falls back to the first tossup's audio.
+// Resolved before anything is deleted, so declining the fallback leaves the database untouched.
+const sampleFilename = (await readdir(folderPath)).find(filename => filename.toLowerCase() === SAMPLE_FILENAME);
+if (!sampleFilename && !await confirm(`No ${SAMPLE_FILENAME} in ${folderPath}. Use the first tossup's audio ("${files[0].filename}") as the sample clip instead?`)) {
+  console.log('Aborted. Nothing was changed.');
+  await mongoClient.close();
+  process.exit(1);
+}
+const samplePath = path.join(folderPath, sampleFilename ?? files[0].filename);
+
 // Test mode is re-runnable: clear this packet's documents before inserting, so iterating
 // doesn't duplicate. Prod mode only does so on request, and never over player data.
 if (existing) {
@@ -448,10 +474,6 @@ if (existing) {
   await packets.deleteOne({ name: PACKET_NAME });
 }
 
-// The "Test" button plays this. Without it the button is silently a no-op, since the
-// route returns an empty 200 rather than a 404. Falls back to the first tossup's audio.
-const sampleFilename = (await readdir(folderPath)).find(filename => filename.toLowerCase() === SAMPLE_FILENAME);
-const samplePath = path.join(folderPath, sampleFilename ?? files[0].filename);
 const { insertedId: sampleAudioId } = await sampleAudio.insertOne({ audio: await readFile(samplePath) });
 
 // Create the accounts before the packet, whose set lists the special user by id.
