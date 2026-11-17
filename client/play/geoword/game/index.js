@@ -3,6 +3,7 @@
 import { titleCase } from '../../../../shared/string-utils.js';
 import scoreBuzz from '../../../../shared/geoword-scoring.js';
 import formatCelerity from '../format-celerity.js';
+import recordProtest from '../record-protest.js';
 import audio from '../../audio.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -155,14 +156,6 @@ async function showInstructions (number) {
   return Math.min(maxPauseMs, paddingMs + 1000 * wordCount / wordsPerSecond);
 }
 
-function recordProtest (packetName, questionNumber) {
-  fetch('/api/geoword/paid/play/record-protest?' + new URLSearchParams({ packetName, questionNumber }), {
-    method: 'PUT'
-  }).then(() => {
-    document.getElementById('record-protest-confirmation').classList.remove('d-none');
-  });
-}
-
 function updateScore (isCorrect, givenAnswer, actualAnswer, celerity, saved) {
   const currentPoints = scoreBuzz(scoring, { celerity, isCorrect });
 
@@ -247,8 +240,10 @@ document.getElementById('play-sample').addEventListener('click', function () {
   });
 });
 
-document.getElementById('record-protest').addEventListener('click', () => {
-  recordProtest(packetName, questionNumber);
+document.getElementById('record-protest').addEventListener('click', async () => {
+  if (await recordProtest(packetName, questionNumber)) {
+    document.getElementById('record-protest-confirmation').classList.remove('d-none');
+  }
 });
 
 document.getElementById('start').addEventListener('click', next);
