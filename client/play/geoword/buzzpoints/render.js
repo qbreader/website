@@ -12,32 +12,30 @@ function getBuzzpointsHTML (tossup, buzzpoints) {
  * @param {object} params.tossup
  * @param {string} params.id
  * @param {string} params.audioSrc
- * @param {object[]} params.buzzpoints - in the order to list them
- * @returns {string}
+ * @returns {string} a question's section without its buzzes; call `renderQuestionBuzzpoints` to fill in its clues, graph and buzz table
  */
-export function getQuestionSectionHTML ({ tossup, id, audioSrc, buzzpoints }) {
+export function getQuestionSectionHTML ({ tossup, id, audioSrc }) {
   const category = escapeHTML(tossup.category) + (tossup.subcategory ? ` / ${escapeHTML(tossup.subcategory)}` : '');
 
   return `
     <section class="mb-5 buzzpoints-section" id="${id}" aria-labelledby="${id}-heading">
       <h2 class="h5" id="${id}-heading">Question ${tossup.questionNumber}</h2>
-      <div class="buzzpoints-layout ${buzzpoints.length > 0 ? 'has-buzzpoints' : ''}">
+      <div class="buzzpoints-layout">
         <div class="buzzpoints-head">
           ${tossup.instructions ? `<div class="alert alert-info small-alert mb-0"><b>Prompt:</b> ${tossup.instructions}</div>` : ''}
           <audio controls controlslist="nodownload noplaybackrate" disableremoteplayback preload="none" class="w-100" src="${audioSrc}"></audio>
         </div>
-        ${getCluesHTML(tossup, buzzpoints)}
+        <div class="buzzpoints-clues"></div>
         <div class="buzzpoints-answer">
           <div><b>ANSWER:</b> ${tossup.answer}</div>
           <div>&lt;${category}&gt;</div>
         </div>
-        ${getBuzzpointsHTML(tossup, buzzpoints)}
       </div>
     </section>`;
 }
 
 /**
- * Redraws a question's clues, graph and buzz table, leaving its audio alone so it keeps playing.
+ * Draws a question's clues, graph and buzz table, replacing any already there and leaving its audio alone so it keeps playing.
  * @param {HTMLElement} section
  * @param {object} tossup
  * @param {object[]} buzzpoints

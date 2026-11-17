@@ -1,4 +1,4 @@
-import { drawTossupGraph, setUpBuzzpointsInteractions } from '../../buzzpoints/interactions.js';
+import { setUpBuzzpointsInteractions } from '../../buzzpoints/interactions.js';
 import { getQuestionNavHTML, observeToolbar, trackCurrentQuestion } from '../../buzzpoints/question-nav.js';
 import { getQuestionSectionHTML, renderQuestionBuzzpoints } from '../../buzzpoints/render.js';
 import { getFilterChipsHTML, getFilterHTML, getFilterSummary, isFiltered, matchesFilter, readFiltersFromURL, searchFilterMenu, writeFiltersToURL } from './filter.js';
@@ -39,8 +39,7 @@ function getTossupHTML (tossup, division, id) {
   return getQuestionSectionHTML({
     tossup,
     id,
-    audioSrc: '/api/geoword/paid/results/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber }),
-    buzzpoints: getShownBuzzpoints(division, tossup.questionNumber)
+    audioSrc: '/api/geoword/paid/results/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber })
   });
 }
 
@@ -161,7 +160,7 @@ Promise.all([
       divs[division].innerHTML += innerHTML;
 
       for (const tossup of packets[division]) {
-        drawTossupGraph(document.getElementById(getId(tossup)), tossup, getShownBuzzpoints(division, tossup.questionNumber));
+        renderBuzzpoints(division, tossup);
       }
       observeToolbar(divs[division].querySelector('.buzz-toolbar'));
     }
