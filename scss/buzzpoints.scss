@@ -250,6 +250,23 @@
     text-align: center;
 }
 
+// A question link that `isMarked` in getQuestionNavHTML picked out: bold, with a dot in the corner
+.buzz-toolbar .page-link-marked {
+    position: relative;
+    font-weight: bold;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0.125rem;
+        right: 0.125rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background-color: var(--bs-warning);
+    }
+}
+
 .buzzpoints-section {
     scroll-margin-top: 1rem;
 }
