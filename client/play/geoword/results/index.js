@@ -1,5 +1,6 @@
 import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
 import formatCelerity from '../format-celerity.js';
+import recordProtest from '../record-protest.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -70,11 +71,9 @@ document.getElementById('stats').addEventListener('click', async event => {
   const status = document.getElementById(`protest-status-${questionNumber}`);
   status.textContent = '(submitting protest...)';
 
-  const response = await fetch('/api/geoword/paid/play/record-protest?' + new URLSearchParams({ packetName, questionNumber }), {
-    method: 'PUT'
-  }).catch(() => null);
+  const recorded = await recordProtest(packetName, questionNumber);
 
-  if (response?.ok) {
+  if (recorded) {
     status.textContent = '(pending review)';
   } else {
     status.innerHTML = `(your protest could not be recorded) ${getProtestLinkString({ questionNumber })}`;
