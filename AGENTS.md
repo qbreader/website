@@ -118,6 +118,7 @@ Lint must pass (`npm run lint` — it auto-fixes most issues). Then actually exe
 ## Code Conventions
 
 - **Style**: [semistandard](https://github.com/standard/semistandard) — 2-space indent, semicolons, single quotes. CI fails otherwise.
+- **Guard statements**: always use braces, and keep a short `if` guard on one line when it fits, e.g. `if (!user) { return; }` — not `if (!user) return;` and not a multi-line block. Use the multi-line form only when the body has multiple statements or the line would be too long.
 - **Modules**: ESM everywhere (`"type": "module"`). Use explicit file extensions in imports (`./foo.js`).
 - **Naming**: kebab-case filenames for modules (`get-random-name.js`); PascalCase filenames for classes (`TossupRoom.js`). A class with a **lowercase name consists of all static methods** (e.g. `api`, `account`); a **capitalized class is meant to be instantiated**.
 - **Client file ordering** (top to bottom): imports → global variables → function definitions → DOM event listeners → other code.
