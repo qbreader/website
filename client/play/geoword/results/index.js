@@ -103,7 +103,7 @@ function getPromptString (buzz) {
 }
 
 function getProtestLinkString (buzz) {
-  return `<a href="#" class="record-protest" data-question-number="${Number(buzz.questionNumber)}">I was right</a>`;
+  return `<a href="#" class="record-protest" data-question-number="${Number(buzz.questionNumber)}">Submit protest</a>`;
 }
 
 function getProtestReasonString (buzz) {
