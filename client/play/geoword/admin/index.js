@@ -16,7 +16,7 @@ const TOOL_GROUPS = [
     label: 'Manage',
     color: 'success',
     tools: [
-      ['Protests', '/play/geoword/admin/protests'],
+      ['Review buzzes', '/play/geoword/admin/protests'],
       ['Payments', '/play/geoword/admin/manage-payments'],
       ['Users', '/play/geoword/admin/users'],
       ['Control Panel', '/play/geoword/admin/control-panel']
