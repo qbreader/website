@@ -147,8 +147,9 @@ function seekToBuzz (row) {
  */
 export function setUpBuzzpointsInteractions (container) {
   container.addEventListener('click', event => {
+    // Links and buttons inside a row do their own thing
     const row = event.target.closest('tr[data-buzz-time]');
-    if (row) {
+    if (row && !event.target.closest('a, button')) {
       seekToBuzz(row);
       return;
     }
@@ -191,7 +192,7 @@ export function setUpBuzzpointsInteractions (container) {
 
   container.addEventListener('keydown', event => {
     const row = event.target.closest('tr[data-buzz-time]');
-    if (!row || (event.key !== 'Enter' && event.key !== ' ')) { return; }
+    if (!row || event.target.closest('a, button') || (event.key !== 'Enter' && event.key !== ' ')) { return; }
     event.preventDefault();
     seekToBuzz(row);
   });

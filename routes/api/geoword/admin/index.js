@@ -1,4 +1,5 @@
 import activeRouter from './active.js';
+import audioRouter from './audio.js';
 import categoryStatsRouter from './category-stats.js';
 import compareRouter from './compare.js';
 import invoiceRouter from './invoice.js';
@@ -54,6 +55,7 @@ router.use(async (req, res, next) => {
 });
 
 router.use('/active', activeRouter);
+router.use('/audio', audioRouter);
 router.use('/category-stats', categoryStatsRouter);
 router.use('/compare', compareRouter);
 router.use('/invoice', invoiceRouter);
