@@ -62,9 +62,7 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
 
 document.getElementById('stats').addEventListener('click', async event => {
   const link = event.target.closest('.record-protest');
-  if (!link) {
-    return;
-  }
+  if (!link) { return; }
 
   event.preventDefault();
   const { questionNumber } = link.dataset;
