@@ -2,9 +2,9 @@ import { getBuzzGraphHTML, getBuzzTableHTML, getCluesHTML } from './html.js';
 import { drawTossupGraph, removeTossupGraph, showPosition } from './interactions.js';
 import { escapeHTML } from '../../../../shared/string-utils.js';
 
-function getBuzzpointsHTML (tossup, buzzpoints) {
+function getBuzzpointsHTML (tossup, buzzpoints, { extraHeader, renderExtraCell }) {
   if (buzzpoints.length === 0) { return ''; }
-  return (tossup.duration ? getBuzzGraphHTML(tossup, buzzpoints) : '') + getBuzzTableHTML(tossup, buzzpoints);
+  return (tossup.duration ? getBuzzGraphHTML(tossup, buzzpoints) : '') + getBuzzTableHTML(tossup, buzzpoints, { extraHeader, renderExtraCell });
 }
 
 /**
@@ -39,14 +39,17 @@ export function getQuestionSectionHTML ({ tossup, id, audioSrc }) {
  * @param {HTMLElement} section
  * @param {object} tossup
  * @param {object[]} buzzpoints
+ * @param {object} [options]
+ * @param {string} [options.extraHeader] - the header of an extra last column in the buzz table
+ * @param {(buzz: object) => string} [options.renderExtraCell] - the HTML of a buzz's cell in that column
  */
-export function renderQuestionBuzzpoints (section, tossup, buzzpoints) {
+export function renderQuestionBuzzpoints (section, tossup, buzzpoints, { extraHeader, renderExtraCell } = {}) {
   removeTossupGraph(section);
   section.querySelector('.buzz-table-slot')?.remove();
 
   section.querySelector('.buzzpoints-clues').outerHTML = getCluesHTML(tossup, buzzpoints);
   section.querySelector('.buzzpoints-layout').classList.toggle('has-buzzpoints', buzzpoints.length > 0);
-  section.querySelector('.buzzpoints-answer').insertAdjacentHTML('afterend', getBuzzpointsHTML(tossup, buzzpoints));
+  section.querySelector('.buzzpoints-answer').insertAdjacentHTML('afterend', getBuzzpointsHTML(tossup, buzzpoints, { extraHeader, renderExtraCell }));
   drawTossupGraph(section, tossup, buzzpoints);
   showPosition(section);
 }

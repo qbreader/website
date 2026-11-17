@@ -1,76 +1,113 @@
+import { setUpBuzzpointsInteractions } from '../buzzpoints/interactions.js';
+import { getQuestionNavHTML, observeToolbar, trackCurrentQuestion } from '../buzzpoints/question-nav.js';
+import { getQuestionSectionHTML, renderQuestionBuzzpoints } from '../buzzpoints/render.js';
 import createTabs from '../../../scripts/utilities/create-tabs.js';
-import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
-import formatCelerity from '../format-celerity.js';
+import { escapeHTML, kebabCase, titleCase } from '../../../../shared/string-utils.js';
+
+const STATUSES = [
+  { value: 'pending', label: 'Pending', matches: buzz => buzz.pendingProtest },
+  { value: 'resolved', label: 'Resolved', matches: buzz => buzz.pendingProtest === false },
+  { value: 'all', label: 'All', matches: () => true }
+];
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
 const packetTitle = titleCase(packetName);
 
-document.getElementById('packet-name').textContent = packetTitle;
+const tabContent = document.getElementById('tab-content');
+let allProtests = {};
+let status = STATUSES.some(({ value }) => value === search.get('status')) ? search.get('status') : 'pending';
+const showCurrentQuestion = trackCurrentQuestion({ tabContent, tabs: document.getElementById('tabs') });
 
-fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName }))
-  .then(response => response.json())
-  .then(data => {
-    const { protests: allProtests } = data;
+function getTossupElementId (division, tossup) {
+  return `${kebabCase(division)}-question-${tossup.questionNumber}`;
+}
 
-    const divs = createTabs({ tabNames: Object.keys(allProtests) });
+/**
+ * @param {object} buzz - a buzz that was protested
+ * @returns {string}
+ */
+function getProtestHTML (buzz) {
+  if (buzz.pendingProtest) {
+    return `
+      <span class="d-block"><span class="badge bg-warning text-dark">pending</span></span>
+      <a href="#" data-protest-id="${buzz._id}" data-bs-toggle="modal" data-bs-target="#resolve-protest-modal">Resolve protest</a>`;
+  }
 
-    for (const division of Object.keys(allProtests)) {
-      const { packet, protests } = allProtests[division];
+  const reason = buzz.reason ? `<small class="d-block opacity-75">${escapeHTML(buzz.reason)}</small>` : '';
+  return `${buzz.decision === 'accept' ? 'accepted' : 'denied'}${reason}`;
+}
 
-      let innerHTML = '';
-      for (const tossup of packet) {
-        const { questionNumber } = tossup;
-        innerHTML += `<div>${tossup.questionNumber}. ${tossup.question}</div>`;
-        innerHTML += `<div>ANSWER: ${tossup.answer}</div>`;
-        innerHTML += `<p>&lt;${tossup.category} / ${tossup.subcategory}&gt;</p>`;
+/**
+ * @param {string} division
+ * @param {number} questionNumber
+ * @returns {object[]} the protests on a question that match the status filter, in the order they were buzzed
+ */
+function getShownBuzzpoints (division, questionNumber) {
+  const { matches } = STATUSES.find(({ value }) => value === status);
+  return allProtests[division].protests
+    .filter(buzz => buzz.questionNumber === questionNumber && matches(buzz))
+    .sort((a, b) => (b.celerity ?? 0) - (a.celerity ?? 0));
+}
 
-        if (protests.filter(protest => protest.questionNumber === questionNumber).length === 0) {
-          innerHTML += '<hr>';
-          continue;
-        }
-
-        innerHTML += '<h5>Protests:</h5>';
-        innerHTML += '<ul class="list-group mb-3">';
-        for (const protest of protests.filter(protest => protest.questionNumber === questionNumber && protest.pendingProtest)) {
-          innerHTML += `
-            <li class="list-group-item d-flex justify-content-between">
-              <span>
-                <b>${escapeHTML(protest.username + ': ' || '')}</b>
-                <span id="given-answer-${protest._id}">${protest.givenAnswer}</span>
-                ${getPromptString(protest)}
-                (celerity: ${formatCelerity(protest.celerity)}) - pending review
-              </span>
-              <a id="${protest._id}" question="${questionNumber}" href="#" data-bs-toggle="modal" data-bs-target="#resolve-protest-modal">Resolve protest</a>
-            </li>
-          `;
-        }
-
-        for (const protest of protests.filter(protest => protest.questionNumber === questionNumber && !protest.pendingProtest)) {
-          const resolution = `resolution: ${protest.decision} ${getProtestReasonString(protest)}`;
-
-          innerHTML += `
-            <li class="list-group-item">
-              <span><b>${escapeHTML(protest.username + ': ' || '')}</b><span>${protest.givenAnswer} ${getPromptString(protest)}</span> - ${resolution}</span>
-            </li>
-          `;
-        }
-
-        innerHTML += '</ul>';
-        innerHTML += '<hr>';
-      }
-
-      divs[division].innerHTML += innerHTML;
-
-      document.querySelectorAll('a[data-bs-toggle="modal"]').forEach(a => {
-        a.addEventListener('click', () => {
-          document.getElementById('resolve-protest-id').value = a.id;
-          document.getElementById('resolve-protest-given-answer').value = document.getElementById(`given-answer-${a.id}`).textContent;
-          document.getElementById('resolve-protest-actual-answer').innerHTML = packet[parseInt(a.attributes.question.value) - 1].answer;
-        });
-      });
-    }
+function getTossupHTML (division, tossup) {
+  return getQuestionSectionHTML({
+    tossup,
+    id: getTossupElementId(division, tossup),
+    audioSrc: '/api/geoword/admin/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber })
   });
+}
+
+function renderQuestion (division, tossup) {
+  const section = document.getElementById(getTossupElementId(division, tossup));
+  renderQuestionBuzzpoints(section, tossup, getShownBuzzpoints(division, tossup.questionNumber), { extraHeader: 'Protest', renderExtraCell: getProtestHTML });
+}
+
+function getStatusFilterHTML (division) {
+  const kebabed = kebabCase(division);
+
+  let html = '<div class="btn-group btn-group-sm" role="group" aria-label="Show protests that are">';
+  for (const { value, label, matches } of STATUSES) {
+    html += `
+      <input type="radio" class="btn-check" name="${kebabed}-status" id="${kebabed}-status-${value}" value="${value}" ${value === status ? 'checked' : ''}>
+      <label class="btn btn-outline-primary" for="${kebabed}-status-${value}">${label} (${allProtests[division].protests.filter(matches).length})</label>`;
+  }
+  return html + '</div>';
+}
+
+function applyStatus () {
+  for (const [division, { packet }] of Object.entries(allProtests)) {
+    for (const tossup of packet) {
+      renderQuestion(division, tossup);
+    }
+    for (const radio of document.querySelectorAll(`input[name="${kebabCase(division)}-status"]`)) {
+      radio.checked = radio.value === status;
+    }
+  }
+
+  const url = new URL(window.location.href);
+  url.searchParams.set('status', status);
+  window.history.replaceState(null, '', url);
+}
+
+tabContent.addEventListener('change', event => {
+  if (!event.target.matches('.btn-check')) { return; }
+  status = event.target.value;
+  applyStatus();
+});
+
+tabContent.addEventListener('click', event => {
+  const link = event.target.closest('[data-protest-id]');
+  if (!link) { return; }
+
+  const { packet, protests } = allProtests[link.closest('.tab-pane').dataset.division];
+  const protest = protests.find(protest => protest._id === link.dataset.protestId);
+  const tossup = packet.find(tossup => tossup.questionNumber === protest.questionNumber);
+
+  document.getElementById('resolve-protest-id').value = protest._id;
+  document.getElementById('resolve-protest-given-answer').value = protest.givenAnswer;
+  document.getElementById('resolve-protest-actual-answer').innerHTML = tossup.answer;
+});
 
 document.getElementById('resolve-protest-submit').addEventListener('click', () => {
   const _id = document.getElementById('resolve-protest-id').value;
@@ -90,24 +127,42 @@ document.getElementById('resolve-protest-submit').addEventListener('click', () =
   });
 });
 
-function getPromptString (protest) {
-  if (!protest?.prompts) {
-    return '';
-  }
+setUpBuzzpointsInteractions(tabContent);
 
-  let string = '(prompted on: ';
-  for (const answer of protest.prompts) {
-    string += answer + ', ';
-  }
-  string = string.slice(0, -2);
-  string = string + ')';
-  return string;
-}
+document.getElementById('packet-name').textContent = packetTitle;
 
-function getProtestReasonString (protest) {
-  if (!protest?.reason || protest.reason === '') {
-    return '';
-  }
+fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName }))
+  .then(response => response.json())
+  .then(data => {
+    allProtests = data.protests;
+    const divisions = Object.keys(allProtests);
 
-  return `(reason: ${protest.reason})`;
-}
+    // Tabs only help when there is more than one division to choose between
+    if (divisions.length === 1) {
+      document.getElementById('tabs').closest('nav').classList.add('d-none');
+    }
+
+    const divs = createTabs({ tabNames: divisions });
+
+    for (const division of divisions) {
+      const { packet, protests } = allProtests[division];
+      const hasPending = tossup => protests.some(protest => protest.questionNumber === tossup.questionNumber && protest.pendingProtest);
+      let innerHTML = `
+        <div class="buzz-toolbar sticky-md-top d-flex flex-wrap align-items-center gap-2 py-2 mb-4">
+          ${getStatusFilterHTML(division)}
+          ${getQuestionNavHTML(packet, tossup => getTossupElementId(division, tossup), { isMarked: hasPending })}
+        </div>`;
+      for (const tossup of packet) {
+        innerHTML += getTossupHTML(division, tossup);
+      }
+      divs[division].dataset.division = division;
+      divs[division].innerHTML += innerHTML;
+      observeToolbar(divs[division].querySelector('.buzz-toolbar'));
+
+      for (const tossup of packet) {
+        renderQuestion(division, tossup);
+      }
+    }
+
+    showCurrentQuestion();
+  });

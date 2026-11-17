@@ -51,9 +51,12 @@ export function getCluesHTML (tossup, buzzpoints) {
 /**
  * @param {object} tossup
  * @param {object[]} buzzpoints
+ * @param {object} [options]
+ * @param {string} [options.extraHeader] - the header of an extra last column, shown if `renderExtraCell` is given
+ * @param {(buzz: object) => string} [options.renderExtraCell] - the HTML of a buzz's cell in the extra column
  * @returns {string}
  */
-export function getBuzzTableHTML (tossup, buzzpoints) {
+export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtraCell } = {}) {
   let rows = '';
   for (const buzz of buzzpoints) {
     let data = '';
@@ -73,7 +76,11 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
         </td>
         <td class="text-end">${formatCelerity(buzz.celerity ?? 0)}</td>
         <td class="text-end fw-semibold ${pointsClass}">${buzz.points > 0 ? '+' : ''}${buzz.points}</td>
-        <td class="text-break">${escapeHTML(buzz.givenAnswer)}</td>
+        <td class="text-break">
+          ${escapeHTML(buzz.givenAnswer)}
+          ${buzz.prompts?.length ? `<small class="d-block opacity-75">prompted on: ${buzz.prompts.map(escapeHTML).join(', ')}</small>` : ''}
+        </td>
+        ${renderExtraCell ? `<td class="text-break">${renderExtraCell(buzz)}</td>` : ''}
       </tr>`;
   }
 
@@ -82,7 +89,7 @@ export function getBuzzTableHTML (tossup, buzzpoints) {
       <div class="buzz-table" tabindex="0" aria-label="Buzzes on question ${tossup.questionNumber}">
         <table class="table table-hover mb-0 buzz-table-fixed">
           <thead>
-            <tr><th scope="col">Player</th><th scope="col" class="text-end buzz-table-celerity">Celerity</th><th scope="col" class="text-end buzz-table-points">Pts</th><th scope="col">Answer</th></tr>
+            <tr><th scope="col">Player</th><th scope="col" class="text-end buzz-table-celerity">Celerity</th><th scope="col" class="text-end buzz-table-points">Pts</th><th scope="col">Answer</th>${renderExtraCell ? `<th scope="col">${extraHeader}</th>` : ''}</tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

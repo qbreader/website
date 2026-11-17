@@ -7,12 +7,14 @@ const toolbarResizeObserver = new window.ResizeObserver(entries => {
 /**
  * @param {object[]} tossups - one division's tossups
  * @param {(tossup: object) => string} getId
+ * @param {object} [options]
+ * @param {(tossup: object) => boolean} [options.isMarked] - questions whose link should stand out
  * @returns {string} HTML for a row of links that jump to each question
  */
-export function getQuestionNavHTML (tossups, getId) {
+export function getQuestionNavHTML (tossups, getId, { isMarked = () => false } = {}) {
   let html = '<nav class="ms-auto" aria-label="Questions"><ul class="pagination pagination-sm flex-wrap mb-0">';
   for (const tossup of tossups) {
-    html += `<li class="page-item"><a class="page-link" href="#${getId(tossup)}" aria-label="Jump to question ${tossup.questionNumber}">${tossup.questionNumber}</a></li>`;
+    html += `<li class="page-item"><a class="page-link ${isMarked(tossup) ? 'page-link-marked' : ''}" href="#${getId(tossup)}" aria-label="Jump to question ${tossup.questionNumber}">${tossup.questionNumber}</a></li>`;
   }
   return html + '</ul></nav>';
 }
