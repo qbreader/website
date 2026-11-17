@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
   if (buzzId === null) { return res.status(400).send('Invalid buzz ID'); }
   if (decision === undefined) { return res.status(400).send('Invalid decision'); }
 
-  const result = await resolveProtest({ buzzId, packetName, decision, reason });
+  const result = await resolveProtest({ buzzId, packetName, decision, reason, adminId: res.locals.userId });
 
   // the buzz doesn't exist or has no pending protest
   if (result === null) { return res.sendStatus(404); }

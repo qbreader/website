@@ -5,7 +5,11 @@ import getDivisions from '../get-divisions.js';
 
 async function getDivisionProtests ({ division, packetName }) {
   const protests = await buzzes.find(
-    { 'packet.name': packetName, division, pendingProtest: { $exists: true } },
+    {
+      'packet.name': packetName,
+      division,
+      $or: [{ pendingProtest: { $exists: true } }, { override: { $exists: true } }]
+    },
     { sort: { questionNumber: 1 } }
   ).toArray();
 
@@ -17,6 +21,9 @@ async function getDivisionProtests ({ division, packetName }) {
   for (const index in protests) {
     const userId = protests[index].user_id;
     protests[index].username = await getUsername(userId);
+    if (protests[index].override) {
+      protests[index].override.decidedByUsername = await getUsername(protests[index].override.decidedBy);
+    }
   }
 
   return { protests, packet };
