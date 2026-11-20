@@ -167,9 +167,19 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
       score: points,
       celerity: this.players[userId].celerity.correct.average,
       // the below fields are used to record buzzpoint data
-      tossup: this.tossup,
+      tossup: this.tossupForClient(),
       perQuestionCelerity: celerity
     });
+  }
+
+  /**
+   * The tossup as it should be sent to clients before its answer is revealed.
+   * The question is streamed word by word via UPDATE_QUESTION and the answer is sent via
+   * REVEAL_TOSSUP_ANSWER, so rooms where clients are not trusted should override this to
+   * omit the question and answer text.
+   */
+  tossupForClient () {
+    return this.tossup;
   }
 
   async next ({ userId, username }) {
@@ -290,7 +300,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     this.tossup = await this.getNextQuestion('tossups');
     this.queryingQuestion = false;
     if (!this.tossup) { return; }
-    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.START_NEXT_TOSSUP, packetLength: this.packet.tossups.length, tossup: this.tossup, userId, username });
+    this.emitMessage({ type: TOSSUP_CLIENT_MESSAGE_TYPE.START_NEXT_TOSSUP, packetLength: this.packet.tossups.length, tossup: this.tossupForClient(), userId, username });
     this.questionSplit = this.tossup.question_sanitized.split(' ').filter(word => word !== '');
     this.wordIndex = 0;
     this.tossupProgress = TOSSUP_PROGRESS_ENUM.READING;

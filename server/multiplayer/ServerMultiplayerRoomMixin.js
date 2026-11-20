@@ -22,6 +22,18 @@ import Team from '../../shared/Team.js';
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 /**
+ * Returns a copy of the tossup without the question and answer text.
+ * Clients only need the metadata (id, set, packet, category, etc.) until the answer is revealed;
+ * sending the text earlier lets a modified client read the answer before the question is read.
+ */
+function withoutQuestionAndAnswer (tossup) {
+  if (!tossup) { return tossup; }
+  const metadata = { ...tossup };
+  for (const key of ['question', 'question_sanitized', 'answer', 'answer_sanitized']) { delete metadata[key]; }
+  return metadata;
+}
+
+/**
  * @template {typeof TossupBonusRoom} TBase
  * @param {TBase} RoomClass
  */
@@ -31,6 +43,10 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   getPacketCount = getNumPackets;
   getRandomBonuses = getRandomBonuses;
   getRandomTossups = getRandomTossups;
+
+  tossupForClient () {
+    return withoutQuestionAndAnswer(this.tossup);
+  }
 
   constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes, isVerified = false) {
     super(name, categoryManager, supportedQuestionTypes);
@@ -174,7 +190,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     socket.send(JSON.stringify({
       type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUESTION,
       currentQuestionType: this.currentQuestionType,
-      question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossup : this.bonus
+      question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossupForClient() : this.bonus
     }));
 
     if (this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
