@@ -1,18 +1,6 @@
 /**
  * Decides which of a team's buzzes counts on a single question.
- *
- * Teammates play asynchronously, so "first" cannot mean wall-clock time. It means
- * earliest within the question, which is the highest celerity - celerity is
- * `1 - currentTime / duration`, so a buzz early in the audio is close to 1.
- *
- * The strategy is a parameter so the scoring rule can change without touching
- * callers. `earliestBuzz` reproduces live quizbowl: whoever buzzes first locks out
- * their teammates, and the team lives with the result even if it is a neg and a
- * teammate would have converted later.
- *
- * The exception is in simulated matches (simulate-match.js): a team that buzzes
- * after the other team failed to score gets `bestBuzz`, since in a live match it
- * would have heard the miss and could wait for whichever teammate knew the answer.
+ * The buzz selection strategy is a parameter, with the current options: `earliestBuzz` and `bestBuzz`.
  */
 
 /**
@@ -24,8 +12,8 @@
  */
 
 /**
- * Live quizbowl lockout: the earliest buzz counts, right or wrong. Teammates who
- * buzzed at the same moment count the correct one.
+ * The earliest buzz counts, regardless of points. Teammates who buzzed at the same
+ * moment count the correct one.
  * @param {Buzz[]} buzzes - every teammate's buzz on one question; never empty
  * @returns {Buzz}
  */

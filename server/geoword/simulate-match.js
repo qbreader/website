@@ -3,10 +3,8 @@ import { bestBuzz, earliestBuzz } from './merge-buzzes.js';
 /**
  * Plays a simulated match between two teams that heard the same packet separately.
  *
- * Each team's lead buzz on a question is its earliest (see merge-buzzes.js). Celerity
- * stands in for time: the team whose lead buzz has the higher celerity buzzed first.
- * Celerity is clamped to [0, 1], so two teams that both answered after the audio ended
- * tie at 0 and buzzed at the same time.
+ * Each team's lead buzz on a question is its earliest (see merge-buzzes.js). Higher
+ * celerity means a buzz was earlier.
  *
  * If the team that buzzed first doesn't score, the other team is credited with its best
  * teammate's buzz rather than its earliest.
