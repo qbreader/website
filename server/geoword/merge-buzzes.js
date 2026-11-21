@@ -9,6 +9,10 @@
  * callers. `earliestBuzz` reproduces live quizbowl: whoever buzzes first locks out
  * their teammates, and the team lives with the result even if it is a neg and a
  * teammate would have converted later.
+ *
+ * The exception is in simulated matches (simulate-match.js): a team that buzzes
+ * after the other team failed to score gets `bestBuzz`, since in a live match it
+ * would have heard the miss and could wait for whichever teammate knew the answer.
  */
 
 /**
@@ -40,8 +44,8 @@ export function earliestBuzz (buzzes) {
 }
 
 /**
- * The team's best result on the question, ignoring who was first.
- * Not used yet - kept as a second strategy so the seam above is real.
+ * The team's best result on the question, ignoring who was first. Ties go to the
+ * earliest buzz.
  * @param {Buzz[]} buzzes - every teammate's buzz on one question; never empty
  * @returns {Buzz}
  */

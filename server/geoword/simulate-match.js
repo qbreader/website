@@ -1,4 +1,4 @@
-import { earliestBuzz } from './merge-buzzes.js';
+import { bestBuzz, earliestBuzz } from './merge-buzzes.js';
 
 /**
  * Plays a simulated match between two teams that heard the same packet separately.
@@ -7,7 +7,9 @@ import { earliestBuzz } from './merge-buzzes.js';
  * stands in for time: the team whose lead buzz has the higher celerity buzzed first.
  * Celerity is clamped to [0, 1], so two teams that both answered after the audio ended
  * tie at 0 and buzzed at the same time.
-
+ *
+ * If the team that buzzed first doesn't score, the other team is credited with its best
+ * teammate's buzz rather than its earliest, and can't lose points on the question.
  */
 
 /**
@@ -37,7 +39,7 @@ function scoreQuestion (aBuzzes, bBuzzes) {
     return aFirst ? [[a, a.points], [b, 0]] : [[a, 0], [b, b.points]];
   }
 
-  const second = aFirst ? b : a;
+  const second = bestBuzz(aFirst ? bBuzzes : aBuzzes);
   const results = [[first, first.points], [second, Math.max(0, second.points)]];
   return aFirst ? results : [results[1], results[0]];
 }
