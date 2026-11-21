@@ -1,13 +1,15 @@
 import revertOverride from '../../../../database/geoword/admin/revert-override.js';
-import validateObjectId from '../../../validators/object-id.js';
+import validate, { rules } from '../../../validators/schema.js';
 
 import { Router } from 'express';
 
 const router = Router();
 
 router.post('/', async (req, res) => {
-  validateObjectId(req.body, 'buzz_id');
-  const { buzz_id: buzzId, packetName } = req.body;
+  const { buzz_id: buzzId, packetName } = validate(req.body, {
+    buzz_id: rules.objectId(),
+    packetName: rules.string()
+  });
 
   if (buzzId === null) { return res.status(400).send('Invalid buzz ID'); }
 
