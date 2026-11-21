@@ -1,10 +1,13 @@
+import { bestBuzz, earliestBuzz } from './merge-buzzes.js';
+
 /**
  * Plays a simulated match between two teams that heard the same packet separately.
  *
- * Each team brings one buzz per question, its merged buzz from merge-buzzes.js. Celerity
- * stands in for time: the team with the higher celerity buzzed first. Celerity is clamped
- * to [0, 1], so two teams that both answered after the audio ended tie at 0 and buzzed at
- * the same time.
+ * Each team's lead buzz on a question is its earliest (see merge-buzzes.js). Higher
+ * celerity means a buzz was earlier.
+ *
+ * If the team that buzzed first doesn't score, the other team is credited with its best
+ * teammate's buzz rather than its earliest.
  */
 
 /**
@@ -30,19 +33,31 @@ function scoreQuestion (a, b) {
 }
 
 /**
- * @param {Buzz[]} a - the first team's merged buzzes, one per question
- * @param {Buzz[]} b - the second team's merged buzzes, one per question
+ * @param {Buzz[]} [aBuzzes] - every buzz by the first team on the question, if it heard it
+ * @param {Buzz[]} [bBuzzes] - every buzz by the second team on the question, if it heard it
+ * @returns {[Buzz | undefined, Buzz | undefined]} the buzz that decides each team's result
+ */
+function pickBuzzes (aBuzzes, bBuzzes) {
+  const a = aBuzzes && earliestBuzz(aBuzzes);
+  const b = bBuzzes && earliestBuzz(bBuzzes);
+  if (!a || !b || a.celerity === b.celerity) { return [a, b]; }
+
+  const aFirst = a.celerity > b.celerity;
+  if ((aFirst ? a : b).points > 0) { return [a, b]; }
+  return aFirst ? [a, bestBuzz(bBuzzes)] : [bestBuzz(aBuzzes), b];
+}
+
+/**
+ * @param {Map<number, Buzz[]>} a - the first team's buzzes by question number, from `groupBuzzesByQuestion`
+ * @param {Map<number, Buzz[]>} b - the second team's buzzes by question number, from `groupBuzzesByQuestion`
  * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>] }}
  * each team's total, the index of the team with the higher total (null on a tie), and each
  * team's points by the player whose buzz scored them
  */
 export default function simulateMatch (a, b) {
-  const aByQuestion = new Map(a.map(buzz => [buzz.questionNumber, buzz]));
-  const bByQuestion = new Map(b.map(buzz => [buzz.questionNumber, buzz]));
-
   const playerPoints = [{}, {}];
-  for (const questionNumber of new Set([...aByQuestion.keys(), ...bByQuestion.keys()])) {
-    const buzzes = [aByQuestion.get(questionNumber), bByQuestion.get(questionNumber)];
+  for (const questionNumber of new Set([...a.keys(), ...b.keys()])) {
+    const buzzes = pickBuzzes(a.get(questionNumber), b.get(questionNumber));
     scoreQuestion(...buzzes).forEach((questionPoints, side) => {
       if (!buzzes[side]) { return; }
       const player = String(buzzes[side].user_id);
