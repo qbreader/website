@@ -1,4 +1,4 @@
-import mergeBuzzes from './merge-buzzes.js';
+import { groupBuzzesByQuestion } from './merge-buzzes.js';
 import simulateMatch from './simulate-match.js';
 
 /**
@@ -21,7 +21,7 @@ function getOutcome (winner, side) {
  * and the points each finished member scored across all of the team's matches
  */
 export function playRoundRobin (teamList) {
-  const merged = teamList.map(({ finishedBuzzes }) => mergeBuzzes(finishedBuzzes));
+  const grouped = teamList.map(({ finishedBuzzes }) => groupBuzzesByQuestion(finishedBuzzes));
   const records = teamList.map(({ finishedBuzzes }) => ({
     wins: 0,
     losses: 0,
@@ -33,8 +33,8 @@ export function playRoundRobin (teamList) {
 
   for (let i = 0; i < teamList.length; i++) {
     for (let j = i + 1; j < teamList.length; j++) {
-      if (merged[i].length === 0 || merged[j].length === 0) { continue; }
-      const { points, winner, playerPoints } = simulateMatch(merged[i], merged[j]);
+      if (grouped[i].size === 0 || grouped[j].size === 0) { continue; }
+      const { points, winner, playerPoints } = simulateMatch(grouped[i], grouped[j]);
       const [pointsI, pointsJ] = points;
       records[i][getOutcome(winner, 0)]++;
       records[i].matches.push({ opponent: teamList[j].team.teamName, points: [pointsI, pointsJ] });
