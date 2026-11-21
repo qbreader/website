@@ -446,13 +446,18 @@ Upserted "${PACKET_NAME}" (${argv.division}). Audio and packet settings were lef
 // The "Test" button plays this. Without it the button is silently a no-op, since the
 // route returns an empty 200 rather than a 404. Falls back to the first tossup's audio.
 // Resolved before anything is deleted, so declining the fallback leaves the database untouched.
-const sampleFilename = (await readdir(folderPath)).find(filename => filename.toLowerCase() === SAMPLE_FILENAME);
-if (!sampleFilename && !await confirm(`No ${SAMPLE_FILENAME} in ${folderPath}. Use the first tossup's audio ("${files[0].filename}") as the sample clip instead?`)) {
-  console.log('Aborted. Nothing was changed.');
-  await mongoClient.close();
-  process.exit(1);
+const folderFilenames = await readdir(folderPath);
+let sampleFilename = folderFilenames.find(filename => filename.toLowerCase() === SAMPLE_FILENAME);
+if (!sampleFilename) {
+  const useFallback = await confirm(`No ${SAMPLE_FILENAME} in ${folderPath}. Use the first tossup's audio ("${files[0].filename}") as the sample clip instead?`);
+  if (!useFallback) {
+    console.log('Aborted. Nothing was changed.');
+    await mongoClient.close();
+    process.exit(1);
+  }
+  sampleFilename = files[0].filename;
 }
-const samplePath = path.join(folderPath, sampleFilename ?? files[0].filename);
+const samplePath = path.join(folderPath, sampleFilename);
 
 // Test mode is re-runnable: clear this packet's documents before inserting, so iterating
 // doesn't duplicate. Prod mode only does so on request, and never over player data.
