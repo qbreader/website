@@ -32,6 +32,14 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   getRandomBonuses = getRandomBonuses;
   getRandomTossups = getRandomTossups;
 
+  // Omits the question and answer text, so a modified client can't read them before they're revealed
+  tossupForClient () {
+    if (!this.tossup) { return this.tossup; }
+    const metadata = { ...this.tossup };
+    for (const key of ['question', 'question_sanitized', 'answer', 'answer_sanitized']) { delete metadata[key]; }
+    return metadata;
+  }
+
   constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes, isVerified = false) {
     super(name, categoryManager, supportedQuestionTypes);
     this.ownerId = ownerId;
@@ -174,7 +182,7 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
     socket.send(JSON.stringify({
       type: MULTIPLAYER_CLIENT_MESSAGE_TYPE.CONNECTION_ACKNOWLEDGED_QUESTION,
       currentQuestionType: this.currentQuestionType,
-      question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossup : this.bonus
+      question: this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP ? this.tossupForClient() : this.bonus
     }));
 
     if (this.currentQuestionType === QUESTION_TYPE_ENUM.TOSSUP) {
