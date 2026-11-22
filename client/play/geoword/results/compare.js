@@ -1,5 +1,5 @@
 import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
-import formatCelerity from '../format-celerity.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
