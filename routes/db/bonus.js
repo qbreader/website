@@ -1,16 +1,12 @@
 import { replaceSSI } from '../ssi-middleware.js';
 import * as validateObjectId from '../validators/object-id.js';
-import { escapeHTML } from '../../shared/string-utils.js';
+import { escapeHTML, removeParentheses } from '../../shared/string-utils.js';
 import getBonus from '../../database/qbreader/get-bonus.js';
 import queryRedirect from '../../server/query-redirect.js';
 
 import { Router } from 'express';
 import fs from 'fs';
 const router = Router();
-
-function removeParentheses (answer) {
-  return answer.replace(/[([].*/g, '');
-}
 
 const file = replaceSSI(fs.readFileSync('./client/db/bonus/index.html', 'utf8'));
 

@@ -1,9 +1,5 @@
-import { escapeHTML } from '../../../../shared/string-utils.js';
+import { escapeHTML, removeParentheses } from '../../../../shared/string-utils.js';
 import formatCelerity from '../../../scripts/utilities/format-celerity.js';
-
-function removeParentheses (answer) {
-  return answer.replace(/[([].*/g, '');
-}
 
 function updateDivisionList (packetName) {
   document.getElementById('spinner').classList.remove('d-none');
