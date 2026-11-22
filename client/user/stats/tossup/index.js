@@ -3,6 +3,7 @@ import { downloadAsFile } from '../../../scripts/download.js';
 import { attachDropdownChecklist, getDropdownValues } from '../../../scripts/utilities/dropdown-checklist.js';
 import { attachTableEventListeners } from '../../../scripts/utilities/tables.js';
 import insertTokensIntoHTML from '../../../../shared/insert-tokens-into-html.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 
 async function fetchTossupStats ({ difficulties = '', setName = '', includeMultiplayer = true, includeSingleplayer = true, startDate = '', endDate = '' } = {}) {
   const params = { difficulties, setName, includeMultiplayer, includeSingleplayer, startDate, endDate };
@@ -45,7 +46,7 @@ async function fetchTossupStats ({ difficulties = '', setName = '', includeMulti
           <td>${stat['15s']}</td>
           <td>${stat['10s']}</td>
           <td>${stat['-5s']}</td>
-          <td>${averageCelerity.toFixed(3)}</td>
+          <td>${formatCelerity(averageCelerity)}</td>
           <td>${stat.totalPoints}</td>
           <td>${stat.pptu.toFixed(2)}</td>
         </tr>
@@ -73,7 +74,7 @@ async function fetchTossupStats ({ difficulties = '', setName = '', includeMulti
         <th scope="col">${totalStats['15s'] ?? 0}</th>
         <th scope="col">${totalStats['10s'] ?? 0}</th>
         <th scope="col">${totalStats['-5s'] ?? 0}</th>
-        <th scope="col">${totalStats.averageCelerity.toFixed(3)}</th>
+        <th scope="col">${formatCelerity(totalStats.averageCelerity)}</th>
         <th scope="col">${totalStats.totalPoints ?? 0}</th>
         <th scope="col">${totalStats.pptu.toFixed(2)}</th>
       </tr>

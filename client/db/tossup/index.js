@@ -1,5 +1,6 @@
 import mongoIdToDate from '../mongo-id-to-date.js';
 import tossupToHTML from '../../scripts/tossup-to-html.js';
+import formatCelerity from '../../scripts/utilities/format-celerity.js';
 
 const tossupId = new URLSearchParams(window.location.search).get('_id');
 const { tossup } = await fetch('/api/tossup?' + new URLSearchParams({ _id: tossupId })).then(res => res.json());
@@ -45,7 +46,7 @@ if (stats) {
   }
 
   const averageCelerity = stats.numCorrect > 0 ? (stats.totalCorrectCelerity / stats.numCorrect) : 0;
-  document.getElementById('average-celerity').textContent = averageCelerity.toFixed(3);
+  document.getElementById('average-celerity').textContent = formatCelerity(averageCelerity);
   document.getElementById('total-points').textContent = stats.totalPoints;
   document.getElementById('pptu').textContent = stats.pptu.toFixed(2);
 } else {

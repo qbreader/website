@@ -20,7 +20,7 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
     const points = buzzArray.reduce((total, buzz) => total + buzz.points, 0);
     const tossupsHeard = buzzArray.length;
     const totalCorrectCelerity = buzzArray.filter(buzz => buzz.points > 0).reduce((total, buzz) => total + buzz.celerity, 0);
-    const averageCorrectCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
+    const averageCorrectCelerity = formatCelerity(numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect);
     const pointsPerTossup = (tossupsHeard === 0 ? 0 : points / tossupsHeard).toFixed(2);
     document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCorrectCelerity}`;
 
@@ -48,8 +48,8 @@ fetch('/api/geoword/paid/results/stats?' + new URLSearchParams({ packetName }))
                 </div>
                 <div class="col-6">
                     <div><b>Best buzz:</b> ${leaderboard[i].bestUsername}</div>
-                    <div><b>Best celerity:</b> ${(leaderboard[i].bestCelerity ?? 0.0).toFixed(3)}</div>
-                    <div><b>Average correct celerity:</b> ${(leaderboard[i].averageCorrectCelerity ?? 0).toFixed(3)}</div>
+                    <div><b>Best celerity:</b> ${formatCelerity(leaderboard[i].bestCelerity ?? 0)}</div>
+                    <div><b>Average correct celerity:</b> ${formatCelerity(leaderboard[i].averageCorrectCelerity ?? 0)}</div>
                     <div><b>Average points:</b> ${(leaderboard[i].averagePoints ?? 0.0).toFixed(2)}</div>
                     <div><b>Answer:</b> ${buzzArray[i].answer}</div>
                 </div>

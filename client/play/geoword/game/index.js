@@ -191,7 +191,7 @@ function updateScore (isCorrect, givenAnswer, actualAnswer, celerity, saved) {
 }
 
 function updateStatline (numberCorrect, points, tossupsHeard, totalCorrectCelerity) {
-  const averageCelerity = (numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect).toFixed(3);
+  const averageCelerity = formatCelerity(numberCorrect === 0 ? 0 : totalCorrectCelerity / numberCorrect);
   const pointsPerTossup = (tossupsHeard === 0 ? 0 : points / tossupsHeard).toFixed(2);
   document.getElementById('statline').textContent = `${pointsPerTossup} points per question (${points} points / ${tossupsHeard} TUH), celerity: ${averageCelerity}`;
 }

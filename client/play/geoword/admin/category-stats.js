@@ -1,5 +1,6 @@
 import createTabs from '../../../scripts/utilities/create-tabs.js';
 import { escapeHTML, kebabCase, titleCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 import sortTable from '../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -70,7 +71,7 @@ function updateLeaderboardDisplay (index) {
         <tr ${!active && 'class="table-info"'}>
             <td>${active ? parseInt(index) + 1 - numberSkipped : ''}</td>
             <th scope="row">${escapeHTML(username)}</th>
-            <td>${(averageCorrectCelerity ?? 0.0).toFixed(3)}</td>
+            <td>${formatCelerity(averageCorrectCelerity ?? 0)}</td>
             <td>${numberCorrect}</td>
             <td>${points}</td>
             <td>${(pointsPerTossup ?? 0.0).toFixed(2)}</td>
@@ -88,7 +89,7 @@ function updateLeaderboardDisplay (index) {
       <tr>
           <td></td>
           <th scope="row">Average</th>
-          <td>${(leaderboard[index].averageCorrectCelerity ?? 0.0).toFixed(3)}</td>
+          <td>${formatCelerity(leaderboard[index].averageCorrectCelerity ?? 0)}</td>
           <td></td>
           <td></td>
           <td>${(leaderboard[index].averagePoints ?? 0.0).toFixed(2)}</td>
