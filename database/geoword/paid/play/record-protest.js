@@ -1,8 +1,8 @@
 import { buzzes } from '../../collections.js';
 
 /**
- * Marks an incorrect buzz as protested. Buzzes that are correct, or that have
- * already been protested (pending or resolved), are left untouched.
+ * Marks an incorrect buzz as protested. Buzzes that are correct, that have
+ * already been protested (pending or resolved), or that an admin has overridden are left untouched.
  * @param {String} packetName
  * @param {Number} questionNumber
  * @param {ObjectId} userId
@@ -15,7 +15,8 @@ async function recordProtest (packetName, questionNumber, userId) {
       questionNumber,
       user_id: userId,
       points: { $lte: 0 },
-      pendingProtest: { $exists: false }
+      pendingProtest: { $exists: false },
+      override: { $exists: false }
     },
     { $set: { pendingProtest: true } }
   );
