@@ -38,10 +38,7 @@ function getVerdict (isCorrect) {
   return isCorrect ? 'correct' : 'incorrect';
 }
 
-/**
- * @param {object} buzz
- * @returns {string} what an admin can do with a buzz, then its protest and override details
- */
+// What an admin can do with a buzz, then its protest and override details
 function getReviewHTML (buzz) {
   const attributes = `data-buzz-id="${buzz._id}"`;
   let actions = buzz.pendingProtest
@@ -73,11 +70,7 @@ function getReviewHTML (buzz) {
     ${details}`;
 }
 
-/**
- * @param {string} division
- * @param {number} questionNumber
- * @returns {object[]} every buzz on the question if it's expanded, otherwise the protests and overrides that match the status filter, in the order they were buzzed
- */
+// Every buzz on the question if it's expanded, otherwise the protests and overrides matching the status filter, in the order they were buzzed
 function getShownBuzzpoints (division, questionNumber) {
   const key = getQuestionKey(division, questionNumber);
   let buzzes;
