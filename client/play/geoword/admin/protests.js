@@ -38,10 +38,6 @@ function getVerdict (isCorrect) {
   return isCorrect ? 'correct' : 'incorrect';
 }
 
-function getReasonHTML (reason) {
-  return reason ? `<small class="d-block opacity-75">${escapeHTML(reason)}</small>` : '';
-}
-
 /**
  * @param {object} buzz
  * @returns {string} what an admin can do with a buzz, then its protest and override details
@@ -61,13 +57,14 @@ function getReviewHTML (buzz) {
     badges += '<span class="badge bg-warning text-dark">protest pending</span>';
   } else if (buzz.pendingProtest === false) {
     badges += `<span class="badge bg-secondary text-white">protest ${buzz.decision === 'accept' ? 'accepted' : 'denied'}</span>`;
-    details += getReasonHTML(buzz.reason);
+    if (buzz.reason) { details += `<small class="d-block opacity-75">${escapeHTML(buzz.reason)}</small>`; }
   }
 
   if (buzz.override) {
     const { original, decidedByUsername, decidedAt, reason } = buzz.override;
     badges += '<span class="badge bg-info text-dark">overridden</span>';
-    details += `<small class="d-block opacity-75">by ${escapeHTML(decidedByUsername)} on ${new Date(decidedAt).toLocaleDateString()}; was ${getVerdict(original.isCorrect)} (${original.points} pts)</small>${getReasonHTML(reason)}`;
+    details += `<small class="d-block opacity-75">by ${escapeHTML(decidedByUsername)} on ${new Date(decidedAt).toLocaleDateString()}; was ${getVerdict(original.isCorrect)} (${original.points} pts)</small>`;
+    if (reason) { details += `<small class="d-block opacity-75">${escapeHTML(reason)}</small>`; }
   }
 
   return `
