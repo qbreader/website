@@ -1,4 +1,4 @@
-import { emailCollation, users } from './collections.js';
+import { users } from './collections.js';
 
 /**
  * Case-insensitively find the accounts whose verified email matches `email`.
@@ -8,7 +8,7 @@ import { emailCollation, users } from './collections.js';
 export default async function getVerifiedUsernamesByEmail (email) {
   const matches = await users.find(
     { email, verifiedEmail: true },
-    { collation: emailCollation, projection: { username: 1, _id: 0 }, limit: 2 }
+    { collation: { locale: 'en', strength: 2 }, projection: { username: 1, _id: 0 }, limit: 2 }
   ).toArray();
 
   return matches.map(user => user.username);
