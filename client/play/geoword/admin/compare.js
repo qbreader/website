@@ -1,5 +1,5 @@
 import { escapeHTML } from '../../../../shared/string-utils.js';
-import formatCelerity from '../format-celerity.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 
 function removeParentheses (answer) {
   return answer.replace(/[([].*/g, '');

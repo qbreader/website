@@ -2,7 +2,7 @@
 
 import { titleCase } from '../../../../shared/string-utils.js';
 import scoreBuzz from '../../../../shared/geoword-scoring.js';
-import formatCelerity from '../format-celerity.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 import recordProtest from '../record-protest.js';
 import audio from '../../audio.js';
 
