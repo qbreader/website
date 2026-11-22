@@ -1,4 +1,5 @@
 import clearReportsRouter from './clear-reports.js';
+import deployRouter from './deploy.js';
 import listReportsRouter from './list-reports.js';
 import leaderboardRouter from './leaderboard.js';
 import multiplayerRouter from './multiplayer/index.js';
@@ -32,6 +33,7 @@ router.use(async (req, res, next) => {
 });
 
 router.use('/clear-reports', clearReportsRouter);
+router.use('/deploy', deployRouter);
 router.use('/list-reports', listReportsRouter);
 router.use('/leaderboard', leaderboardRouter);
 router.use('/multiplayer', multiplayerRouter);
