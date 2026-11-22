@@ -23,7 +23,8 @@ const showCurrentQuestion = trackCurrentQuestion({ tabContent, tabs: document.ge
 // Questions showing every buzz instead of the protests and overrides matching the status filter
 const expandedQuestions = new Set();
 const buzzesByQuestion = new Map();
-let overrideBuzzId = null;
+// The buzz being resolved or overridden in a modal
+let modalContext = null;
 
 function getTossupElementId (division, tossup) {
   return `${kebabCase(division)}-question-${tossup.questionNumber}`;
@@ -33,33 +34,46 @@ function getQuestionKey (division, questionNumber) {
   return `${division}/${questionNumber}`;
 }
 
+function getVerdict (isCorrect) {
+  return isCorrect ? 'correct' : 'incorrect';
+}
+
+function getReasonHTML (reason) {
+  return reason ? `<small class="d-block opacity-75">${escapeHTML(reason)}</small>` : '';
+}
+
 /**
  * @param {object} buzz
- * @returns {string} the buzz's protest and override details, and what an admin can do with it
+ * @returns {string} what an admin can do with a buzz, then its protest and override details
  */
-function getProtestHTML (buzz) {
-  let html = '';
+function getReviewHTML (buzz) {
+  const attributes = `data-buzz-id="${buzz._id}"`;
+  let actions = buzz.pendingProtest
+    ? `<a href="#" data-action="resolve" ${attributes} data-bs-toggle="modal" data-bs-target="#resolve-protest-modal">Resolve protest</a>`
+    : `<a href="#" data-action="override" ${attributes} data-bs-toggle="modal" data-bs-target="#override-modal">Change verdict</a>`;
+  if (buzz.override) {
+    actions += `<a href="#" data-action="revert" ${attributes}>Revert</a>`;
+  }
+
+  let badges = '';
+  let details = '';
   if (buzz.pendingProtest) {
-    html += `
-      <span class="d-block"><span class="badge bg-warning text-dark">pending</span></span>
-      <a href="#" data-protest-id="${buzz._id}" data-bs-toggle="modal" data-bs-target="#resolve-protest-modal">Resolve protest</a>`;
-  } else {
-    if (buzz.pendingProtest === false) {
-      const reason = buzz.reason ? `<small class="d-block opacity-75">${escapeHTML(buzz.reason)}</small>` : '';
-      html += `${buzz.decision === 'accept' ? 'accepted' : 'denied'}${reason}`;
-    }
-    html += `<a class="d-block" href="#" data-override-id="${buzz._id}" data-bs-toggle="modal" data-bs-target="#override-modal">Change verdict</a>`;
+    badges += '<span class="badge bg-warning text-dark">protest pending</span>';
+  } else if (buzz.pendingProtest === false) {
+    badges += `<span class="badge bg-secondary text-white">protest ${buzz.decision === 'accept' ? 'accepted' : 'denied'}</span>`;
+    details += getReasonHTML(buzz.reason);
   }
 
   if (buzz.override) {
     const { original, decidedByUsername, decidedAt, reason } = buzz.override;
-    html += `
-      <span class="d-block"><span class="badge bg-info text-dark">overridden</span></span>
-      <small class="d-block opacity-75">by ${escapeHTML(decidedByUsername)} on ${new Date(decidedAt).toLocaleDateString()}; was ${original.isCorrect ? 'correct' : 'incorrect'} (${original.points} pts)</small>
-      ${reason ? `<small class="d-block opacity-75">${escapeHTML(reason)}</small>` : ''}
-      <a href="#" data-revert-id="${buzz._id}">Revert</a>`;
+    badges += '<span class="badge bg-info text-dark">overridden</span>';
+    details += `<small class="d-block opacity-75">by ${escapeHTML(decidedByUsername)} on ${new Date(decidedAt).toLocaleDateString()}; was ${getVerdict(original.isCorrect)} (${original.points} pts)</small>${getReasonHTML(reason)}`;
   }
-  return html;
+
+  return `
+    <div class="d-flex flex-wrap gap-2">${actions}</div>
+    ${badges ? `<div class="d-flex flex-wrap gap-1 my-1">${badges}</div>` : ''}
+    ${details}`;
 }
 
 /**
@@ -69,10 +83,13 @@ function getProtestHTML (buzz) {
  */
 function getShownBuzzpoints (division, questionNumber) {
   const key = getQuestionKey(division, questionNumber);
-  const { matches } = STATUSES.find(({ value }) => value === status);
-  const buzzes = expandedQuestions.has(key)
-    ? buzzesByQuestion.get(key)
-    : allProtests[division].protests.filter(buzz => buzz.questionNumber === questionNumber && matches(buzz));
+  let buzzes;
+  if (expandedQuestions.has(key)) {
+    buzzes = buzzesByQuestion.get(key) ?? [];
+  } else {
+    const { matches } = STATUSES.find(({ value }) => value === status);
+    buzzes = allProtests[division].protests.filter(buzz => buzz.questionNumber === questionNumber && matches(buzz));
+  }
   return [...buzzes].sort((a, b) => (b.celerity ?? 0) - (a.celerity ?? 0));
 }
 
@@ -82,13 +99,6 @@ function getTossupHTML (division, tossup) {
     id: getTossupElementId(division, tossup),
     audioSrc: '/api/geoword/admin/audio/question.mp3?' + new URLSearchParams({ packetName, division, questionNumber: tossup.questionNumber })
   });
-}
-
-function renderQuestion (division, tossup) {
-  const section = document.getElementById(getTossupElementId(division, tossup));
-  renderQuestionBuzzpoints(section, tossup, getShownBuzzpoints(division, tossup.questionNumber), { extraHeader: 'Review', renderExtraCell: getProtestHTML });
-  const expanded = expandedQuestions.has(getQuestionKey(division, tossup.questionNumber));
-  section.querySelector('[data-toggle-buzzes]').textContent = expanded ? 'Show flagged buzzes only' : 'Show all buzzes';
 }
 
 function getStatusFilterHTML (division) {
@@ -103,11 +113,70 @@ function getStatusFilterHTML (division) {
   return html + '</div>';
 }
 
+function getToolbarHTML (division) {
+  const { packet, protests } = allProtests[division];
+  const hasPending = tossup => protests.some(protest => protest.questionNumber === tossup.questionNumber && protest.pendingProtest);
+  return getStatusFilterHTML(division) + getQuestionNavHTML(packet, tossup => getTossupElementId(division, tossup), { isMarked: hasPending });
+}
+
+function renderToolbar (division) {
+  document.getElementById(`${kebabCase(division)}-content`).querySelector('.buzz-toolbar').innerHTML = getToolbarHTML(division);
+  showCurrentQuestion();
+}
+
+function renderQuestion (division, tossup) {
+  const section = document.getElementById(getTossupElementId(division, tossup));
+  const expanded = expandedQuestions.has(getQuestionKey(division, tossup.questionNumber));
+  renderQuestionBuzzpoints(section, tossup, getShownBuzzpoints(division, tossup.questionNumber), { extraHeader: 'Review', renderExtraCell: getReviewHTML });
+  section.querySelector('[data-toggle-buzzes]').textContent = expanded ? 'Show flagged buzzes only' : 'Show all buzzes';
+}
+
+async function fetchProtests () {
+  const response = await fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName }));
+  allProtests = (await response.json()).protests;
+}
+
+async function fetchQuestionBuzzes (division, questionNumber) {
+  const response = await fetch('/api/geoword/admin/buzzes?' + new URLSearchParams({ packetName, division, questionNumber }));
+  buzzesByQuestion.set(getQuestionKey(division, questionNumber), (await response.json()).buzzes);
+}
+
+/**
+ * Reloads the data for a question after one of its buzzes changed, and redraws it.
+ * @param {string} division
+ * @param {number} questionNumber
+ */
+async function refreshQuestion (division, questionNumber) {
+  await fetchProtests();
+  if (expandedQuestions.has(getQuestionKey(division, questionNumber))) {
+    await fetchQuestionBuzzes(division, questionNumber);
+  }
+
+  renderToolbar(division);
+  renderQuestion(division, allProtests[division].packet.find(tossup => tossup.questionNumber === questionNumber));
+}
+
+/**
+ * @param {string} path
+ * @param {object} body
+ * @returns {Promise<boolean>} whether the request succeeded
+ */
+async function post (path, body) {
+  const response = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ packetName, ...body })
+  });
+
+  if (!response.ok) {
+    window.alert(`Error (${response.status} ${await response.text()})`);
+  }
+  return response.ok;
+}
+
 function applyStatus () {
   for (const [division, { packet }] of Object.entries(allProtests)) {
-    for (const tossup of packet) {
-      renderQuestion(division, tossup);
-    }
+    for (const tossup of packet) { renderQuestion(division, tossup); }
     for (const radio of document.querySelectorAll(`input[name="${kebabCase(division)}-status"]`)) {
       radio.checked = radio.value === status;
     }
@@ -124,152 +193,111 @@ tabContent.addEventListener('change', event => {
   applyStatus();
 });
 
-tabContent.addEventListener('click', event => {
-  const link = event.target.closest('[data-protest-id]');
-  if (!link) { return; }
-
-  const { packet, protests } = allProtests[link.closest('.tab-pane').dataset.division];
-  const protest = protests.find(protest => protest._id === link.dataset.protestId);
-  const tossup = packet.find(tossup => tossup.questionNumber === protest.questionNumber);
-
-  document.getElementById('resolve-protest-id').value = protest._id;
-  document.getElementById('resolve-protest-given-answer').value = protest.givenAnswer;
-  document.getElementById('resolve-protest-actual-answer').innerHTML = tossup.answer;
-});
-
 tabContent.addEventListener('click', async event => {
   const toggle = event.target.closest('[data-toggle-buzzes]');
-  if (!toggle) { return; }
+  if (toggle) {
+    const section = toggle.closest('section');
+    const division = section.closest('.tab-pane').dataset.division;
+    const questionNumber = parseInt(section.dataset.questionNumber);
+    const key = getQuestionKey(division, questionNumber);
 
-  const section = toggle.closest('section');
-  const division = section.closest('.tab-pane').dataset.division;
-  const questionNumber = parseInt(section.dataset.questionNumber);
-  const key = getQuestionKey(division, questionNumber);
-
-  if (expandedQuestions.has(key)) {
-    expandedQuestions.delete(key);
-  } else {
-    toggle.disabled = true;
-    toggle.textContent = 'Loading...';
-    const response = await fetch('/api/geoword/admin/buzzes?' + new URLSearchParams({ packetName, division, questionNumber }));
-    buzzesByQuestion.set(key, (await response.json()).buzzes);
-    expandedQuestions.add(key);
-    toggle.disabled = false;
+    if (expandedQuestions.has(key)) {
+      expandedQuestions.delete(key);
+    } else {
+      toggle.disabled = true;
+      toggle.textContent = 'Loading...';
+      await fetchQuestionBuzzes(division, questionNumber);
+      expandedQuestions.add(key);
+      toggle.disabled = false;
+    }
+    renderQuestion(division, allProtests[division].packet.find(tossup => tossup.questionNumber === questionNumber));
+    return;
   }
-  renderQuestion(division, allProtests[division].packet.find(tossup => tossup.questionNumber === questionNumber));
-});
 
-tabContent.addEventListener('click', event => {
-  const link = event.target.closest('[data-override-id]');
+  const link = event.target.closest('[data-action]');
   if (!link) { return; }
 
+  const { action, buzzId } = link.dataset;
   const section = link.closest('section');
   const division = section.closest('.tab-pane').dataset.division;
-  const buzz = getShownBuzzpoints(division, parseInt(section.dataset.questionNumber)).find(buzz => buzz._id === link.dataset.overrideId);
-  const tossup = allProtests[division].packet.find(tossup => tossup.questionNumber === buzz.questionNumber);
+  const questionNumber = parseInt(section.dataset.questionNumber);
+  const buzz = getShownBuzzpoints(division, questionNumber).find(buzz => buzz._id === buzzId);
+  const tossup = allProtests[division].packet.find(tossup => tossup.questionNumber === questionNumber);
+  modalContext = { buzzId, division, questionNumber };
 
-  overrideBuzzId = buzz._id;
-  document.getElementById('override-given-answer').value = buzz.givenAnswer;
-  document.getElementById('override-actual-answer').innerHTML = tossup.answer;
-  // default to the opposite of the current verdict
-  document.getElementById('override-verdict').value = buzz.isCorrect ? 'incorrect' : 'correct';
-  document.getElementById('override-reason').value = '';
-});
-
-tabContent.addEventListener('click', event => {
-  const link = event.target.closest('[data-revert-id]');
-  if (!link) { return; }
-
-  event.preventDefault();
-  if (!window.confirm('Revert this buzz to its original verdict and points?')) { return; }
-
-  fetch('/api/geoword/admin/revert-override', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ packetName, buzz_id: link.dataset.revertId })
-  }).then(response => {
-    if (response.status === 200) {
-      window.location.reload();
-    } else {
-      window.alert('Error reverting override');
+  if (action === 'resolve') {
+    document.getElementById('resolve-protest-id').value = buzzId;
+    document.getElementById('resolve-protest-given-answer').value = buzz.givenAnswer;
+    document.getElementById('resolve-protest-actual-answer').innerHTML = tossup.answer;
+    document.getElementById('resolve-protest-reason').value = '';
+  } else if (action === 'override') {
+    document.getElementById('override-given-answer').value = buzz.givenAnswer;
+    document.getElementById('override-actual-answer').innerHTML = tossup.answer;
+    // default to the opposite of the current verdict
+    document.getElementById('override-verdict').value = getVerdict(!buzz.isCorrect);
+    document.getElementById('override-reason').value = '';
+  } else if (action === 'revert') {
+    event.preventDefault();
+    if (!window.confirm('Revert this buzz to its original verdict and points?')) { return; }
+    if (await post('/api/geoword/admin/revert-override', { buzz_id: buzzId })) {
+      await refreshQuestion(division, buzz.questionNumber);
     }
-  });
+  }
 });
 
-document.getElementById('override-submit').addEventListener('click', () => {
-  const verdict = document.getElementById('override-verdict').value;
-  const reason = document.getElementById('override-reason').value;
-
-  fetch('/api/geoword/admin/override-buzz', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ packetName, buzz_id: overrideBuzzId, verdict, reason })
-  }).then(response => {
-    if (response.status === 200) {
-      window.location.reload();
-    } else {
-      window.alert('Error overriding buzz');
-    }
-  });
-});
-
-document.getElementById('resolve-protest-submit').addEventListener('click', () => {
-  const _id = document.getElementById('resolve-protest-id').value;
+document.getElementById('resolve-protest-submit').addEventListener('click', async () => {
+  const { buzzId, division, questionNumber } = modalContext;
   const decision = document.getElementById('resolve-protest-decision').value;
   const reason = document.getElementById('resolve-protest-reason').value;
 
-  fetch('/api/geoword/admin/resolve-protest', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ packetName, buzz_id: _id, decision, reason })
-  }).then(response => {
-    if (response.status === 200) {
-      window.location.reload();
-    } else {
-      window.alert('Error resolving protest');
-    }
-  });
+  if (await post('/api/geoword/admin/resolve-protest', { buzz_id: buzzId, decision, reason })) {
+    bootstrap.Modal.getInstance(document.getElementById('resolve-protest-modal')).hide();
+    await refreshQuestion(division, questionNumber);
+  }
+});
+
+document.getElementById('override-submit').addEventListener('click', async () => {
+  const { buzzId, division, questionNumber } = modalContext;
+  const verdict = document.getElementById('override-verdict').value;
+  const reason = document.getElementById('override-reason').value;
+
+  if (await post('/api/geoword/admin/override-buzz', { buzz_id: buzzId, verdict, reason })) {
+    bootstrap.Modal.getInstance(document.getElementById('override-modal')).hide();
+    await refreshQuestion(division, questionNumber);
+  }
 });
 
 setUpBuzzpointsInteractions(tabContent);
 
 document.getElementById('packet-name').textContent = packetTitle;
 
-fetch('/api/geoword/admin/protests?' + new URLSearchParams({ packetName }))
-  .then(response => response.json())
-  .then(data => {
-    allProtests = data.protests;
-    const divisions = Object.keys(allProtests);
+fetchProtests().then(() => {
+  const divisions = Object.keys(allProtests);
 
-    // Tabs only help when there is more than one division to choose between
-    if (divisions.length === 1) {
-      document.getElementById('tabs').closest('nav').classList.add('d-none');
+  // Tabs only help when there is more than one division to choose between
+  if (divisions.length === 1) {
+    document.getElementById('tabs').closest('nav').classList.add('d-none');
+  }
+
+  const divs = createTabs({ tabNames: divisions });
+
+  for (const division of divisions) {
+    const { packet } = allProtests[division];
+    let innerHTML = `<div class="buzz-toolbar sticky-md-top d-flex flex-wrap align-items-center gap-2 py-2 mb-4">${getToolbarHTML(division)}</div>`;
+    for (const tossup of packet) {
+      innerHTML += getTossupHTML(division, tossup);
     }
+    divs[division].dataset.division = division;
+    divs[division].innerHTML += innerHTML;
+    observeToolbar(divs[division].querySelector('.buzz-toolbar'));
 
-    const divs = createTabs({ tabNames: divisions });
-
-    for (const division of divisions) {
-      const { packet, protests } = allProtests[division];
-      const hasPending = tossup => protests.some(protest => protest.questionNumber === tossup.questionNumber && protest.pendingProtest);
-      let innerHTML = `
-        <div class="buzz-toolbar sticky-md-top d-flex flex-wrap align-items-center gap-2 py-2 mb-4">
-          ${getStatusFilterHTML(division)}
-          ${getQuestionNavHTML(packet, tossup => getTossupElementId(division, tossup), { isMarked: hasPending })}
-        </div>`;
-      for (const tossup of packet) {
-        innerHTML += getTossupHTML(division, tossup);
-      }
-      divs[division].dataset.division = division;
-      divs[division].innerHTML += innerHTML;
-      observeToolbar(divs[division].querySelector('.buzz-toolbar'));
-
-      for (const tossup of packet) {
-        const section = document.getElementById(getTossupElementId(division, tossup));
-        section.dataset.questionNumber = tossup.questionNumber;
-        section.querySelector('h2').insertAdjacentHTML('afterend', '<p><button type="button" class="btn btn-sm btn-outline-secondary" data-toggle-buzzes>Show all buzzes</button></p>');
-        renderQuestion(division, tossup);
-      }
+    for (const tossup of packet) {
+      const section = document.getElementById(getTossupElementId(division, tossup));
+      section.dataset.questionNumber = tossup.questionNumber;
+      section.querySelector('h2').insertAdjacentHTML('afterend', '<p><button type="button" class="btn btn-sm btn-outline-secondary" data-toggle-buzzes>Show all buzzes</button></p>');
+      renderQuestion(division, tossup);
     }
+  }
 
-    showCurrentQuestion();
-  });
+  showCurrentQuestion();
+});
