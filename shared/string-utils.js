@@ -7,7 +7,7 @@ export function kebabCase (string) {
 }
 
 export function removeParentheses (string) {
-  return string.replace(/\[[^\]]*\]/g, '').replace(/\([^)]*\)/g, '').trim();
+  return string.replace(/\[[^\]]*\]/g, '').replace(/\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
 }
 
 export function titleCase (name) {

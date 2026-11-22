@@ -1,4 +1,4 @@
-import { escapeHTML, titleCase } from '../../../../shared/string-utils.js';
+import { escapeHTML, removeParentheses, titleCase } from '../../../../shared/string-utils.js';
 import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -107,7 +107,3 @@ document.getElementById('form').addEventListener('submit', event => {
       document.getElementById('root').innerHTML = innerHTML;
     });
 });
-
-function removeParentheses (answer) {
-  return answer.replace(/[([].*/g, '');
-}
