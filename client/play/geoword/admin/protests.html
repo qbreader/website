@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>QBReader - Admin - Geoword - Protests</title>
+    <title>QBReader - Admin - Geoword - Review Buzzes</title>
     <!--#include virtual="/ssi/head.html" -->
 </head>
 
@@ -11,11 +11,11 @@
 
     <div class="container-xl mt-3 mb-5 pb-5">
         <div class="row align-items-baseline text-center mb-3">
-            <h1 class="col-md-4 offset-md-4 lead mb-0"><span id="packet-name"></span> Protests</h1>
+            <h1 class="col-md-4 offset-md-4 lead mb-0"><span id="packet-name"></span> Buzzes</h1>
             <a class="col-md-4 text-md-end" href="./">Back to admin page</a>
         </div>
         <p class="text-center text-muted">
-            Play a question to hear it again, and choose a buzz to hear where it came. Choose a question number to jump straight to it.
+            Review protests and overrule whether a buzz was correct. Play a question to hear it again, and choose a buzz to hear where it came.
         </p>
         <nav aria-label="Divisions">
             <div class="nav nav-tabs" id="tabs" role="tablist"></div>
@@ -59,6 +59,44 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" id="resolve-protest-close" data-bs-dismiss="modal" type="button">Close</button>
                     <button class="btn btn-primary" id="resolve-protest-submit" type="button">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="override-modal" tabindex="-2">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change Verdict</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" type="button" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-2">
+                            <label class="col-form-label" for="override-given-answer">Given answer:</label>
+                            <input class="form-control" id="override-given-answer" type="text" disabled>
+                        </div>
+                        <div class="mb-3">
+                            Actual answer: <span id="override-actual-answer"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="col-form-label" for="override-verdict">Mark this buzz as:</label>
+                            <select class="form-select" id="override-verdict">
+                                <option value="correct">Correct</option>
+                                <option value="incorrect">Incorrect</option>
+                            </select>
+                            <div class="form-text">The buzz is rescored and the player's standings update. The original verdict is kept, so this can be reverted.</div>
+                        </div>
+                        <div>
+                            <label class="col-form-label" for="override-reason">Reason: (optional)</label>
+                            <textarea class="form-control" id="override-reason" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" id="override-submit" type="button">Submit</button>
                 </div>
             </div>
         </div>
