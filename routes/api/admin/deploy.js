@@ -3,7 +3,7 @@ import { Router } from 'express';
 const router = Router();
 
 const HEROKU_API = 'https://api.heroku.com';
-const SOURCE_URL = process.env.DEPLOY_SOURCE_URL ?? 'https://github.com/qbreader/website/archive/refs/heads/main.tar.gz';
+const SOURCE_URL = 'https://github.com/qbreader/website/archive/refs/heads/main.tar.gz';
 
 // Starts a Heroku build of the latest main; Heroku releases it and restarts the dynos if the build succeeds
 router.post('/', async (req, res) => {
