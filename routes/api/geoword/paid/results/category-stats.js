@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', async (req, res) => {
   const { username } = req.session;
   const { packetName } = req.query;
-  const leaderboards = await getCategoryLeaderboard({ packetName });
+  const leaderboards = await getCategoryLeaderboard({ packetNames: [packetName] });
   res.json({ leaderboards, username });
 });
 
