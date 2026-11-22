@@ -138,11 +138,7 @@ async function fetchQuestionBuzzes (division, questionNumber) {
   buzzesByQuestion.set(getQuestionKey(division, questionNumber), (await response.json()).buzzes);
 }
 
-/**
- * Reloads the data for a question after one of its buzzes changed, and redraws it.
- * @param {string} division
- * @param {number} questionNumber
- */
+// Reloads a question's data after one of its buzzes changed, then redraws it
 async function refreshQuestion (division, questionNumber) {
   await fetchProtests();
   if (expandedQuestions.has(getQuestionKey(division, questionNumber))) {
@@ -153,11 +149,7 @@ async function refreshQuestion (division, questionNumber) {
   renderQuestion(division, allProtests[division].packet.find(tossup => tossup.questionNumber === questionNumber));
 }
 
-/**
- * @param {string} path
- * @param {object} body
- * @returns {Promise<boolean>} whether the request succeeded
- */
+// POSTs to the admin API, alerting on failure; resolves to whether the request succeeded
 async function post (path, body) {
   const response = await fetch(path, {
     method: 'POST',
