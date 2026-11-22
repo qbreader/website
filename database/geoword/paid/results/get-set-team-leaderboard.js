@@ -1,0 +1,71 @@
+import getTeamLeaderboard from './get-team-leaderboard.js';
+import { getPointsPerGame, getWinPercentage } from '../../../../server/geoword/play-round-robin.js';
+import { compareStandings } from '../../../../server/geoword/team-standings.js';
+
+/**
+ * Adds up a division's team standings from several packets into cumulative standings.
+ * Teams are matched by name, which is unique within a set. Records and matches are summed,
+ * so PPG is each team's average over every match it played in any of the packets.
+ * @param {Object[][]} standingsList - one division's standings from each packet, as built by `getTeamLeaderboard`
+ * @returns {Object[]} the cumulative standings, best first, with the summed `matches` and `playerPoints`
+ */
+function mergeTeamStandings (standingsList) {
+  const totals = new Map();
+
+  for (const row of standingsList.flat()) {
+    const total = totals.get(row.teamName) ?? {
+      teamName: row.teamName,
+      memberCount: 0,
+      isYourTeam: false,
+      wins: 0,
+      losses: 0,
+      ties: 0,
+      matches: [],
+      playerPoints: {},
+      numberCorrect: 0,
+      points: 0,
+      tossupsHeard: 0,
+      correctCelerityTotal: 0
+    };
+
+    total.memberCount = Math.max(total.memberCount, row.memberCount);
+    total.isYourTeam ||= row.isYourTeam;
+    total.wins += row.wins;
+    total.losses += row.losses;
+    total.ties += row.ties;
+    total.matches.push(...row.matches);
+    for (const [player, points] of Object.entries(row.playerPoints)) {
+      total.playerPoints[player] = (total.playerPoints[player] ?? 0) + points;
+    }
+    total.numberCorrect += row.numberCorrect;
+    total.points += row.points;
+    total.tossupsHeard += row.tossupsHeard;
+    total.correctCelerityTotal += row.averageCorrectCelerity * row.numberCorrect;
+    totals.set(row.teamName, total);
+  }
+
+  return Array.from(totals.values(), ({ correctCelerityTotal, ...total }) => ({
+    ...total,
+    pointsPerTossup: total.tossupsHeard === 0 ? 0 : total.points / total.tossupsHeard,
+    averageCorrectCelerity: total.numberCorrect === 0 ? 0 : correctCelerityTotal / total.numberCorrect,
+    winPercentage: getWinPercentage(total),
+    pointsPerGame: getPointsPerGame(total)
+  })).sort(compareStandings);
+}
+
+/**
+ * Team standings added up across packets. See `mergeTeamStandings` for how.
+ * @param {Object} options
+ * @param {String[]} options.packetNames
+ * @param {ObjectId} [options.viewerId] - marks the viewer's team with `isYourTeam`
+ * @returns {Promise<Object<string, Object[]>>} division name -> cumulative standings, best first
+ */
+export default async function getSetTeamLeaderboard ({ packetNames, viewerId }) {
+  const leaderboards = await Promise.all(packetNames.map(packetName => getTeamLeaderboard({ packetName, viewerId })));
+
+  const divisions = new Set(leaderboards.flatMap(leaderboard => Object.keys(leaderboard)));
+  return Object.fromEntries(Array.from(divisions, division => [
+    division,
+    mergeTeamStandings(leaderboards.map(leaderboard => leaderboard[division] ?? []))
+  ]));
+}

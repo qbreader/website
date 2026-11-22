@@ -4,6 +4,7 @@ import getBuzzCount from '../../../../database/geoword/get-buzz-count.js';
 import getPaidSetPacketNames from '../../../../database/geoword/get-paid-set-packet-names.js';
 import getQuestionCount from '../../../../database/geoword/get-question-count.js';
 import getSet from '../../../../database/geoword/get-set.js';
+import getSetTeamLeaderboard from '../../../../database/geoword/paid/results/get-set-team-leaderboard.js';
 import hasPacketPrivileges from '../../../../database/geoword/has-packet-privileges.js';
 import validate, { rules } from '../../../validators/schema.js';
 
@@ -48,6 +49,15 @@ router.get('/category-stats', async (req, res) => {
   const { packetNames, username } = res.locals;
   const leaderboards = await getCategoryLeaderboard({ packetNames });
   res.json({ leaderboards, username, packetNames });
+});
+
+router.get('/team-leaderboard', async (req, res) => {
+  const { packetNames, userId } = res.locals;
+  const standings = await getSetTeamLeaderboard({ packetNames, viewerId: userId });
+  // The matches and per-player points are only needed to total PPG, so don't send them
+  const teamLeaderboard = Object.fromEntries(Object.entries(standings).map(([division, rows]) =>
+    [division, rows.map(({ matches, playerPoints, ...row }) => row)]));
+  res.json({ teamLeaderboard, packetNames });
 });
 
 export default router;
