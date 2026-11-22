@@ -28,14 +28,9 @@ router.post('/', async (req, res) => {
     body: JSON.stringify({ source_blob: { url: SOURCE_URL } })
   });
 
-  if (!response.ok) {
-    console.error(`Heroku build failed to start: ${response.status} ${await response.text()}`);
-    return res.status(502).send('Heroku rejected the deploy request.');
-  }
+  if (!response.ok) { return res.status(502).send('Heroku rejected the deploy request.'); }
 
-  const { id } = await response.json();
-  console.log(`Deploy started by ${req.session.username}: build ${id}`);
-  res.json({ id });
+  res.json({ id: (await response.json()).id });
 });
 
 // Gets a build's status: pending, succeeded, or failed
