@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Admin - Deploy</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h3>Deploy</h3>
+        <p>
+            Deploy the latest <code>main</code> to production.
+            This restarts the server and disconnects active multiplayer rooms.
+        </p>
+        <button class="btn btn-danger" id="deploy">Deploy</button>
+        <p class="mt-3" id="deploy-status"></p>
+    </div>
+
+    <script type="module" src="/admin/deploy.js"></script>
+</body>
+
+</html>
