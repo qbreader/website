@@ -1,4 +1,5 @@
 import { MODE_ENUM } from '../../shared/constants.js';
+import formatCelerity from '../scripts/utilities/format-celerity.js';
 import questionStats from '../scripts/auth/question-stats.js';
 import upsertPlayerItem from '../play/upsert-player-item.js';
 import TossupClient from './TossupClient.js';
@@ -211,7 +212,7 @@ export default class SoloTossupClient extends TossupClient {
    * Updates the displayed stat line.
    */
   updateStatDisplay ({ superpowers, powers, tens, negs, tuh, points, celerity }) {
-    const averageCelerity = celerity.correct.average.toFixed(3);
+    const averageCelerity = formatCelerity(celerity.correct.average);
     const plural = (tuh === 1) ? '' : 's';
     const statPrefix = superpowers > 0 ? `${superpowers}/${powers}/${tens}/${negs}` : `${powers}/${tens}/${negs}`;
     document.getElementById('statline').innerHTML = `${statPrefix} with ${tuh} tossup${plural} seen (${points} pts, celerity: ${averageCelerity})`;

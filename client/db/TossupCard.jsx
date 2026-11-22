@@ -1,5 +1,6 @@
 import { stringifyTossup } from '../scripts/stringify.js';
 import QuestionCard from '../scripts/components/QuestionCard.jsx';
+import formatCelerity from '../scripts/utilities/format-celerity.js';
 
 export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline, hideCardFooter, topRightComponent, fontSize = 16 }) {
   const _id = tossup._id;
@@ -33,7 +34,7 @@ export default function TossupCard ({ tossup, highlightedTossup, hideAnswerline,
           statsList.push([`${pointValue}s`, count]);
         }
 
-        statsList.push(['Average Celerity', averageCelerity.toFixed(3)]);
+        statsList.push(['Average Celerity', formatCelerity(averageCelerity)]);
         statsList.push(['Total Points', stats.totalPoints]);
         statsList.push(['PPTU', stats.pptu.toFixed(2)]);
 

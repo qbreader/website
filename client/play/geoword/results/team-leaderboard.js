@@ -1,6 +1,7 @@
 import getMatchList from './team-matches.js';
 import createTabs from '../../../../scripts/utilities/create-tabs.js';
 import { kebabCase, titleCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 import sortTable from '../../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -57,7 +58,7 @@ fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ pack
         record.textContent = `${wins}-${losses}-${ties}`;
         // Quizbowl writes win percentages like .750
         row.insertCell().textContent = winPercentage === null ? '–' : winPercentage.toFixed(3).replace(/^0/, '');
-        row.insertCell().textContent = (averageCorrectCelerity ?? 0.0).toFixed(3);
+        row.insertCell().textContent = formatCelerity(averageCorrectCelerity ?? 0);
         row.insertCell().textContent = numberCorrect;
         row.insertCell().textContent = tossupsHeard;
         row.insertCell().textContent = points;

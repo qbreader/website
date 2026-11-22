@@ -1,5 +1,6 @@
 import createTabs from '../../../scripts/utilities/create-tabs.js';
 import { titleCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
@@ -38,8 +39,8 @@ fetch('/api/geoword/admin/stats?' + new URLSearchParams({ packetName }))
               </div>
               <div class="col-6">
                   <div><b>Best buzz:</b> ${bestUsername}</div>
-                  <div><b>Best celerity:</b> ${(bestCelerity ?? 0.0).toFixed(3)}</div>
-                  <div><b>Average correct celerity:</b> ${(averageCorrectCelerity ?? 0).toFixed(3)}</div>
+                  <div><b>Best celerity:</b> ${formatCelerity(bestCelerity ?? 0)}</div>
+                  <div><b>Average correct celerity:</b> ${formatCelerity(averageCorrectCelerity ?? 0)}</div>
                   <div><b>Average points:</b> ${(averagePoints ?? 0.0).toFixed(2)}</div>
               </div>
           </div>

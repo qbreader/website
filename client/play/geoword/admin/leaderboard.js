@@ -1,5 +1,6 @@
 import createTabs from '../../../scripts/utilities/create-tabs.js';
 import { titleCase, kebabCase } from '../../../../shared/string-utils.js';
+import formatCelerity from '../../../scripts/utilities/format-celerity.js';
 import sortTable from '../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
@@ -42,7 +43,7 @@ fetch('/api/geoword/admin/leaderboard?' + new URLSearchParams({ packetName, incl
         const row = tbody.insertRow();
         row.insertCell().textContent = parseInt(index) + 1 - numberSkipped;
         row.insertCell().textContent = username;
-        row.insertCell().textContent = (averageCorrectCelerity ?? 0.0).toFixed(3);
+        row.insertCell().textContent = formatCelerity(averageCorrectCelerity ?? 0);
         row.insertCell().textContent = numberCorrect;
         row.insertCell().textContent = points;
         row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);

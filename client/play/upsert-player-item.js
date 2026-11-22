@@ -1,5 +1,6 @@
 import { escapeHTML } from '../../shared/string-utils.js';
 import { MULTIPLAYER_ROOM_MESSAGE_TYPE } from '../../shared/protocol/multiplayer-room.js';
+import formatCelerity from '../scripts/utilities/format-celerity.js';
 
 /**
  * Upserts a player item to the DOM element with the id `player-list-group`.
@@ -85,7 +86,7 @@ export default function upsertPlayerItem (player, multiplayerOptions = {}) {
         <li class="list-group-item"><span>TUH</span><span id="tuh-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${tuh}</span></li>
         <li class="list-group-item"><span>Bonus Points</span><span id="bonus-points-${userId}" class="float-end badge rounded-pill bg-secondary stats-${userId}">${bonusPoints}</span></li>
         <li class="list-group-item"><span>PPB</span><span id="ppb-${userId}" class="float-end stats stats-${userId}">${isNaN(ppb) ? '0.000' : ppb.toFixed(3)}</span></li>
-        <li class="list-group-item"><span>Celerity</span><span id="celerity-${userId}" class="float-end stats stats-${userId}">${celerity.toFixed(3)}</span></li>
+        <li class="list-group-item"><span>Celerity</span><span id="celerity-${userId}" class="float-end stats stats-${userId}">${formatCelerity(celerity)}</span></li>
         <li class="list-group-item"><span>Is Owner?</span><span id="owner-${userId}" class="float-end stats stats-${userId}">${playerIsOwner ? 'Yes' : 'No'}</span></li>
     </ul>
   `);
