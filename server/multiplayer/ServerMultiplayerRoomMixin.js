@@ -22,18 +22,6 @@ import Team from '../../shared/Team.js';
 const BAN_DURATION = 1000 * 60 * 30; // 30 minutes
 
 /**
- * Returns a copy of the tossup without the question and answer text.
- * Clients only need the metadata (id, set, packet, category, etc.) until the answer is revealed;
- * sending the text earlier lets a modified client read the answer before the question is read.
- */
-function withoutQuestionAndAnswer (tossup) {
-  if (!tossup) { return tossup; }
-  const metadata = { ...tossup };
-  for (const key of ['question', 'question_sanitized', 'answer', 'answer_sanitized']) { delete metadata[key]; }
-  return metadata;
-}
-
-/**
  * @template {typeof TossupBonusRoom} TBase
  * @param {TBase} RoomClass
  */
@@ -44,8 +32,12 @@ const ServerMultiplayerRoomMixin = (RoomClass) => class extends RoomClass {
   getRandomBonuses = getRandomBonuses;
   getRandomTossups = getRandomTossups;
 
+  // Omits the question and answer text, so a modified client can't read them before they're revealed
   tossupForClient () {
-    return withoutQuestionAndAnswer(this.tossup);
+    if (!this.tossup) { return this.tossup; }
+    const metadata = { ...this.tossup };
+    for (const key of ['question', 'question_sanitized', 'answer', 'answer_sanitized']) { delete metadata[key]; }
+    return metadata;
   }
 
   constructor (name, ownerId, isPermanent, categoryManager, supportedQuestionTypes, isVerified = false) {

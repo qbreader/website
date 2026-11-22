@@ -172,12 +172,7 @@ export const TossupRoomMixin = (QuestionRoomClass) => class extends QuestionRoom
     });
   }
 
-  /**
-   * The tossup as it should be sent to clients before its answer is revealed.
-   * The question is streamed word by word via UPDATE_QUESTION and the answer is sent via
-   * REVEAL_TOSSUP_ANSWER, so rooms where clients are not trusted should override this to
-   * omit the question and answer text.
-   */
+  // The tossup as sent to clients; rooms with untrusted clients override this to omit the question and answer text
   tossupForClient () {
     return this.tossup;
   }
