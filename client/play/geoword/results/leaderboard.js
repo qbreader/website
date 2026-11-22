@@ -1,3 +1,4 @@
+import { readSetStats, showSetPackets } from './set-stats.js';
 import createTabs from '../../../../scripts/utilities/create-tabs.js';
 import { kebabCase, titleCase } from '../../../../shared/string-utils.js';
 import formatCelerity from '../../../scripts/utilities/format-celerity.js';
@@ -5,15 +6,18 @@ import sortTable from '../../../../scripts/utilities/tables.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
-const packetTitle = titleCase(packetName);
+const setName = search.get('setName');
+const packetTitle = titleCase(packetName ?? setName);
 
-document.getElementById('back-link').href = `./?packetName=${packetName}`;
+document.getElementById('back-link').href = setName ? '/play/geoword/' : `./?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
+if (setName) { document.getElementById('back-link').textContent = 'Back to geoword'; }
 
-fetch('/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetName }))
-  .then(response => response.json())
+fetch(setName ? '/api/geoword/set-results/leaderboard?' + new URLSearchParams({ setName }) : '/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetName }))
+  .then(response => setName ? readSetStats(response) : response.json())
   .then(data => {
     const { leaderboard } = data;
+    if (setName) { showSetPackets(data.packetNames); }
 
     const divs = createTabs({ tabNames: Object.keys(leaderboard) });
 
