@@ -6,10 +6,13 @@ import getUserId from '../database/account-info/get-user-id.js';
 import updateUser from '../database/account-info/update-user.js';
 import verifyEmail from '../database/account-info/verify-email.js';
 
+import bcrypt from 'bcryptjs';
 import { createHash } from 'crypto';
 import jsonwebtoken from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 const { sign, verify } = jsonwebtoken;
+
+const BCRYPT_ROUNDS = 12;
 
 const baseURL = process.env.BASE_URL ?? (process.env.NODE_ENV === 'production' ? 'https://www.qbreader.org' : 'http://localhost:3000');
 
@@ -32,7 +35,23 @@ const activeResetPasswordTokens = {};
  * @returns {Promise<Boolean>}
  */
 export async function checkPassword (username, password) {
-  return await getUserField(username, 'password') === saltAndHashPassword(password);
+  const stored = await getUserField(username, 'password');
+  if (!stored) {
+    return false;
+  }
+
+  // bcrypt hashes always start with `$2`; legacy base64 hashes never do.
+  if (stored.startsWith('$2')) {
+    return await bcrypt.compare(password, stored);
+  }
+
+  // Legacy triple-SHA256 hash: verify, then transparently upgrade to bcrypt.
+  if (stored === legacyHashPassword(password)) {
+    await updatePassword(username, password);
+    return true;
+  }
+
+  return false;
 }
 
 /**
@@ -63,11 +82,21 @@ export function generateToken (username, verifiedEmail = false) {
 }
 
 /**
- *
+ * Hashes a plaintext password using bcrypt (per-hash salt, configurable work factor).
  * @param {String} password
- * @returns Base64 encoded hashed password.
+ * @returns {Promise<String>} A bcrypt hash (60 chars, starts with `$2`).
  */
-export function saltAndHashPassword (password) {
+export async function saltAndHashPassword (password) {
+  return await bcrypt.hash(password, BCRYPT_ROUNDS);
+}
+
+/**
+ * Legacy triple-SHA256 hash with a single global salt. Retained only to verify
+ * pre-migration passwords so they can be transparently upgraded to bcrypt.
+ * @param {String} password
+ * @returns {String} Base64 encoded hashed password.
+ */
+function legacyHashPassword (password) {
   password = salt + password + salt;
   const hash = createHash('sha256').update(password).digest('base64');
   const hash2 = createHash('sha256').update(hash).digest('base64');
@@ -129,8 +158,8 @@ export async function sendVerificationEmail (username) {
   return true;
 }
 
-export function updatePassword (username, newPassword) {
-  return updateUser(username, { password: saltAndHashPassword(newPassword) });
+export async function updatePassword (username, newPassword) {
+  return await updateUser(username, { password: await saltAndHashPassword(newPassword) });
 }
 
 /**

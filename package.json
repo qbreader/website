@@ -11,6 +11,7 @@
         "webpack": "webpack --config webpack.config.js"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "bootstrap": "^5.3.8",
         "bootstrap-icons": "^1.13.1",
         "cookie-session": "^2.0.0",
