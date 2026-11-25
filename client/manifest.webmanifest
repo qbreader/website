@@ -1,0 +1,50 @@
+{
+  "id": "/",
+  "name": "QBReader",
+  "short_name": "QBReader",
+  "description": "Practice quizbowl tossups and bonuses alone or in multiplayer rooms, and search a database of real tournament questions.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dfebfb",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tossups",
+      "url": "/play/tossups/"
+    },
+    {
+      "name": "Bonuses",
+      "url": "/play/bonuses/"
+    },
+    {
+      "name": "Multiplayer",
+      "url": "/play/mp/"
+    },
+    {
+      "name": "Database",
+      "url": "/db/"
+    }
+  ]
+}
