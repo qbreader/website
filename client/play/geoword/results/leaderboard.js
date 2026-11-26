@@ -1,62 +1,13 @@
-import { readSetStats, showSetPackets } from './set-stats.js';
-import createTabs from '../../../../scripts/utilities/create-tabs.js';
-import { kebabCase, titleCase } from '../../../../shared/string-utils.js';
-import formatCelerity from '../../../scripts/utilities/format-celerity.js';
-import sortTable from '../../../../scripts/utilities/tables.js';
+import showLeaderboard from '../leaderboard-tables.js';
+import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
-const setName = search.get('setName');
-const packetTitle = titleCase(packetName ?? setName);
+const packetTitle = titleCase(packetName);
 
-document.getElementById('back-link').href = setName ? '/play/geoword/' : `./?packetName=${packetName}`;
+document.getElementById('back-link').href = `./?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
-if (setName) { document.getElementById('back-link').textContent = 'Back to geoword'; }
 
-fetch(setName ? '/api/geoword/set-results/leaderboard?' + new URLSearchParams({ setName }) : '/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetName }))
-  .then(response => setName ? readSetStats(response) : response.json())
-  .then(data => {
-    const { leaderboard } = data;
-    if (setName) { showSetPackets(data.packetNames); }
-
-    const divs = createTabs({ tabNames: Object.keys(leaderboard) });
-
-    for (const division of Object.keys(leaderboard)) {
-      const kebabed = kebabCase(division);
-      const table = document.createElement('table');
-      table.className = 'table table-hover';
-      table.id = `${kebabed}-table`;
-      const thead = table.createTHead();
-      const theadRow = thead.insertRow();
-      const labels = ['#', 'Username', 'Celerity', 'Correct', 'Points', 'PPTU', 'PPG'];
-      const numeric = [true, false, true, true, true, true, true];
-      for (const index in labels) {
-        const label = labels[index];
-        const cell = document.createElement('th');
-        cell.textContent = label;
-        cell.scope = 'col';
-        cell.addEventListener('click', () => sortTable(index, numeric[index], table.id, 1, 0));
-        theadRow.appendChild(cell);
-      }
-      const tbody = table.createTBody();
-      for (const index in leaderboard[division]) {
-        const { username, numberCorrect, points, pointsPerTossup, pointsPerGame, averageCorrectCelerity } = leaderboard[division][index];
-
-        const row = tbody.insertRow();
-        row.insertCell().textContent = parseInt(index) + 1;
-        row.insertCell().textContent = username;
-        row.insertCell().textContent = formatCelerity(averageCorrectCelerity ?? 0);
-        row.insertCell().textContent = numberCorrect;
-        row.insertCell().textContent = points;
-        row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
-        row.insertCell().textContent = pointsPerGame === null ? '–' : pointsPerGame.toFixed(2);
-      }
-      if (leaderboard[division].some(({ pointsPerGame }) => pointsPerGame !== null)) {
-        const note = document.createElement('p');
-        note.className = 'text-body-secondary small';
-        note.textContent = 'Points and PPTU are how an individual did on a packet. PPG is based on points scored in matches against other teams.';
-        divs[division].appendChild(note);
-      }
-      divs[division].appendChild(table);
-    }
-  });
+fetch('/api/geoword/paid/results/leaderboard?' + new URLSearchParams({ packetName }))
+  .then(response => response.json())
+  .then(data => showLeaderboard(data.leaderboard));
