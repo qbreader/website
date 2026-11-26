@@ -1,87 +1,13 @@
-import getMatchList from './team-matches.js';
-import { readSetStats, showSetPackets } from './set-stats.js';
-import createTabs from '../../../../scripts/utilities/create-tabs.js';
-import { kebabCase, titleCase } from '../../../../shared/string-utils.js';
-import formatCelerity from '../../../scripts/utilities/format-celerity.js';
-import sortTable from '../../../../scripts/utilities/tables.js';
+import showTeamLeaderboard from '../team-leaderboard-tables.js';
+import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
 const packetName = search.get('packetName');
-const setName = search.get('setName');
-const packetTitle = titleCase(packetName ?? setName);
+const packetTitle = titleCase(packetName);
 
-document.getElementById('back-link').href = setName ? '/play/geoword/' : `./?packetName=${packetName}`;
+document.getElementById('back-link').href = `./?packetName=${packetName}`;
 document.getElementById('packet-name').textContent = packetTitle;
-if (setName) { document.getElementById('back-link').textContent = 'Back to geoword'; }
 
-fetch(setName ? '/api/geoword/set-results/team-leaderboard?' + new URLSearchParams({ setName }) : '/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ packetName }))
-  .then(response => setName ? readSetStats(response) : response.json())
-  .then(data => {
-    const { teamLeaderboard } = data;
-    if (setName) { showSetPackets(data.packetNames); }
-
-    const divs = createTabs({ tabNames: Object.keys(teamLeaderboard) });
-
-    for (const division of Object.keys(teamLeaderboard)) {
-      const kebabed = kebabCase(division);
-      const table = document.createElement('table');
-      table.className = 'table table-hover team-standings';
-      table.id = `${kebabed}-table`;
-      const thead = table.createTHead();
-      const theadRow = thead.insertRow();
-      const labels = ['#', 'Team', 'Players', 'W-L-T', 'Pct', 'Celerity', 'Correct', 'TUH', 'Points', 'PPTU', 'PPG'];
-      const numeric = [true, false, true, false, true, true, true, true, true, true, true];
-      for (const index in labels) {
-        const label = labels[index];
-        const cell = document.createElement('th');
-        cell.textContent = label;
-        cell.scope = 'col';
-        cell.className = 'text-nowrap';
-        cell.addEventListener('click', () => sortTable(index, numeric[index], table.id, 1, 0));
-        theadRow.appendChild(cell);
-      }
-      const tbody = table.createTBody();
-      for (const index in teamLeaderboard[division]) {
-        const { teamName, memberCount, wins, losses, ties, winPercentage, pointsPerGame, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity, isYourTeam } = teamLeaderboard[division][index];
-
-        const row = tbody.insertRow();
-        row.dataset.team = index;
-        if (isYourTeam) { row.classList.add('team-standings-you'); }
-        row.insertCell().textContent = parseInt(index) + 1;
-        const name = row.insertCell();
-        name.textContent = teamName;
-        if (isYourTeam) {
-          const label = document.createElement('span');
-          label.className = 'visually-hidden';
-          label.textContent = ' (your team)';
-          name.appendChild(label);
-        }
-        row.insertCell().textContent = memberCount;
-        const record = row.insertCell();
-        record.className = 'text-nowrap';
-        record.textContent = `${wins}-${losses}-${ties}`;
-        // Quizbowl writes win percentages like .750
-        row.insertCell().textContent = winPercentage === null ? '–' : winPercentage.toFixed(3).replace(/^0/, '');
-        row.insertCell().textContent = formatCelerity(averageCorrectCelerity ?? 0);
-        row.insertCell().textContent = numberCorrect;
-        row.insertCell().textContent = tossupsHeard;
-        row.insertCell().textContent = points;
-        row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
-        row.insertCell().textContent = pointsPerGame === null ? '–' : pointsPerGame.toFixed(2);
-      }
-      if (teamLeaderboard[division].some(({ pointsPerGame }) => pointsPerGame !== null)) {
-        const note = document.createElement('p');
-        note.className = 'text-body-secondary small';
-        note.textContent = 'Points and PPTU are how a team did on a packet individually. PPG is based on points scored in matches against other teams.';
-        divs[division].appendChild(note);
-      }
-      const wrapper = document.createElement('div');
-      wrapper.className = 'table-responsive';
-      wrapper.appendChild(table);
-      divs[division].appendChild(wrapper);
-
-      if (teamLeaderboard[division].some(({ matches }) => matches?.length > 0)) {
-        divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table.tBodies[0], packetName));
-      }
-    }
-  });
+fetch('/api/geoword/paid/results/team-leaderboard?' + new URLSearchParams({ packetName }))
+  .then(response => response.json())
+  .then(data => showTeamLeaderboard(data.teamLeaderboard, packetName));

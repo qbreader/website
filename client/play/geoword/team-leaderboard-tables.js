@@ -1,0 +1,77 @@
+import getMatchList from './results/team-matches.js';
+import createTabs from '../../scripts/utilities/create-tabs.js';
+import { kebabCase } from '../../shared/string-utils.js';
+import formatCelerity from '../../scripts/utilities/format-celerity.js';
+import sortTable from '../../scripts/utilities/tables.js';
+
+/**
+ * Builds the team standings tabs, one table per division.
+ * @param {Object<string, Object[]>} teamLeaderboard - division name -> each team's standings
+ * @param {string} [packetName] - the packet the standings are for; match lists are only shown for a single packet
+ */
+export default function showTeamLeaderboard (teamLeaderboard, packetName) {
+  const divs = createTabs({ tabNames: Object.keys(teamLeaderboard) });
+
+  for (const division of Object.keys(teamLeaderboard)) {
+    const kebabed = kebabCase(division);
+    const table = document.createElement('table');
+    table.className = 'table table-hover team-standings';
+    table.id = `${kebabed}-table`;
+    const thead = table.createTHead();
+    const theadRow = thead.insertRow();
+    const labels = ['#', 'Team', 'Players', 'W-L-T', 'Pct', 'Celerity', 'Correct', 'TUH', 'Points', 'PPTU', 'PPG'];
+    const numeric = [true, false, true, false, true, true, true, true, true, true, true];
+    for (const index in labels) {
+      const label = labels[index];
+      const cell = document.createElement('th');
+      cell.textContent = label;
+      cell.scope = 'col';
+      cell.className = 'text-nowrap';
+      cell.addEventListener('click', () => sortTable(index, numeric[index], table.id, 1, 0));
+      theadRow.appendChild(cell);
+    }
+    const tbody = table.createTBody();
+    for (const index in teamLeaderboard[division]) {
+      const { teamName, memberCount, wins, losses, ties, winPercentage, pointsPerGame, numberCorrect, points, pointsPerTossup, tossupsHeard, averageCorrectCelerity, isYourTeam } = teamLeaderboard[division][index];
+
+      const row = tbody.insertRow();
+      row.dataset.team = index;
+      if (isYourTeam) { row.classList.add('team-standings-you'); }
+      row.insertCell().textContent = parseInt(index) + 1;
+      const name = row.insertCell();
+      name.textContent = teamName;
+      if (isYourTeam) {
+        const label = document.createElement('span');
+        label.className = 'visually-hidden';
+        label.textContent = ' (your team)';
+        name.appendChild(label);
+      }
+      row.insertCell().textContent = memberCount;
+      const record = row.insertCell();
+      record.className = 'text-nowrap';
+      record.textContent = `${wins}-${losses}-${ties}`;
+      // Quizbowl writes win percentages like .750
+      row.insertCell().textContent = winPercentage === null ? '–' : winPercentage.toFixed(3).replace(/^0/, '');
+      row.insertCell().textContent = formatCelerity(averageCorrectCelerity ?? 0);
+      row.insertCell().textContent = numberCorrect;
+      row.insertCell().textContent = tossupsHeard;
+      row.insertCell().textContent = points;
+      row.insertCell().textContent = (pointsPerTossup ?? 0.0).toFixed(2);
+      row.insertCell().textContent = pointsPerGame === null ? '–' : pointsPerGame.toFixed(2);
+    }
+    if (teamLeaderboard[division].some(({ pointsPerGame }) => pointsPerGame !== null)) {
+      const note = document.createElement('p');
+      note.className = 'text-body-secondary small';
+      note.textContent = 'Points and PPTU are how a team did on a packet individually. PPG is based on points scored in matches against other teams.';
+      divs[division].appendChild(note);
+    }
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-responsive';
+    wrapper.appendChild(table);
+    divs[division].appendChild(wrapper);
+
+    if (teamLeaderboard[division].some(({ matches }) => matches?.length > 0)) {
+      divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table.tBodies[0], packetName));
+    }
+  }
+}
