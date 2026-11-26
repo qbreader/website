@@ -94,6 +94,6 @@ Promise.all([
   const registrationSets = new Set(setList.map(set => set.name));
   const teamSets = new Set(setNames);
   document.getElementById('set-list').replaceChildren(
-    ...Array.from(groupBySet(packetList), ([setName, setPackets]) => createSetCard(setName, setPackets, registrationSets.has(setName), teamSets.has(setName)))
+    ...[...groupBySet(packetList)].map(([setName, setPackets]) => createSetCard(setName, setPackets, registrationSets.has(setName), teamSets.has(setName)))
   );
 });
