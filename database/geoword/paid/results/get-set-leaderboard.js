@@ -35,7 +35,7 @@ export default async function getSetLeaderboard ({ packetNames, limit = 100 }) {
   ]);
 
   const divisions = new Set([...results.map(result => result._id.division), ...Object.keys(teamLeaderboard)]);
-  const entries = await Promise.all(Array.from(divisions, async division => {
+  const entries = await Promise.all([...divisions].map(async division => {
     const divisionResults = results.filter(result => result._id.division === division);
     const pointsPerGame = getPlayerPointsPerGame(teamLeaderboard[division] ?? []);
 
