@@ -1,7 +1,7 @@
-import createTabs from '../../../../scripts/utilities/create-tabs.js';
-import { escapeHTML, kebabCase } from '../../../../shared/string-utils.js';
-import formatCelerity from '../../../scripts/utilities/format-celerity.js';
-import sortTable from '../../../../scripts/utilities/tables.js';
+import createTabs from '../../scripts/utilities/create-tabs.js';
+import { escapeHTML, kebabCase } from '../../shared/string-utils.js';
+import formatCelerity from '../../scripts/utilities/format-celerity.js';
+import sortTable from '../../scripts/utilities/tables.js';
 
 /**
  * Builds the category leaderboard tabs and fills them in.

@@ -1,5 +1,5 @@
 import { readSetStats, showSetPackets } from './set-stats.js';
-import showCategoryLeaderboards from '../results/category-leaderboards.js';
+import showCategoryLeaderboards from '../category-leaderboards.js';
 import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);

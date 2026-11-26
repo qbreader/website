@@ -1,4 +1,4 @@
-import showCategoryLeaderboards from './category-leaderboards.js';
+import showCategoryLeaderboards from '../category-leaderboards.js';
 import { titleCase } from '../../../../shared/string-utils.js';
 
 const search = new URLSearchParams(window.location.search);
