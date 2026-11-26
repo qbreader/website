@@ -53,10 +53,7 @@ router.get('/category-stats', async (req, res) => {
 
 router.get('/team-leaderboard', async (req, res) => {
   const { packetNames, userId } = res.locals;
-  const standings = await getSetTeamLeaderboard({ packetNames, viewerId: userId });
-  // The matches and per-player points are only needed to total PPG, so don't send them
-  const teamLeaderboard = Object.fromEntries(Object.entries(standings).map(([division, rows]) =>
-    [division, rows.map(({ matches, playerPoints, ...row }) => row)]));
+  const teamLeaderboard = await getSetTeamLeaderboard({ packetNames, viewerId: userId });
   res.json({ teamLeaderboard, packetNames });
 });
 

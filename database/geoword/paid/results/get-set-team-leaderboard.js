@@ -65,6 +65,7 @@ export default async function getSetTeamLeaderboard ({ packetNames, viewerId }) 
   const divisions = new Set(leaderboards.flatMap(leaderboard => Object.keys(leaderboard)));
   return Object.fromEntries(Array.from(divisions, division => [
     division,
-    mergeTeamStandings(leaderboards.map(leaderboard => leaderboard[division] ?? []))
+    // The matches and per-player points are only needed to total PPG, so don't return them
+    mergeTeamStandings(leaderboards.map(leaderboard => leaderboard[division] ?? [])).map(({ matches, playerPoints, ...row }) => row)
   ]));
 }
