@@ -52,7 +52,17 @@ function createSetCard (setName, packetList, hasRegistration, onTeam) {
 
   const cardBody = document.createElement('div');
   cardBody.className = 'card-body';
-  cardBody.append(title, buttons);
+  const statsLinks = document.createElement('div');
+  statsLinks.className = 'small mt-3';
+  statsLinks.append('Set stats: ');
+  for (const [page, label] of [['category-stats', 'Categories']]) {
+    const a = document.createElement('a');
+    a.href = `./set-results/${page}?` + new URLSearchParams({ setName });
+    a.textContent = label;
+    statsLinks.append(statsLinks.childElementCount > 0 ? ' | ' : '', a);
+  }
+
+  cardBody.append(title, buttons, statsLinks);
 
   const card = document.createElement('div');
   card.className = 'card h-100';

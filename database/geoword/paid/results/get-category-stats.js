@@ -3,12 +3,12 @@ import { buzzes } from '../../collections.js';
 import getUsername from '../../../account-info/get-username.js';
 import getDivisions from '../../get-divisions.js';
 
-function getAggregation ({ division, includeInactive, packetName }) {
+function getAggregation ({ division, includeInactive, packetNames }) {
   return [
     {
       $match: {
         division,
-        'packet.name': packetName,
+        'packet.name': { $in: packetNames },
         ...(!includeInactive && { active: true })
       }
     },
@@ -61,14 +61,20 @@ function getAggregation ({ division, includeInactive, packetName }) {
   ];
 }
 
-async function getCategoryLeaderboard ({ packetName, includeInactive = false }) {
-  const divisions = await getDivisions(packetName);
-  if (!divisions || divisions.length === 0) {
+/**
+ * @param {Object} options
+ * @param {String[]} options.packetNames - the packets to total over; pass one for a single packet's stats
+ * @param {Boolean} [options.includeInactive]
+ * @returns {Promise<Object<string, Object[]>>} division name -> each category's leaderboard
+ */
+async function getCategoryLeaderboard ({ packetNames, includeInactive = false }) {
+  const divisions = [...new Set((await Promise.all(packetNames.map(getDivisions))).flat().filter(Boolean))];
+  if (divisions.length === 0) {
     return {};
   }
 
   const queries = divisions.map(division => {
-    const aggregation = getAggregation({ division, includeInactive, packetName });
+    const aggregation = getAggregation({ division, includeInactive, packetNames });
     return buzzes.aggregate(aggregation).toArray();
   });
 

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Play - Geoword - Set Results - Category Stats</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="Geoword category stats across a set.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <p class="text-center lead">Category Stats for <span id="set-name"></span>:</p>
+        <p class="d-flex justify-content-end">
+            <a href="/play/geoword/">Back to geoword</a>
+        </p>
+        <p class="text-body-secondary small" id="packets-note"></p>
+        <form class="mb-3" id="form">
+            <div class="mb-3">
+                <label class="form-label" for="category">Choose a category:</label>
+                <select class="form-select" id="category"></select>
+            </div>
+        </form>
+        <nav class="mb-3">
+            <div class="nav nav-tabs" id="tabs" role="tablist"></div>
+        </nav>
+        <div class="tab-content" id="tab-content"></div>
+    </div>
+
+    <script type="module" src="./category-stats.js"></script>
+</body>
+
+</html>

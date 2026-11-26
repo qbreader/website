@@ -7,6 +7,7 @@ import myTeamsRouter from './my-teams.js';
 import packetListRouter from './packet-list.js';
 import paidRouter from './paid/index.js';
 import setListRouter from './set-list.js';
+import setResultsRouter from './set-results/index.js';
 import teamRouter from './team/index.js';
 
 import { Router } from 'express';
@@ -22,6 +23,7 @@ router.use('/my-teams', myTeamsRouter);
 router.use('/packet-list', packetListRouter);
 router.use('/paid', paidRouter);
 router.use('/set-list', setListRouter);
+router.use('/set-results', setResultsRouter);
 router.use('/team', teamRouter);
 
 export default router;
