@@ -63,9 +63,8 @@ export default async function getSetTeamLeaderboard ({ packetNames, viewerId }) 
   const leaderboards = await Promise.all(packetNames.map(packetName => getTeamLeaderboard({ packetName, viewerId })));
 
   const divisions = new Set(leaderboards.flatMap(leaderboard => Object.keys(leaderboard)));
-  return Object.fromEntries(Array.from(divisions, division => {
-    const standings = mergeTeamStandings(leaderboards.map(leaderboard => leaderboard[division] ?? []));
-    const rows = standings.map(({ matches, playerPoints, ...row }) => row);
-    return [division, rows];
-  }));
+  return Object.fromEntries(Array.from(divisions, division => [
+    division,
+    mergeTeamStandings(leaderboards.map(leaderboard => leaderboard[division] ?? []))
+  ]));
 }

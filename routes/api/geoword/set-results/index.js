@@ -53,7 +53,11 @@ router.get('/category-stats', async (req, res) => {
 
 router.get('/team-leaderboard', async (req, res) => {
   const { packetNames, userId } = res.locals;
-  const teamLeaderboard = await getSetTeamLeaderboard({ packetNames, viewerId: userId });
+  const standings = await getSetTeamLeaderboard({ packetNames, viewerId: userId });
+  const teamLeaderboard = Object.fromEntries(Object.entries(standings).map(([division, teams]) => {
+    const rows = teams.map(({ matches, playerPoints, ...row }) => row);
+    return [division, rows];
+  }));
   res.json({ teamLeaderboard, packetNames });
 });
 
