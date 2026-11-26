@@ -4,7 +4,7 @@ import { compareStandings } from '../../../../server/geoword/team-standings.js';
 
 /**
  * Adds up a division's team standings from several packets into cumulative standings.
- * Teams are matched by name, which is unique within a set. Records and matches are summed,
+ * Teams are matched by id. Records and matches are summed,
  * so PPG is each team's average over every match it played in any of the packets.
  * @param {Object[][]} standingsList - one division's standings from each packet, as built by `getTeamLeaderboard`
  * @returns {Object[]} the cumulative standings, best first, with the summed `matches` and `playerPoints`
@@ -13,7 +13,8 @@ function mergeTeamStandings (standingsList) {
   const totals = new Map();
 
   for (const row of standingsList.flat()) {
-    const total = totals.get(row.teamName) ?? {
+    const total = totals.get(String(row.teamId)) ?? {
+      teamId: row.teamId,
       teamName: row.teamName,
       memberCount: 0,
       isYourTeam: false,
@@ -41,7 +42,7 @@ function mergeTeamStandings (standingsList) {
     total.points += row.points;
     total.tossupsHeard += row.tossupsHeard;
     total.correctCelerityTotal += row.averageCorrectCelerity * row.numberCorrect;
-    totals.set(row.teamName, total);
+    totals.set(String(row.teamId), total);
   }
 
   return Array.from(totals.values(), ({ correctCelerityTotal, ...total }) => ({
