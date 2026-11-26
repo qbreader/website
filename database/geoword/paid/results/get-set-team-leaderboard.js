@@ -3,9 +3,7 @@ import { getPointsPerGame, getWinPercentage } from '../../../../server/geoword/p
 import { compareStandings } from '../../../../server/geoword/team-standings.js';
 
 /**
- * Adds up a division's team standings from several packets into cumulative standings.
- * Teams are matched by id. Records and matches are summed,
- * so PPG is each team's average over every match it played in any of the packets.
+ * Merge team standings across multiple packets in a single division into one cumulative standings object.
  * @param {Object[][]} standingsList - one division's standings from each packet, as built by `getTeamLeaderboard`
  * @returns {Object[]} the cumulative standings, best first, with the summed `matches` and `playerPoints`
  */
