@@ -57,7 +57,7 @@ function createSetCard (setName, packetList, hasRegistration, onTeam) {
   statsLinks.append('Set stats: ');
   for (const [page, label] of [['category-stats', 'Categories']]) {
     const a = document.createElement('a');
-    a.href = `./results/${page}?` + new URLSearchParams({ setName });
+    a.href = `./set-results/${page}?` + new URLSearchParams({ setName });
     a.textContent = label;
     statsLinks.append(statsLinks.childElementCount > 0 ? ' | ' : '', a);
   }
