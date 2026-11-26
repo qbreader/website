@@ -39,12 +39,15 @@ export default async function getSetLeaderboard ({ packetNames, limit = 100 }) {
     const divisionResults = results.filter(result => result._id.division === division);
     const pointsPerGame = getPlayerPointsPerGame(teamLeaderboard[division] ?? []);
 
-    const players = await Promise.all(divisionResults.map(async ({ _id: { user_id: userId }, ...player }) => ({
-      ...player,
-      _id: userId,
-      username: await getUsername(userId),
-      pointsPerGame: pointsPerGame.get(String(userId)) ?? null
-    })));
+    const players = await Promise.all(divisionResults.map(async ({ _id, ...stats }) => {
+      const userId = _id.user_id;
+      return {
+        ...stats,
+        _id: userId,
+        username: await getUsername(userId),
+        pointsPerGame: pointsPerGame.get(String(userId)) ?? null
+      };
+    }));
 
     const topPlayers = players.sort(comparePlayers).slice(0, limit);
     return [division, topPlayers];
