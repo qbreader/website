@@ -4,6 +4,7 @@ import getBuzzCount from '../../../../database/geoword/get-buzz-count.js';
 import getPaidSetPacketNames from '../../../../database/geoword/get-paid-set-packet-names.js';
 import getQuestionCount from '../../../../database/geoword/get-question-count.js';
 import getSet from '../../../../database/geoword/get-set.js';
+import getSetLeaderboard from '../../../../database/geoword/paid/results/get-set-leaderboard.js';
 import getSetTeamLeaderboard from '../../../../database/geoword/paid/results/get-set-team-leaderboard.js';
 import hasPacketPrivileges from '../../../../database/geoword/has-packet-privileges.js';
 import validate, { rules } from '../../../validators/schema.js';
@@ -49,6 +50,12 @@ router.get('/category-stats', async (req, res) => {
   const { packetNames, username } = res.locals;
   const leaderboards = await getCategoryLeaderboard({ packetNames });
   res.json({ leaderboards, username, packetNames });
+});
+
+router.get('/leaderboard', async (req, res) => {
+  const { packetNames } = res.locals;
+  const leaderboard = await getSetLeaderboard({ packetNames });
+  res.json({ leaderboard, packetNames });
 });
 
 router.get('/team-leaderboard', async (req, res) => {

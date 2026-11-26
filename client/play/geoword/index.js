@@ -55,7 +55,7 @@ function createSetCard (setName, packetList, hasRegistration, onTeam) {
   const statsLinks = document.createElement('div');
   statsLinks.className = 'small mt-3';
   statsLinks.append('Set stats: ');
-  for (const [page, label] of [['category-stats', 'Categories'], ['team-leaderboard', 'Teams']]) {
+  for (const [page, label] of [['category-stats', 'Categories'], ['leaderboard', 'Players'], ['team-leaderboard', 'Teams']]) {
     const a = document.createElement('a');
     a.href = `./set-results/${page}?` + new URLSearchParams({ setName });
     a.textContent = label;
