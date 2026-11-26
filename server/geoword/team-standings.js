@@ -12,6 +12,7 @@ export function scoreTeam (team, teamBuzzes) {
   const points = merged.reduce((total, buzz) => total + buzz.points, 0);
 
   return {
+    teamId: team._id,
     teamName: team.teamName,
     memberCount: team.members.length,
     numberCorrect: correct.length,
