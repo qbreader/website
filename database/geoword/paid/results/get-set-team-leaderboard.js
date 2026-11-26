@@ -43,7 +43,7 @@ function mergeTeamStandings (standingsList) {
     totals.set(String(row.teamId), total);
   }
 
-  return Array.from(totals.values(), ({ correctCelerityTotal, ...total }) => ({
+  return [...totals.values()].map(({ correctCelerityTotal, ...total }) => ({
     ...total,
     pointsPerTossup: total.tossupsHeard === 0 ? 0 : total.points / total.tossupsHeard,
     averageCorrectCelerity: total.numberCorrect === 0 ? 0 : correctCelerityTotal / total.numberCorrect,
@@ -63,7 +63,7 @@ export default async function getSetTeamLeaderboard ({ packetNames, viewerId }) 
   const leaderboards = await Promise.all(packetNames.map(packetName => getTeamLeaderboard({ packetName, viewerId })));
 
   const divisions = new Set(leaderboards.flatMap(leaderboard => Object.keys(leaderboard)));
-  return Object.fromEntries(Array.from(divisions, division => [
+  return Object.fromEntries([...divisions].map(division => [
     division,
     mergeTeamStandings(leaderboards.map(leaderboard => leaderboard[division] ?? []))
   ]));

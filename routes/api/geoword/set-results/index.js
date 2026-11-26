@@ -23,7 +23,7 @@ router.use(async (req, res, next) => {
     return res.status(401).send('You must log in first.');
   }
 
-  const { setName } = validate({ setName: req.query.setName }, { setName: rules.string() });
+  const { setName } = validate(req.query, { setName: rules.string() });
   const set = await getSet(setName);
   if (!set) {
     return res.status(404).send('That set does not exist.');
