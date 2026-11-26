@@ -1,6 +1,6 @@
-import { packets } from './collections.js';
+import { packets, sets } from './collections.js';
 
-import getCost from './get-cost.js';
+import { getPacketCost } from './get-cost.js';
 
 /**
  * @param {ObjectId} setId
@@ -8,13 +8,15 @@ import getCost from './get-cost.js';
  * Free packets (and test packets) are left out of cumulative stats.
  */
 async function getPaidSetPacketNames (setId) {
-  const packetList = await packets.find(
-    { 'set._id': setId, test: { $ne: true } },
-    { sort: { order: 1 }, projection: { name: 1, _id: 0 } }
-  ).toArray();
+  const [packetList, set] = await Promise.all([
+    packets.find(
+      { 'set._id': setId, test: { $ne: true } },
+      { sort: { order: 1 }, projection: { name: 1, costInCents: 1, _id: 0 } }
+    ).toArray(),
+    sets.findOne({ _id: setId }, { projection: { payment: 1 } })
+  ]);
 
-  const costs = await Promise.all(packetList.map(({ name }) => getCost(name)));
-  return packetList.filter((_, index) => costs[index] > 0).map(({ name }) => name);
+  return packetList.filter(packet => getPacketCost(packet, set) > 0).map(({ name }) => name);
 }
 
 export default getPaidSetPacketNames;
