@@ -206,18 +206,6 @@
     width: 4rem;
 }
 
-// Lets a long username wrap instead of widening its column
-.buzz-table-player {
-    min-width: 0;
-}
-
-.buzz-table-rank {
-    flex-shrink: 0;
-    text-align: end;
-    font-variant-numeric: tabular-nums;
-    color: var(--bs-secondary-color);
-}
-
 .buzz-filter-chip {
     display: inline-flex;
     align-items: center;
