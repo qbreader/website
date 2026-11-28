@@ -60,7 +60,9 @@ export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtra
   let rows = '';
   // Every rank gets the width of the longest one, so that usernames line up
   const rankWidth = String(buzzpoints.length).length;
-  for (const [index, buzz] of buzzpoints.entries()) {
+  for (const buzz of buzzpoints) {
+    // Tied buzzes share the number of the first of them
+    const rank = buzzpoints.findIndex(other => other.celerity === buzz.celerity) + 1;
     let data = '';
     if (tossup.duration) {
       const time = getBuzzTime(buzz, tossup.duration);
@@ -74,7 +76,7 @@ export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtra
       <tr ${data} ${who ? `class="buzz-table-${who}"` : ''}>
         <td class="text-break">
           <div class="d-flex align-items-baseline gap-2">
-            <small class="d-none d-md-block flex-shrink-0 text-end text-body-secondary" style="min-width: ${rankWidth}ch"><span class="visually-hidden">Rank </span>${index + 1}</small>
+            <small class="d-none d-md-block flex-shrink-0 text-end text-body-secondary" style="min-width: ${rankWidth}ch"><span class="visually-hidden">Rank </span>${rank}</small>
             <div>
               <span class="d-block ${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
               ${buzz.teamName ? `<small class="d-block opacity-75">${escapeHTML(buzz.teamName)}</small>` : ''}
