@@ -1,7 +1,7 @@
 import getUser from '../../../../database/account-info/get-user.js';
 import getCategoryLeaderboard from '../../../../database/geoword/paid/results/get-category-stats.js';
 import getBuzzCount from '../../../../database/geoword/get-buzz-count.js';
-import getPacketsForSetStats from '../../../../database/geoword/get-packets-for-set-stats.js';
+import getPacketNamesForSetStats from '../../../../database/geoword/get-packet-names-for-set-stats.js';
 import getQuestionCount from '../../../../database/geoword/get-question-count.js';
 import getSet from '../../../../database/geoword/get-set.js';
 import getSetLeaderboard from '../../../../database/geoword/paid/results/get-set-leaderboard.js';
@@ -29,7 +29,7 @@ router.use(async (req, res, next) => {
     return res.status(404).send('That set does not exist.');
   }
 
-  const setStatsPacketNames = await getPacketsForSetStats(set._id);
+  const setStatsPacketNames = await getPacketNamesForSetStats(set._id);
   const viewable = await Promise.all(setStatsPacketNames.map(async packetName => {
     if (await hasPacketPrivileges(packetName, user._id)) { return true; }
     const [buzzCount, questionCount] = await Promise.all([getBuzzCount(packetName, user._id), getQuestionCount(packetName)]);
