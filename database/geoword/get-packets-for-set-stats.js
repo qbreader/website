@@ -5,7 +5,7 @@ import { packets } from './collections.js';
  * @returns {Promise<String[]>} the names of the set's packets that count toward cumulative stats, in play order.
  * Test packets and packets with `excludeFromSetStats` are left out.
  */
-async function getCountedSetPacketNames (setId) {
+async function getPacketsForSetStats (setId) {
   const packetList = await packets.find(
     { 'set._id': setId, test: { $ne: true }, excludeFromSetStats: { $ne: true } },
     { sort: { order: 1 }, projection: { name: 1, _id: 0 } }
@@ -14,4 +14,4 @@ async function getCountedSetPacketNames (setId) {
   return packetList.map(({ name }) => name);
 }
 
-export default getCountedSetPacketNames;
+export default getPacketsForSetStats;

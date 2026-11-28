@@ -1,7 +1,7 @@
 import getUser from '../../../../database/account-info/get-user.js';
 import getCategoryLeaderboard from '../../../../database/geoword/paid/results/get-category-stats.js';
 import getBuzzCount from '../../../../database/geoword/get-buzz-count.js';
-import getCountedSetPacketNames from '../../../../database/geoword/get-counted-set-packet-names.js';
+import getPacketsForSetStats from '../../../../database/geoword/get-packets-for-set-stats.js';
 import getQuestionCount from '../../../../database/geoword/get-question-count.js';
 import getSet from '../../../../database/geoword/get-set.js';
 import getSetLeaderboard from '../../../../database/geoword/paid/results/get-set-leaderboard.js';
@@ -14,7 +14,7 @@ import { Router } from 'express';
 const router = Router();
 
 /**
- * Cumulative stats only cover counted packets, and (as with a single packet's results) only
+ * Cumulative stats only cover packets without `excludeFromSetStats`, and (as with a single packet's results) only
  * the ones the viewer has finished, or all of them for someone with packet privileges.
  */
 router.use(async (req, res, next) => {
@@ -29,14 +29,14 @@ router.use(async (req, res, next) => {
     return res.status(404).send('That set does not exist.');
   }
 
-  const countedPacketNames = await getCountedSetPacketNames(set._id);
-  const viewable = await Promise.all(countedPacketNames.map(async packetName => {
+  const setStatsPacketNames = await getPacketsForSetStats(set._id);
+  const viewable = await Promise.all(setStatsPacketNames.map(async packetName => {
     if (await hasPacketPrivileges(packetName, user._id)) { return true; }
     const [buzzCount, questionCount] = await Promise.all([getBuzzCount(packetName, user._id), getQuestionCount(packetName)]);
     return buzzCount >= questionCount;
   }));
 
-  res.locals.packetNames = countedPacketNames.filter((_, index) => viewable[index]);
+  res.locals.packetNames = setStatsPacketNames.filter((_, index) => viewable[index]);
   res.locals.userId = user._id;
   res.locals.username = user.username;
   if (res.locals.packetNames.length === 0) {
