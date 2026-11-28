@@ -1,4 +1,3 @@
-import getDivisions from '../../../../../database/geoword/get-divisions.js';
 import getPacketSet from '../../../../../database/geoword/get-packet-set.js';
 import getTeamByName from '../../../../../database/geoword/get-team-by-name.js';
 import getMatch from '../../../../../database/geoword/paid/results/get-match.js';
@@ -15,11 +14,6 @@ router.get('/', async (req, res) => {
     teamName: rules.string(),
     opponentName: rules.string()
   });
-
-  const divisions = await getDivisions(packetName);
-  if (!divisions?.includes(division)) {
-    return res.status(404).send('The packet has no division with that name.');
-  }
 
   const set = await getPacketSet(packetName);
   const teams = set ? await Promise.all([teamName, opponentName].map(name => getTeamByName(set._id, name))) : [];
