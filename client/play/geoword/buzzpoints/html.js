@@ -59,8 +59,8 @@ export function getCluesHTML (tossup, buzzpoints) {
 export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtraCell } = {}) {
   let rows = '';
   // Every rank gets the width of the longest one, so that usernames line up
-  const rankStyle = ` style="min-width: ${Math.max(0, ...buzzpoints.map(buzz => String(buzz.rank ?? '').length))}ch"`;
-  for (const buzz of buzzpoints) {
+  const rankWidth = String(buzzpoints.length).length;
+  for (const [index, buzz] of buzzpoints.entries()) {
     let data = '';
     if (tossup.duration) {
       const time = getBuzzTime(buzz, tossup.duration);
@@ -74,7 +74,7 @@ export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtra
       <tr ${data} ${who ? `class="buzz-table-${who}"` : ''}>
         <td class="text-break">
           <div class="d-flex align-items-baseline gap-2">
-            ${buzz.rank ? `<small class="d-none d-md-block flex-shrink-0 text-end text-body-secondary"${rankStyle}><span class="visually-hidden">Rank </span>${buzz.rank}</small>` : ''}
+            <small class="d-none d-md-block flex-shrink-0 text-end text-body-secondary" style="min-width: ${rankWidth}ch"><span class="visually-hidden">Rank </span>${index + 1}</small>
             <div>
               <span class="d-block ${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
               ${buzz.teamName ? `<small class="d-block opacity-75">${escapeHTML(buzz.teamName)}</small>` : ''}
