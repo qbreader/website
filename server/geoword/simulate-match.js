@@ -50,15 +50,19 @@ function pickBuzzes (aBuzzes, bBuzzes) {
 /**
  * @param {Map<number, Buzz[]>} a - the first team's buzzes by question number, from `groupBuzzesByQuestion`
  * @param {Map<number, Buzz[]>} b - the second team's buzzes by question number, from `groupBuzzesByQuestion`
- * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>] }}
- * each team's total, the index of the team with the higher total (null on a tie), and each
- * team's points by the player whose buzz scored them
+ * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>], questions: Array<{ questionNumber: number, buzzes: [Buzz | undefined, Buzz | undefined], points: [number, number] }> }}
+ * each team's total, the index of the team with the higher total (null on a tie), each
+ * team's points by the player whose buzz scored them, and, in question order, the buzz that
+ * decided each team's result on a question and what it scored
  */
 export default function simulateMatch (a, b) {
   const playerPoints = [{}, {}];
-  for (const questionNumber of new Set([...a.keys(), ...b.keys()])) {
+  const questions = [];
+  for (const questionNumber of [...new Set([...a.keys(), ...b.keys()])].sort((x, y) => x - y)) {
     const buzzes = pickBuzzes(a.get(questionNumber), b.get(questionNumber));
-    scoreQuestion(...buzzes).forEach((questionPoints, side) => {
+    const scored = scoreQuestion(...buzzes);
+    questions.push({ questionNumber, buzzes, points: scored });
+    scored.forEach((questionPoints, side) => {
       if (!buzzes[side]) { return; }
       const player = String(buzzes[side].user_id);
       playerPoints[side][player] = (playerPoints[side][player] ?? 0) + questionPoints;
@@ -67,5 +71,5 @@ export default function simulateMatch (a, b) {
 
   const points = playerPoints.map(team => Object.values(team).reduce((sum, p) => sum + p, 0));
 
-  return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1, playerPoints };
+  return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1, playerPoints, questions };
 }

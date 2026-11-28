@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Play - Geoword - Results - Match</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="See how a geoword match between two teams went.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-xl mt-3 mb-5 pb-5">
+        <h1 class="text-center lead mb-3">Match on <span id="packet-name"></span></h1>
+        <p class="d-flex justify-content-end"><a id="back-link">Back to team leaderboard</a></p>
+        <p class="text-danger d-none" id="error"></p>
+        <div class="d-none" id="match">
+            <div class="row text-center mb-3" id="scoreboard"></div>
+            <p class="text-center"><a id="packet-link">Hear the questions and see both teams' buzzes</a></p>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle text-center">
+                    <thead id="match-table-head"></thead>
+                    <tbody id="match-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./match.js"></script>
+</body>
+
+</html>

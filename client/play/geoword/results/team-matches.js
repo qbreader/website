@@ -22,17 +22,19 @@ function appendCells (row, values) {
 }
 
 /**
- * @param {string} packetName
- * @param {string} teamName
- * @param {string} opponent
+ * @param {object} match
+ * @param {string} match.packetName
+ * @param {string} match.division
+ * @param {string} match.team
+ * @param {string} match.opponent
  * @param {'W' | 'L' | 'T'} result
- * @returns {HTMLAnchorElement} the result, linking to both teams' buzzes on the Packet page
+ * @returns {HTMLAnchorElement} the result, linking to the Match page
  */
-function createResultLink (packetName, teamName, opponent, result) {
+function createResultLink ({ packetName, division, team, opponent }, result) {
   const link = document.createElement('a');
-  link.href = './packet/?' + new URLSearchParams([['packetName', packetName], ['team', teamName], ['team', opponent]]);
+  link.href = './match?' + new URLSearchParams({ packetName, division, team, opponent });
   link.textContent = result;
-  link.setAttribute('aria-label', `${RESULT_LABELS[result]}: see both teams' buzzes`);
+  link.setAttribute('aria-label', `${RESULT_LABELS[result]}: see the match`);
   return link;
 }
 
@@ -40,9 +42,9 @@ function createResultLink (packetName, teamName, opponent, result) {
  * @param {object[]} standings - one division's standings, best first
  * @param {number} index - the chosen team's place in the standings
  * @param {HTMLTableSectionElement} tbody - where to list the team's matches, best opponent first
- * @param {string} packetName - the packet the standings are for, for the links to its matches
+ * @param {{ packetName: string, division: string }} source - what the standings are for, for the links to its matches
  */
-function showMatches (standings, index, tbody, packetName) {
+function showMatches (standings, index, tbody, { packetName, division }) {
   const { teamName, matches } = standings[index];
   tbody.replaceChildren();
 
@@ -58,7 +60,7 @@ function showMatches (standings, index, tbody, packetName) {
     if (!match) { return; }
 
     const [own, other] = match.points;
-    const link = createResultLink(packetName, teamName, opponent, getResult(own, other));
+    const link = createResultLink({ packetName, division, team: teamName, opponent }, getResult(own, other));
     appendCells(tbody.insertRow(), [rank + 1, opponent, link, own, other]);
   });
 }
@@ -148,15 +150,15 @@ function makeRowsChoosable (standingsBody, onChoose) {
 
 /**
  * A dropdown of a division's teams and a list of the chosen team's matches, each result
- * linking to the match on the Packet page. The viewer's team is chosen to begin with, and
+ * linking to the match's page. The viewer's team is chosen to begin with, and
  * choosing a row of the standings chooses its team.
  * @param {object[]} standings - one division's standings, best first
  * @param {string} id - a unique id for the dropdown
  * @param {HTMLTableSectionElement} standingsBody - its rows' `data-team` is their place in `standings`
- * @param {string} packetName - the packet the standings are for, for the links to its matches
+ * @param {{ packetName: string, division: string }} source - what the standings are for, for the links to its matches
  * @returns {HTMLDivElement}
  */
-export default function getMatchList (standings, id, standingsBody, packetName) {
+export default function getMatchList (standings, id, standingsBody, source) {
   const container = createMatchList(id);
   const select = container.querySelector('select');
   const matchesBody = container.querySelector('tbody');
@@ -164,7 +166,7 @@ export default function getMatchList (standings, id, standingsBody, packetName) 
 
   function chooseTeam (index) {
     select.value = index;
-    showMatches(standings, index, matchesBody, packetName);
+    showMatches(standings, index, matchesBody, source);
     markSelectedRow(standingsBody, index);
   }
 

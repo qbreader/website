@@ -71,7 +71,7 @@ export default function showTeamLeaderboard (teamLeaderboard, packetName) {
     divs[division].appendChild(wrapper);
 
     if (teamLeaderboard[division].some(({ matches }) => matches?.length > 0)) {
-      divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table.tBodies[0], packetName));
+      divs[division].appendChild(getMatchList(teamLeaderboard[division], `${kebabed}-match-team`, table.tBodies[0], { packetName, division }));
     }
   }
 }
