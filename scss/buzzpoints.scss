@@ -136,6 +136,7 @@
 }
 
 .buzz-table-slot {
+    container: buzz-table / inline-size;
     grid-area: table;
     position: relative;
     height: 20rem;
@@ -204,6 +205,26 @@
 
 .buzz-table-points {
     width: 4rem;
+}
+
+// Lets a long username wrap instead of widening its column
+.buzz-table-player {
+    min-width: 0;
+}
+
+.buzz-table-rank {
+    flex-shrink: 0;
+    text-align: end;
+    font-variant-numeric: tabular-nums;
+    color: var(--bs-secondary-color);
+}
+
+// Ranks would crowd the usernames in a narrow table. This goes by the table's width rather than
+// the screen's, since the table also narrows when it moves beside the clues.
+@container buzz-table (max-width: 30rem) {
+    .buzz-table-rank {
+        display: none;
+    }
 }
 
 .buzz-filter-chip {
