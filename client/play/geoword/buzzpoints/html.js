@@ -74,7 +74,7 @@ export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtra
       <tr ${data} ${who ? `class="buzz-table-${who}"` : ''}>
         <td class="text-break">
           <div class="d-flex align-items-baseline gap-2">
-            ${buzz.rank ? `<small class="buzz-table-rank"${rankStyle}><span class="visually-hidden">Rank </span>${buzz.rank}</small>` : ''}
+            ${buzz.rank ? `<small class="buzz-table-rank d-none d-md-block"${rankStyle}><span class="visually-hidden">Rank </span>${buzz.rank}</small>` : ''}
             <div class="buzz-table-player">
               <span class="d-block ${buzz.isYou ? 'fw-bold' : ''}">${escapeHTML(buzz.username)}${who ? `<span class="visually-hidden"> (${who})</span>` : ''}</span>
               ${buzz.teamName ? `<small class="d-block opacity-75">${escapeHTML(buzz.teamName)}</small>` : ''}
