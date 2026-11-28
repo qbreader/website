@@ -1,5 +1,5 @@
 import { getBuzzGraphHTML, getBuzzTableHTML, getCluesHTML } from './html.js';
-import { drawTossupGraph, removeTossupGraph, showPosition } from './interactions.js';
+import { drawTossupGraph, removeTossupGraph, showPosition, showYourBuzz } from './interactions.js';
 import { escapeHTML } from '../../../../shared/string-utils.js';
 
 function getBuzzpointsHTML (tossup, buzzpoints, { extraHeader, renderExtraCell }) {
@@ -52,4 +52,5 @@ export function renderQuestionBuzzpoints (section, tossup, buzzpoints, { extraHe
   section.querySelector('.buzzpoints-answer').insertAdjacentHTML('afterend', getBuzzpointsHTML(tossup, buzzpoints, { extraHeader, renderExtraCell }));
   drawTossupGraph(section, tossup, buzzpoints);
   showPosition(section);
+  showYourBuzz(section);
 }

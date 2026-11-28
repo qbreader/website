@@ -6,6 +6,26 @@ const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
+// Waits for a table to have a height, which one in a hidden tab lacks until the tab is shown
+const tableResizeObserver = new window.ResizeObserver(entries => {
+  for (const { target } of entries) {
+    if (target.clientHeight === 0) { continue; }
+    centerYourBuzz(target);
+    tableResizeObserver.unobserve(target);
+  }
+});
+
+/**
+ * Scrolls a buzz table, but not the page, to put your buzz in the middle of the rows in view.
+ * @param {HTMLElement} box
+ */
+function centerYourBuzz (box) {
+  const row = box.querySelector('tr.buzz-table-you');
+  if (!row) { return; }
+  const headerHeight = box.querySelector('thead').offsetHeight;
+  const rowTop = row.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
+  box.scrollTop = rowTop - headerHeight - (box.clientHeight - headerHeight - row.offsetHeight) / 2;
+}
 
 /**
  * @param {HTMLElement} graph
@@ -33,6 +53,15 @@ export function removeTossupGraph (section) {
   if (!graph) { return; }
   graphResizeObserver.unobserve(graph);
   graph.remove();
+}
+
+/**
+ * Brings your buzz into view in a question's buzz table, once the table is visible.
+ * @param {HTMLElement} section
+ */
+export function showYourBuzz (section) {
+  const box = section.querySelector('.buzz-table');
+  if (box) { tableResizeObserver.observe(box); }
 }
 
 /**
