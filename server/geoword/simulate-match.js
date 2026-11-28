@@ -15,6 +15,15 @@ import { bestBuzz, earliestBuzz } from './merge-buzzes.js';
  */
 
 /**
+ * How one question of a match went. Each pair holds the first team's entry, then the second's.
+ * @typedef {Object} QuestionResult
+ * @property {number} questionNumber
+ * @property {[Buzz | undefined, Buzz | undefined]} buzzes - the buzz that decides each team's
+ * result, if it heard the question
+ * @property {[number, number]} points - what each team scores, which may differ from its buzz's own points
+ */
+
+/**
  * @param {Buzz} [a] - the first team's buzz, if it heard the question
  * @param {Buzz} [b] - the second team's buzz, if it heard the question
  * @returns {[number, number]} the points each team scores on the question
@@ -50,15 +59,18 @@ function pickBuzzes (aBuzzes, bBuzzes) {
 /**
  * @param {Map<number, Buzz[]>} a - the first team's buzzes by question number, from `groupBuzzesByQuestion`
  * @param {Map<number, Buzz[]>} b - the second team's buzzes by question number, from `groupBuzzesByQuestion`
- * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>] }}
- * each team's total, the index of the team with the higher total (null on a tie), and each
- * team's points by the player whose buzz scored them
+ * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>], questions: QuestionResult[] }}
+ * each team's total, the winner's index (null on a tie), each team's points by player, and the
+ * results in question order
  */
 export default function simulateMatch (a, b) {
   const playerPoints = [{}, {}];
-  for (const questionNumber of new Set([...a.keys(), ...b.keys()])) {
+  const questions = [];
+  for (const questionNumber of [...new Set([...a.keys(), ...b.keys()])].sort((x, y) => x - y)) {
     const buzzes = pickBuzzes(a.get(questionNumber), b.get(questionNumber));
-    scoreQuestion(...buzzes).forEach((questionPoints, side) => {
+    const scored = scoreQuestion(...buzzes);
+    questions.push({ questionNumber, buzzes, points: scored });
+    scored.forEach((questionPoints, side) => {
       if (!buzzes[side]) { return; }
       const player = String(buzzes[side].user_id);
       playerPoints[side][player] = (playerPoints[side][player] ?? 0) + questionPoints;
@@ -67,5 +79,5 @@ export default function simulateMatch (a, b) {
 
   const points = playerPoints.map(team => Object.values(team).reduce((sum, p) => sum + p, 0));
 
-  return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1, playerPoints };
+  return { points, winner: points[0] === points[1] ? null : points[0] > points[1] ? 0 : 1, playerPoints, questions };
 }
