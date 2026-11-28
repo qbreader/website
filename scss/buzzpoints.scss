@@ -125,6 +125,12 @@
     stroke-width: 2;
 }
 
+.buzz-graph-yours {
+    stroke: var(--bs-orange);
+    stroke-width: 2;
+    stroke-dasharray: 2 3;
+}
+
 .buzz-graph-dot {
     fill: var(--buzz-graph-correct);
     stroke: var(--bs-body-bg);

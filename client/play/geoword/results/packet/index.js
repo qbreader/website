@@ -2,7 +2,6 @@ import { setUpBuzzpointsInteractions } from '../../buzzpoints/interactions.js';
 import { getQuestionNavHTML, observeToolbar, trackCurrentQuestion } from '../../buzzpoints/question-nav.js';
 import { getQuestionSectionHTML, renderQuestionBuzzpoints } from '../../buzzpoints/render.js';
 import { getFilterChipsHTML, getFilterHTML, getFilterSummary, isFiltered, matchesFilter, readFiltersFromURL, searchFilterMenu, writeFiltersToURL } from './filter.js';
-import { hasClueTimes } from '../../buzzpoints/time.js';
 import createTabs from '../../../../scripts/utilities/create-tabs.js';
 import { kebabCase, titleCase } from '../../../../../shared/string-utils.js';
 
@@ -139,8 +138,9 @@ Promise.all([
       document.getElementById('tabs').closest('nav').classList.add('d-none');
     }
 
-    if (tossups.some(hasClueTimes)) {
-      document.getElementById('clue-hint').classList.remove('d-none');
+    // Only tossups with a duration have a graph
+    if (tossups.some(tossup => tossup.duration)) {
+      document.getElementById('graph-hint').classList.remove('d-none');
     }
 
     const divs = createTabs({ tabNames: divisions });

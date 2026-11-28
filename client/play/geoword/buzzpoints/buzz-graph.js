@@ -61,7 +61,7 @@ function getStepPath (times, x, y, span) {
 
 /**
  * @param {HTMLElement} graph
- * @param {{ duration: number, starts: number[], correct: number[], wrong: number[] }} [data]
+ * @param {{ duration: number, starts: number[], correct: number[], wrong: number[], yours: number | null }} [data]
  */
 export function drawBuzzGraph (graph, data) {
   if (data) {
@@ -72,7 +72,7 @@ export function drawBuzzGraph (graph, data) {
   graph.querySelector('svg')?.remove();
   if (graph.clientWidth === 0) { return; }
 
-  const { duration, starts, correct, wrong } = state;
+  const { duration, starts, correct, wrong, yours } = state;
   const { x, span, y, width, height } = getScales(graph);
   const svg = createSvgElement('svg', { width, height, viewBox: `0 0 ${width} ${height}`, 'aria-hidden': 'true' });
   const max = Math.max(1, correct.length, wrong.length);
@@ -96,6 +96,9 @@ export function drawBuzzGraph (graph, data) {
 
   svg.append(createSvgElement('path', { d: getStepPath(correct, x, y, span), class: 'buzz-graph-correct' }));
   svg.append(createSvgElement('path', { d: getStepPath(wrong, x, y, span), class: 'buzz-graph-wrong' }));
+  if (yours !== null) {
+    svg.append(createSvgElement('line', { x1: x(yours), x2: x(yours), y1: y(max), y2: y(0), class: 'buzz-graph-yours' }));
+  }
   svg.append(createSvgElement('line', { y1: y(max) - 4, y2: y(0), class: 'buzz-graph-playhead', visibility: 'hidden' }));
   svg.append(createSvgElement('circle', { r: 4, class: 'buzz-graph-dot', visibility: 'hidden' }));
 
