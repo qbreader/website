@@ -109,19 +109,21 @@ export function getBuzzTableHTML (tossup, buzzpoints, { extraHeader, renderExtra
 /**
  * @param {object} tossup
  * @param {object[]} buzzpoints
- * @returns {{ duration: number, starts: number[], correct: number[], wrong: number[] }}
+ * @returns {{ duration: number, starts: number[], correct: number[], wrong: number[], yours: number | null }} `yours` is the time of your buzz
  */
 export function getBuzzGraphData (tossup, buzzpoints) {
   const correct = [];
   const wrong = [];
+  let yours = null;
   for (const buzz of buzzpoints) {
     // Buzzes after the audio ended have no time within it, so they pile up at the very end
     const time = getBuzzTime(buzz, tossup.duration) ?? tossup.duration;
     (buzz.points > 0 ? correct : wrong).push(time);
+    if (buzz.isYou) { yours = time; }
   }
   correct.sort((a, b) => a - b);
   wrong.sort((a, b) => a - b);
-  return { duration: tossup.duration, starts: hasClueTimes(tossup) ? tossup.clipBoundaries : [], correct, wrong };
+  return { duration: tossup.duration, starts: hasClueTimes(tossup) ? tossup.clipBoundaries : [], correct, wrong, yours };
 }
 
 /**

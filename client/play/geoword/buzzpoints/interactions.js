@@ -21,27 +21,11 @@ function setLegendTime (graph, time) {
   }
 }
 
-/**
- * Marks a row's buzz on the graph, or your own buzz if there's no row.
- * @param {HTMLElement} section
- * @param {HTMLTableRowElement | null} [row]
- */
-function showGraphDot (section, row) {
-  const graph = section.querySelector('.buzz-graph');
-  if (!graph) { return; }
-  const buzz = row ?? section.querySelector('tr.buzz-table-you');
-  setBuzzGraphDot(graph, buzz?.dataset.correct === undefined
-    ? null
-    : { time: parseFloat(buzz.dataset.buzzTime), isCorrect: buzz.dataset.correct === 'true' }
-  );
-}
-
 export function drawTossupGraph (section, tossup, buzzpoints) {
   const graph = section.querySelector('.buzz-graph');
   if (!graph) { return; }
   drawBuzzGraph(graph, getBuzzGraphData(tossup, buzzpoints));
   graphResizeObserver.observe(graph);
-  showGraphDot(section);
 }
 
 export function removeTossupGraph (section) {
@@ -126,7 +110,13 @@ function selectBuzz (section, row) {
   }
   row?.classList.add('buzz-table-selected');
   row?.setAttribute('aria-current', 'true');
-  showGraphDot(section, row);
+
+  const graph = section.querySelector('.buzz-graph');
+  if (!graph) { return; }
+  setBuzzGraphDot(graph, row?.dataset.correct === undefined
+    ? null
+    : { time: parseFloat(row.dataset.buzzTime), isCorrect: row.dataset.correct === 'true' }
+  );
 }
 
 /**
