@@ -6,26 +6,6 @@ const scrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const graphResizeObserver = new window.ResizeObserver(entries => {
   for (const { target } of entries) { drawBuzzGraph(target); }
 });
-// Waits for a table to have a height, which one in a hidden tab lacks until the tab is shown
-const tableResizeObserver = new window.ResizeObserver(entries => {
-  for (const { target } of entries) {
-    if (target.clientHeight === 0) { continue; }
-    centerYourBuzz(target);
-    tableResizeObserver.unobserve(target);
-  }
-});
-
-/**
- * Scrolls a buzz table, but not the page, to put your buzz in the middle of the rows in view.
- * @param {HTMLElement} box
- */
-function centerYourBuzz (box) {
-  const row = box.querySelector('tr.buzz-table-you');
-  if (!row) { return; }
-  const headerHeight = box.querySelector('thead').offsetHeight;
-  const rowTop = row.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop;
-  box.scrollTop = rowTop - headerHeight - (box.clientHeight - headerHeight - row.offsetHeight) / 2;
-}
 
 /**
  * @param {HTMLElement} graph
@@ -41,11 +21,27 @@ function setLegendTime (graph, time) {
   }
 }
 
+/**
+ * Marks a row's buzz on the graph, or your own buzz if there's no row.
+ * @param {HTMLElement} section
+ * @param {HTMLTableRowElement | null} [row]
+ */
+function showGraphDot (section, row) {
+  const graph = section.querySelector('.buzz-graph');
+  if (!graph) { return; }
+  const buzz = row ?? section.querySelector('tr.buzz-table-you');
+  setBuzzGraphDot(graph, buzz?.dataset.correct === undefined
+    ? null
+    : { time: parseFloat(buzz.dataset.buzzTime), isCorrect: buzz.dataset.correct === 'true' }
+  );
+}
+
 export function drawTossupGraph (section, tossup, buzzpoints) {
   const graph = section.querySelector('.buzz-graph');
   if (!graph) { return; }
   drawBuzzGraph(graph, getBuzzGraphData(tossup, buzzpoints));
   graphResizeObserver.observe(graph);
+  showGraphDot(section);
 }
 
 export function removeTossupGraph (section) {
@@ -53,15 +49,6 @@ export function removeTossupGraph (section) {
   if (!graph) { return; }
   graphResizeObserver.unobserve(graph);
   graph.remove();
-}
-
-/**
- * Brings your buzz into view in a question's buzz table, once the table is visible.
- * @param {HTMLElement} section
- */
-export function showYourBuzz (section) {
-  const box = section.querySelector('.buzz-table');
-  if (box) { tableResizeObserver.observe(box); }
 }
 
 /**
@@ -139,13 +126,7 @@ function selectBuzz (section, row) {
   }
   row?.classList.add('buzz-table-selected');
   row?.setAttribute('aria-current', 'true');
-
-  const graph = section.querySelector('.buzz-graph');
-  if (!graph) { return; }
-  setBuzzGraphDot(graph, row?.dataset.correct === undefined
-    ? null
-    : { time: parseFloat(row.dataset.buzzTime), isCorrect: row.dataset.correct === 'true' }
-  );
+  showGraphDot(section, row);
 }
 
 /**
