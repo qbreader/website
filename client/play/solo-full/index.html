@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>QBReader - Play - Tossups and Bonuses</title>
+    <!--#include virtual="/ssi/head.html" -->
+    <meta name="description" content="A text-based quizbowl packet reader to read tossups and bonuses to yourself.">
+</head>
+
+<body>
+    <!--#include virtual="/ssi/nav.html" -->
+
+    <div class="container-fluid mt-3 mb-5 pb-5 px-xxl-5">
+        <!--#include virtual="/ssi/star-toast.html" -->
+        <!--#include virtual="/ssi/funny-toast.html" -->
+        <div class="row" id="info">
+            <div class="options d-lg-block col-12 col-lg-3 order-lg-1 mb-5" id="settings">
+                <div class="timer d-block p-1 text-center" id="timer">
+                    <span class="face">0</span><span class="fraction">.0</span>
+                </div>
+                <hr>
+                <label class="form-check-label mb-1" for="set-mode">Choose a mode:</label>
+                <select class="form-select mb-2" id="set-mode">
+                    <option value="select by set name">Select by Set Name</option>
+                    <option value="random questions" selected>Random Questions</option>
+                    <option value="starred questions">Starred Questions</option>
+                    <option value="local packet">Upload Local Packet</option>
+                </select>
+                <div class="d-none" id="local-packet-settings">
+                    You can <a href="/tools/packet-parser/">parse a packet here</a>.
+                    To play a <a href="/db/">database search</a>, download the results as a .json file and upload it here!
+                    <input class="form-control my-1" type="file" id="local-packet-input" accept=".json">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-randomize-order" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-randomize-order">Randomize order</label>
+                    </div>
+                </div>
+                <div class="d-none" id="set-settings">
+                    <input class="form-control" id="set-name" type="text" placeholder="Set Name" list="set-list">
+                    <datalist id="set-list"></datalist>
+                    <input class="form-control my-1" id="packet-number" type="text" placeholder="Packet Numbers">
+                </div>
+                <div id="difficulty-settings">
+                    <div class="mb-2" id="difficulty-dropdown-root"></div>
+                    Year range: <span id="min-year-label"></span> - <span id="max-year-label"></span>
+                    <div class="ui-slider d-flex align-items-center" id="year-slider">
+                        <span class="ui-slider-handle" id="min-year-handle"></span>
+                        <span class="ui-slider-handle" id="max-year-handle"></span>
+                    </div>
+                </div>
+                <div class="mt-2" id="general-settings">
+                    <div class="text-center mb-2">
+                        <button class="btn btn-danger" id="category-select-button" data-bs-target="#category-modal"
+                            data-bs-toggle="modal" type="button">Categories</button>
+                        <button class="btn btn-warning" id="clear-stats" type="button">Clear Stats</button>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-enable-bonuses" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-enable-bonuses">Enable bonuses</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-powermark-only" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-powermark-only">Powermarked tossups only</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-three-part-bonuses" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-three-part-bonuses">3-part bonuses only</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-standard-only" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-standard-only">Standard format only</label>
+                    </div>
+                    <hr>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="type-to-answer" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="type-to-answer">Type to answer</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-rebuzz" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-rebuzz">Allow rebuzzes</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-stop-on-power" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-stop-on-power">Stop on power</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-read-bonuses-like-tossups" type="checkbox" role="switch">
+                        <label class="form-check-label" for="toggle-read-bonuses-like-tossups">Read bonuses like tossups</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-show-history" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-show-history">Show question history</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-show-set-name" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-show-set-name">Show set name</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="toggle-timer" type="checkbox" role="switch" checked>
+                        <label class="form-check-label" for="toggle-timer">Enable timer</label>
+                    </div>
+                    <div class="mb-2"></div>
+                    <label for="reading-speed">Reading speed: <span id="reading-speed-display">50</span><br></label>
+                    <input class="form-range" id="reading-speed" type="range" min="0" max="100" step="5">
+                    <div>
+                        View more settings <a href="/settings/">here</a>.
+                    </div>
+                    <div class="d-none d-lg-block">
+                        <hr>
+                        <p>
+                            <span class="text-nowrap"><kbd>k</kbd> = show/hide last question</span><br>
+                            <span class="text-nowrap"><kbd>t</kbd> = star/unstar last question</span><br>
+                            <span class="text-nowrap"><kbd>y</kbd> = copy current question id to clipboard</span><br>
+                            <span class="text-nowrap"><kbd>0</kbd> = toggle last bonus part</span><br>
+                            <span class="text-nowrap"><kbd>1</kbd> = toggle 1st bonus part</span><br>
+                            <span class="text-nowrap"><kbd>2</kbd> = toggle 2nd bonus part</span><br>
+                            <span class="text-nowrap"><kbd>3</kbd> = toggle 3rd bonus part</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-9" id="content">
+                <form id="answer-form">
+                    <!-- User enters answer here -->
+                    <div class="input-group d-none my-2" id="answer-input-group">
+                        <input class="form-control" id="answer-input" type="text" placeholder="Enter answer" autocomplete="off">
+                        <button class="btn btn-success" id="answer-submit" type="submit">Submit</button>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-between">
+                    <span>
+                        <span id="statline">0/0/0 with 0 tossups seen (0 pts, celerity: 0)</span><br>
+                        <span id="bonus-statline">0 PPB with 0 bonuses seen (0/0/0/0, 0 pts)</span>
+                    </span>
+                    <span class="ps-5 me-lg-2" id="question-metadata">
+                        <b id="question-info">
+                            <span id="set-name-info"></span>
+                            Packet <span id="packet-number-info">-</span><span class="d-none placeholder">-</span>
+                            Question <span id="question-number-info">-</span><span class="d-none placeholder">-</span>
+                            of <span id="packet-length-info">-</span><span class="d-none placeholder">-</span>
+                        </b>
+                    </span>
+                </div>
+                <div class="mt-2" id="question"></div>
+                <a class="mt-1 mt-lg-3 p-0 btn btn-link float-end d-none" id="toggle-correct">I was wrong</a>
+                <p class="mt-1 mt-lg-3" id="answer"></p>
+                <ul class="room-history list-unstyled" id="room-history"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid py-3 px-xxl-5 position-fixed bottom-0 bg-body">
+        <div class="row">
+            <div class="col-12 col-lg-9" id="buttons">
+                <button class="btn btn-primary" id="next" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: n key">Next</button>
+                <button class="btn btn-primary" id="pause" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: p key" disabled><i class="bi bi-pause-fill"></i></button>
+                <button class="btn btn-danger" id="toggle-settings" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: e key" type="button">
+                    <div class="d-flex align-items-center"><i class="bi bi-gear"></i></div>
+                </button>
+                <button class="btn btn-primary float-end" id="reveal" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: spacebar" disabled>Reveal</button>
+                <button class="btn btn-primary float-end me-1" id="buzz" data-bs-placement="top" data-bs-toggle="tooltip" type="button"
+                    title="Shortcut: spacebar" disabled>Buzz</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="category-modal-root"></div>
+
+    <!--#include virtual="/ssi/report-question-modal.html" -->
+
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"
+        integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"
+        integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
+    <script type="module" src="./index.min.js"></script>
+</body>
+
+</html>
