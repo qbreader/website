@@ -403,12 +403,9 @@ if (argv.scoring === undefined && !(argv.upsert && existing)) {
  */
 async function getOrCreateSet (setName) {
   const teamsEnabled = argv.teams ?? (PROD ? undefined : true);
-  const fields = {
-    ...(teamsEnabled !== undefined && { 'teams.enabled': teamsEnabled }),
-    ...(argv.order !== undefined && { order: argv.order })
-  };
-  const update = { $setOnInsert: { name: setName }, ...(Object.keys(fields).length > 0 && { $set: fields }) };
-  const set = await sets.findOneAndUpdate({ name: setName }, update, { upsert: true, returnDocument: 'after' });
+  const update = { $setOnInsert: { name: setName }, $set: { 'teams.enabled': teamsEnabled, order: argv.order } };
+  // ignoreUndefined leaves omitted settings as they are, instead of setting them to null.
+  const set = await sets.findOneAndUpdate({ name: setName }, update, { upsert: true, returnDocument: 'after', ignoreUndefined: true });
   return { _id: set._id, name: set.name };
 }
 
