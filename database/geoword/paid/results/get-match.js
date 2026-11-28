@@ -2,7 +2,7 @@ import { buzzes } from '../../collections.js';
 import getUsername from '../../../account-info/get-username.js';
 import getQuestionCount from '../../get-question-count.js';
 import getPacket from './get-packet.js';
-import getFinishedBuzzes from '../../../../server/geoword/get-finished-buzzes.js';
+import getBuzzesOfFinishedMembers from '../../../../server/geoword/get-buzzes-of-finished-members.js';
 import { groupBuzzesByQuestion } from '../../../../server/geoword/merge-buzzes.js';
 import simulateMatch from '../../../../server/geoword/simulate-match.js';
 
@@ -29,7 +29,7 @@ async function getMatch ({ packetName, division, teams }) {
     getPacket(packetName, division)
   ]);
 
-  const finishedBuzzes = teams.map(team => getFinishedBuzzes({
+  const finishedBuzzes = teams.map(team => getBuzzesOfFinishedMembers({
     memberBuzzes: team.members.map(member => buzzList.filter(buzz => buzz.user_id.equals(member))),
     questionCount
   }));
