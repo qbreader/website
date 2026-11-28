@@ -19,5 +19,5 @@ export async function readSetStats (response) {
  * @param {string[]} packetNames - the packets the stats add up
  */
 export function showSetPackets (packetNames) {
-  document.getElementById('packets-note').textContent = `Totals across the paid packets you have finished: ${packetNames.map(titleCase).join(', ')}.`;
+  document.getElementById('packets-note').textContent = `Totals across the packets you have finished: ${packetNames.map(titleCase).join(', ')}.`;
 }
