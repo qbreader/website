@@ -37,8 +37,10 @@ fetch('/api/geoword/admin/category-stats?' + new URLSearchParams({ packetName })
       }
       const averageRow = thead.insertRow();
       averageRow.id = `${kebabed}-leaderboard-average`;
+      averageRow.className = 'table-active';
       const tbody = table.createTBody();
       tbody.id = `${kebabed}-leaderboard-body`;
+      tbody.className = 'table-group-divider';
       divs[division].appendChild(table);
     }
 

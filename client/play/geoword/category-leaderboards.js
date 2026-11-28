@@ -30,8 +30,10 @@ export default function showCategoryLeaderboards (leaderboards, myUsername) {
     }
     const averageRow = thead.insertRow();
     averageRow.id = `${kebabed}-leaderboard-average`;
+    averageRow.className = 'table-active';
     const tbody = table.createTBody();
     tbody.id = `${kebabed}-leaderboard-body`;
+    tbody.className = 'table-group-divider';
     divs[division].appendChild(table);
   }
 
