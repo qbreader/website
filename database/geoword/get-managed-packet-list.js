@@ -7,13 +7,12 @@ async function getManagedPacketList (userId) {
     ? {}
     : { 'set._id': { $in: (await sets.find({ specialUsers: userId }, { projection: { _id: 1 } }).toArray()).map(set => set._id) } };
 
-  return await packets.find(
-    filter,
-    {
-      sort: { order: 1 },
-      projection: { name: 1, divisions: 1, test: 1, _id: 0 }
-    }
-  ).toArray();
+  return await packets.aggregate([
+    { $match: filter },
+    { $lookup: { from: 'sets', localField: 'set._id', foreignField: '_id', as: 'setInfo' } },
+    { $sort: { 'setInfo.order': 1, name: 1 } },
+    { $project: { name: 1, divisions: 1, test: 1, _id: 0 } }
+  ], { collation: { locale: 'en', numericOrdering: true } }).toArray();
 }
 
 export default getManagedPacketList;

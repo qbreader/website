@@ -64,6 +64,7 @@
  * @typedef {object} GeowordSet
  * @property {ObjectId} _id
  * @property {string} name
+ * @property {number} [order] position in the set list (lower is earlier)
  * @property {{ enabled?: boolean, maxSize?: number }} [teams]
  * @property {{ perSet?: boolean, costInCents?: number, manualOnly?: boolean }} [payment]
  * @property {ObjectId[]} [specialUsers]
