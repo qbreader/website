@@ -104,9 +104,11 @@ async function getMatch ({ packetName, division, teams }) {
   const { points, questions: questionResults } = simulateMatch(firstTeamBuzzes, secondTeamBuzzes);
 
   /** @type {Map<string, string>} */
-  const usernames = new Map(await Promise.all(teams
-    .flatMap(team => team.members)
-    .map(async userId => [String(userId), await getUsername(userId)])));
+  const usernames = new Map(
+    await Promise.all(teams
+      .flatMap(team => team.members)
+      .map(async userId => [String(userId), await getUsername(userId)]))
+  );
 
   /** @type {MatchTeam[]} */
   const matchTeams = teams.map((team, side) => ({
