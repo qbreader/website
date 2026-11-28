@@ -25,14 +25,15 @@ export default function showCategoryLeaderboards (leaderboards, myUsername) {
       const cell = document.createElement('th');
       cell.textContent = label;
       cell.scope = 'col';
-      cell.addEventListener('click', () => sortTable(index, numeric[index], table.id, 1, 0));
+      cell.addEventListener('click', () => sortTable(index, numeric[index], table.id, 2, 0));
       theadRow.appendChild(cell);
     }
+    const averageRow = thead.insertRow();
+    averageRow.id = `${kebabed}-leaderboard-average`;
+    averageRow.className = 'table-active';
     const tbody = table.createTBody();
     tbody.id = `${kebabed}-leaderboard-body`;
-    const foot = table.createTFoot();
-    const footRow = foot.insertRow();
-    footRow.id = `${kebabed}-leaderboard-foot`;
+    tbody.className = 'table-group-divider';
     divs[division].appendChild(table);
   }
 
@@ -69,15 +70,13 @@ export default function showCategoryLeaderboards (leaderboards, myUsername) {
 
       document.getElementById(`${kebabed}-leaderboard-body`).innerHTML = innerHTML;
 
-      document.getElementById(`${kebabed}-leaderboard-foot`).innerHTML = `
-      <tr>
+      document.getElementById(`${kebabed}-leaderboard-average`).innerHTML = `
         <td></td>
         <th scope="row">Average</th>
         <td>${formatCelerity(leaderboard[index].averageCorrectCelerity ?? 0)}</td>
         <td></td>
         <td></td>
         <td>${(leaderboard[index].averagePoints ?? 0.0).toFixed(2)}</td>
-      </tr>
     `;
     }
   }
