@@ -46,29 +46,6 @@ import simulateMatch from '../../../../server/geoword/simulate-match.js';
 
 /**
  * @param {Object} options
- * @param {ObjectId} options.userId
- * @param {number} options.side - the index of the player's team
- * @param {Buzz[]} options.heard - the player's buzzes, one per question heard
- * @param {QuestionResult[]} options.questionResults
- * @returns {Promise<PlayerStats>}
- */
-async function getPlayerStats ({ userId, side, heard, questionResults }) {
-  /** @type {number[]} */
-  const scores = questionResults
-    .filter(result => result.buzzes[side]?.user_id.equals(userId))
-    .map(result => result.points[side]);
-
-  return {
-    username: await getUsername(userId),
-    tossupsHeard: heard.length,
-    numberCorrect: scores.filter(score => score > 0).length,
-    numberNegs: scores.filter(score => score < 0).length,
-    points: scores.reduce((total, score) => total + score, 0)
-  };
-}
-
-/**
- * @param {Object} options
  * @param {Object} options.team - a document from the `teams` collection
  * @param {number} options.side - the team's index in the match
  * @param {Buzz[]} options.teamBuzzes - the buzzes of the team's finished members
@@ -76,11 +53,22 @@ async function getPlayerStats ({ userId, side, heard, questionResults }) {
  * @returns {Promise<PlayerStats[]>} the stats of each member with buzzes, in team order
  */
 async function getTeamPlayerStats ({ team, side, teamBuzzes, questionResults }) {
-  const players = team.members
-    .map(userId => ({ userId, heard: teamBuzzes.filter(buzz => buzz.user_id.equals(userId)) }))
-    .filter(({ heard }) => heard.length > 0);
+  const players = team.members.filter(userId => teamBuzzes.some(buzz => buzz.user_id.equals(userId)));
 
-  return await Promise.all(players.map(({ userId, heard }) => getPlayerStats({ userId, side, heard, questionResults })));
+  return await Promise.all(players.map(async userId => {
+    /** @type {number[]} */
+    const scores = questionResults
+      .filter(result => result.buzzes[side]?.user_id.equals(userId))
+      .map(result => result.points[side]);
+
+    return {
+      username: await getUsername(userId),
+      tossupsHeard: teamBuzzes.filter(buzz => buzz.user_id.equals(userId)).length,
+      numberCorrect: scores.filter(score => score > 0).length,
+      numberNegs: scores.filter(score => score < 0).length,
+      points: scores.reduce((total, score) => total + score, 0)
+    };
+  }));
 }
 
 /**
@@ -116,7 +104,6 @@ async function getMatch ({ packetName, division, teams }) {
     getPacket(packetName, division)
   ]);
 
-  /** @type {Buzz[][]} each team's buzzes, from its finished members only */
   const finishedBuzzes = teams.map(team => {
     const memberBuzzes = team.members.map(userId => divisionBuzzes.filter(buzz => buzz.user_id.equals(userId)));
     return getBuzzesOfFinishedMembers({ memberBuzzes, questionCount });
