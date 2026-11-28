@@ -112,7 +112,6 @@ if (!response.ok) {
 } else {
   const { teams, questions } = await response.json();
   document.getElementById('final-score').textContent = teams.map(team => `${team.teamName} ${team.points}`).join(', ');
-  document.getElementById('tossups-read').textContent = questions.length;
   document.getElementById('box-scores').replaceChildren(...teams.map(createBoxScore));
   showQuestions(teams, questions);
   document.getElementById('match').classList.remove('d-none');
