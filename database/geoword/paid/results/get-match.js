@@ -50,36 +50,26 @@ import simulateMatch from '../../../../server/geoword/simulate-match.js';
  * @param {number} options.side - the team's index in the match
  * @param {Buzz[]} options.teamBuzzes - the buzzes of the team's finished members
  * @param {QuestionResult[]} options.questionResults
- * @returns {Promise<PlayerStats[]>} the stats of each member with buzzes, in team order
+ * @param {Map<string, string>} options.usernames - keyed by the string form of each user id
+ * @returns {PlayerStats[]} the stats of each member with buzzes, in team order
  */
-async function getTeamPlayerStats ({ team, side, teamBuzzes, questionResults }) {
+function getTeamPlayerStats ({ team, side, teamBuzzes, questionResults, usernames }) {
   const players = team.members.filter(userId => teamBuzzes.some(buzz => buzz.user_id.equals(userId)));
 
-  return await Promise.all(players.map(async userId => {
+  return players.map(userId => {
     /** @type {number[]} */
     const scores = questionResults
       .filter(result => result.buzzes[side]?.user_id.equals(userId))
       .map(result => result.points[side]);
 
     return {
-      username: await getUsername(userId),
+      username: usernames.get(String(userId)),
       tossupsHeard: teamBuzzes.filter(buzz => buzz.user_id.equals(userId)).length,
       numberCorrect: scores.filter(score => score > 0).length,
       numberNegs: scores.filter(score => score < 0).length,
       points: scores.reduce((total, score) => total + score, 0)
     };
-  }));
-}
-
-/**
- * @param {Buzz | undefined} buzz
- * @param {number} points - what the buzz scored in the match
- * @returns {Promise<MatchBuzz | null>}
- */
-async function toMatchBuzz (buzz, points) {
-  if (!buzz) { return null; }
-  const { user_id: userId, celerity, givenAnswer } = buzz;
-  return { username: await getUsername(userId), celerity, givenAnswer, points };
+  });
 }
 
 /**
@@ -113,22 +103,29 @@ async function getMatch ({ packetName, division, teams }) {
   const [firstTeamBuzzes, secondTeamBuzzes] = finishedBuzzes.map(groupBuzzesByQuestion);
   const { points, questions: questionResults } = simulateMatch(firstTeamBuzzes, secondTeamBuzzes);
 
+  /** @type {Map<string, string>} */
+  const usernames = new Map(await Promise.all(teams
+    .flatMap(team => team.members)
+    .map(async userId => [String(userId), await getUsername(userId)])));
+
   /** @type {MatchTeam[]} */
-  const matchTeams = await Promise.all(teams.map(async (team, side) => ({
+  const matchTeams = teams.map((team, side) => ({
     teamName: team.teamName,
     points: points[side],
-    players: await getTeamPlayerStats({ team, side, teamBuzzes: finishedBuzzes[side], questionResults })
-  })));
+    players: getTeamPlayerStats({ team, side, teamBuzzes: finishedBuzzes[side], questionResults, usernames })
+  }));
 
   /** @type {Map<number, string>} */
   const answers = new Map(tossups.map(tossup => [tossup.questionNumber, tossup.answer]));
 
   /** @type {MatchQuestion[]} */
-  const matchQuestions = await Promise.all(questionResults.map(async ({ questionNumber, buzzes: decidingBuzzes, points: scores }) => ({
+  const matchQuestions = questionResults.map(({ questionNumber, buzzes: decidingBuzzes, points: scores }) => ({
     questionNumber,
     answer: answers.get(questionNumber) ?? '',
-    sides: await Promise.all(decidingBuzzes.map((buzz, side) => toMatchBuzz(buzz, scores[side])))
-  })));
+    sides: decidingBuzzes.map((buzz, side) => buzz
+      ? { username: usernames.get(String(buzz.user_id)), celerity: buzz.celerity, givenAnswer: buzz.givenAnswer, points: scores[side] }
+      : null)
+  }));
 
   return { teams: matchTeams, questions: matchQuestions };
 }
