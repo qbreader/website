@@ -45,12 +45,6 @@ import simulateMatch from '../../../../server/geoword/simulate-match.js';
  */
 
 /**
- * @typedef {Object} Match
- * @property {MatchTeam[]} teams - in the order they were given, as are each question's `sides`
- * @property {MatchQuestion[]} questions
- */
-
-/**
  * @param {Object} options
  * @param {ObjectId} options.userId
  * @param {number} options.side - the index of the player's team
@@ -107,7 +101,8 @@ async function toMatchBuzz (buzz, points) {
  * @param {String} options.packetName
  * @param {String} options.division
  * @param {Object[]} options.teams - two documents from the `teams` collection
- * @returns {Promise<Match | null>} null if either team has no member who has finished
+ * @returns {Promise<{ teams: MatchTeam[], questions: MatchQuestion[] } | null>} `teams` and each
+ * question's `sides` are in the order given. null if either team has no member who has finished
  */
 async function getMatch ({ packetName, division, teams }) {
   const [divisionBuzzes, questionCount, tossups] = await Promise.all([
