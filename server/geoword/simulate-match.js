@@ -15,6 +15,15 @@ import { bestBuzz, earliestBuzz } from './merge-buzzes.js';
  */
 
 /**
+ * How one question of a match went. Each pair holds the first team's entry, then the second's.
+ * @typedef {Object} QuestionResult
+ * @property {number} questionNumber
+ * @property {[Buzz | undefined, Buzz | undefined]} buzzes - the buzz that decides each team's
+ * result, if it heard the question
+ * @property {[number, number]} points - what each team scores, which may differ from its buzz's own points
+ */
+
+/**
  * @param {Buzz} [a] - the first team's buzz, if it heard the question
  * @param {Buzz} [b] - the second team's buzz, if it heard the question
  * @returns {[number, number]} the points each team scores on the question
@@ -50,10 +59,9 @@ function pickBuzzes (aBuzzes, bBuzzes) {
 /**
  * @param {Map<number, Buzz[]>} a - the first team's buzzes by question number, from `groupBuzzesByQuestion`
  * @param {Map<number, Buzz[]>} b - the second team's buzzes by question number, from `groupBuzzesByQuestion`
- * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>], questions: Array<{ questionNumber: number, buzzes: [Buzz | undefined, Buzz | undefined], points: [number, number] }> }}
- * each team's total, the index of the team with the higher total (null on a tie), each
- * team's points by the player whose buzz scored them, and, in question order, the buzz that
- * decided each team's result on a question and what it scored
+ * @returns {{ points: [number, number], winner: 0 | 1 | null, playerPoints: [Object<string, number>, Object<string, number>], questions: QuestionResult[] }}
+ * each team's total, the winner's index (null on a tie), each team's points by player, and the
+ * results in question order
  */
 export default function simulateMatch (a, b) {
   const playerPoints = [{}, {}];
